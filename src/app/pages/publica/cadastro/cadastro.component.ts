@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastroComponent implements OnInit {
 
-  constructor() { }
+  visualizarSenha = false
+
+  constructor(private autenticacao: AutenticacaoService, private router: Router) { }
+
+
 
   ngOnInit(): void {
+
+    if (this.autenticacao.estaAutenticado()) {
+
+      this.router.navigate(['']);
+
+    }
+
+  }
+
+  mostrarSenha() {
+    this.visualizarSenha = !this.visualizarSenha;
   }
 
 }

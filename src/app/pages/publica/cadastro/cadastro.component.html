@@ -1,5 +1,79 @@
 <div class="distanciamentoNavbar">
 
-<p>ersarasra</p>
+    <div class="row justify-content-center mb-2">
+
+        <div class="col-md-4 col-sm-12" id="ladoEsquerdoCadastro">
+
+            <div class="centralizar">
+                <h3 id="bemVindo" class="mb-4">Bem vindo</h3>
+                <p class="ladoEsquerdo">Caso você possua um cadastro em nosso sistema</p>
+                <p class="ladoEsquerdo">Clique no botão abaixo para logar</p>
+                <button type="button" class="btn btn btn-outline-light buttonEsquerdo mt-4">LOGAR</button>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-sm-12 espacamentoCelular">
+            <div class="card ">
+                <div class="card-body">
+                    <h3 class="card-title">Cadastro</h3>
+                    <hr>
+
+                    <form>
+
+                        <div class="mb-4">
+                            <label for="usuario" class="form-label">Usuário</label>
+                            <input type="text" formControlName="usuario" class="form-control semSombra"
+                                placeholder="Digite seu usuário" id="usuario" />
+                            <!-- <div *ngIf="foiEnviado && f.usuario.errors" class="invalid-feedback">
+                                <div *ngIf="f.usuario.errors.required">O campo de usuário é obrigatório</div>
+                                <div *ngIf="f.usuario.errors.minlength">O campo de usuário precisa ter no mínimo 4
+                                    digitos</div>
+                            </div> -->
+                        </div>
+
+
+
+                        <div class="mb-4">
+                            <label for="senha" class="form-label">Senha</label>
+                            <div class="input-group">
+
+                                <input [type]="visualizarSenha ? 'text':'password'" formControlName="senha"
+                                    class="form-control semSombra" placeholder="Digite sua senha" id="senha" />
+
+                                <span class="input-group-text" style="cursor: pointer;" (click)="mostrarSenha()">
+                                    <i class="bi bi-eye-slash"
+                                        [ngClass]="{'bi-eye-slash': !visualizarSenha, 'bi-eye': visualizarSenha}"></i>
+                                </span>
+
+                                <!--  <div *ngIf="foiEnviado && f.senha.errors" class="invalid-feedback">
+                                    <div *ngIf="f.senha.errors.required">O campo de senha é obrigatório</div>
+                                    <div *ngIf="f.senha.errors.minlength">O campo de senha precisa ter no mínimo 6
+                                        digitos</div>
+                                </div> -->
+
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <button type="submit" class="btn">Logar</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <!-- <div class="mt-4 card-footer text-muted col-12 centralizar">
+                    <span>Ainda não é cadastrado: </span>
+                    <span>
+                        <a href="/cadastro">Cadastrar</a>
+                    </span>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
 
 </div>
