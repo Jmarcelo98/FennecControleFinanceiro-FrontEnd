@@ -10,17 +10,17 @@
         <div *ngIf="isLogado == false then naoLogado else logado"></div>
       </button>
     </div>
-    
+
 
     <ng-template #naoLogado>
-      <a href="/login" title="Logar">   
-          <img src="../assets/img/icones/login.png" alt="Login">
+      <a href="/login" title="Logar">
+        <img src="../assets/img/icones/login.png" class="imagensLoginLogout"  alt="Login">
       </a>
     </ng-template>
 
     <ng-template #logado>
-      <a href="/logout" title="Sair">
-        <img src="../assets/img/icones/logout.png" alt="Logout">
+      <a title="Sair" (click)="logout()" >
+        <img src="../assets/img/icones/logout.png" class="imagensLoginLogout" alt="Logout">
       </a>
     </ng-template>
   </div>

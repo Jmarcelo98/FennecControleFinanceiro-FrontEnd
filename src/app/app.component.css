@@ -66,6 +66,10 @@
     margin: 0 8px;
   }
 
+  .imagensLoginLogout {
+    width: 1.5em;
+  }
+
   .toolbar #twitter-logo:hover,
   .toolbar #youtube-logo:hover {
     opacity: 0.8;

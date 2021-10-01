@@ -28,8 +28,9 @@ export class AutenticacaoService {
   }
 
   logout() {
-    localStorage.getItem(this.nameToken);
+    //localStorage.getItem(this.nameToken);
     localStorage.removeItem('user');
+    localStorage.removeItem(this.nameToken)
     this.router.navigate(['login']);
   }
 

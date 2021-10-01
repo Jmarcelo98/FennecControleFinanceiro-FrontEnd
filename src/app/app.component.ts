@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AutenticacaoService } from './services/autenticacao.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class AppComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private autenticacao: AutenticacaoService) { }
 
   title = 'Fennec Controle Financeiro';
 
@@ -19,8 +20,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    if (localStorage.getItem != null) {
+      this.isLogado = true
+    } else {
+      this.isLogado = false
+    }
 
+  }
 
+  logout() {
+    this.autenticacao.logout();
   }
 
 }
