@@ -6,21 +6,33 @@ import { HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CadastroComponent } from './pages/publicas/cadastro/cadastro.component';
-import { LoginComponent } from './pages/publicas/login/login.component';
+import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
+import { LoginComponent } from './pages/publica/login/login.component';
+import { HomeComponent } from './pages/privata/home/home.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
+
+export function tokenGetter() {
+  return localStorage.getItem('jwttoken');
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CadastroComponent
+    CadastroComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
