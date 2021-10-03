@@ -15,6 +15,10 @@ export class LoginComponent implements OnInit {
   visualizarSenha = false;
 
   foiEnviado = false;
+
+  existe = false;
+
+  response = null;
   
   loginForm = this.formBuilder.group({
     usuario: [null, [Validators.required, Validators.minLength(4)]],
@@ -53,7 +57,8 @@ export class LoginComponent implements OnInit {
         this.autenticacaoService.setUsuario(login.usuario);
         this.router.navigate(['']);
       }, (err) => {
-        console.log(err.error.message);
+        this.response = err.error.message;
+        this.existe = true;
       },
     )
 

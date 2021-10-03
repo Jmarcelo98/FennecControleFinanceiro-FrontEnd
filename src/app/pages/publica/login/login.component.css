@@ -8,6 +8,11 @@ h3 {
     margin-top: 6em;
 }
 
+.errorMensagem {
+    font-family: inherit;
+    font-weight: bolder;
+}
+
 .centralizar {
     text-align: center;
 }

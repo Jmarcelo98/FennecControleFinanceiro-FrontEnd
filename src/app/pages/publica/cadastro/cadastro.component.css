@@ -45,6 +45,18 @@ label {
     border-bottom-left-radius: 0.5em;
 }
 
+.errorMensagem {
+    font-family: inherit;
+    font-weight: bolder;
+}
+
+.buttonDireito{
+    background-color: #58AF9C;
+    color: white;
+    border-radius: 1em;
+   width: 12em;
+ }
+
 p {
     color: white;
     font-family: monospace;
@@ -75,7 +87,7 @@ p {
       margin-bottom: 2em;
   }
   .distanciamentoNavbar {
-    margin-top:6em;
+    margin-top:3.5em;
   }
   #ladoEsquerdoCadastro {
     border-top-right-radius: 0.5em;
