@@ -4,4 +4,6 @@ export interface Login {
     usuario: Partial<Usuario>;
     token: string;
     expires: number;
+    nome: string;
+    sobrenome: string;
 }

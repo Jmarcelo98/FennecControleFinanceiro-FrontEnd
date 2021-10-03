@@ -9,11 +9,10 @@ import { Login } from '../models/login';
 export class CadastroService {
 
   private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth/cadastro`
-
   constructor(private httpClient: HttpClient) { }
 
-  cadastrar(usuario: string, senha: string) {
-    return this.httpClient.post<Login>(this.CAMINHO_API, {usuario, senha})
+  cadastrar(email: string, senha: string, nome: string, sobrenome: string) {
+    return this.httpClient.post<Login>(this.CAMINHO_API, {email, senha, nome, sobrenome})
   }
   
 }

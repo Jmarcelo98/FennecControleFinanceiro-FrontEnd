@@ -13,6 +13,8 @@ export class CadastroComponent implements OnInit {
 
   visualizarSenha = false
 
+  pattern = "^[0-9]$";
+
   foiEnviado = false;
 
   jaExiste = false;
@@ -20,11 +22,13 @@ export class CadastroComponent implements OnInit {
   response = null;
 
   cadastroForm = this.formBuilder.group({
-    usuario: [null, [Validators.required, Validators.minLength(4)]],
+    nome: [null, [Validators.required, Validators.minLength(3)]],
+    sobrenome: [null, [Validators.required, Validators.minLength(3)]],
+    email: [null, [Validators.required, Validators.email]],
     senha: [null, [Validators.required, Validators.minLength(6)]]
   })
 
-  constructor(private autenticacaoService: AutenticacaoService, private cadastroService: CadastroService ,private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private autenticacaoService: AutenticacaoService, private cadastroService: CadastroService, private router: Router, private formBuilder: FormBuilder) { }
 
 
   ngOnInit(): void {
@@ -45,20 +49,25 @@ export class CadastroComponent implements OnInit {
 
     this.foiEnviado = true;
 
-    if(this.cadastroForm.invalid) {
+    if (this.cadastroForm.invalid) {
       return;
     }
 
-    this.cadastroService.cadastrar(this.cadastroForm.get('usuario')?.value, this.cadastroForm.get('senha')?.value).subscribe(
-      (login) => {
-        this.autenticacaoService.setToken(login.token);
-        this.autenticacaoService.setUsuario(login.usuario);
-        this.router.navigate(['']);
-      }, (err) => {
-        this.response = err.error.message;
-        this.jaExiste = true;
-      },
-    )
+    this.cadastroService.cadastrar(this.cadastroForm.get('email')?.value, this.cadastroForm.get('senha')?.value,
+      this.cadastroForm.get('nome')?.value, this.cadastroForm.get('sobrenome')?.value).subscribe(
+        (cadastro) => {
+
+          this.autenticacaoService.login(this.cadastroForm.get('email')?.value, this.cadastroForm.get('senha')?.value).subscribe(login => {
+            this.autenticacaoService.setToken(login.token);
+            this.autenticacaoService.setUsuario(login);
+            this.router.navigate(['']);
+          })
+
+        }, (err) => {
+          this.response = err.error.message;
+          this.jaExiste = true;
+        },
+      )
 
   }
 

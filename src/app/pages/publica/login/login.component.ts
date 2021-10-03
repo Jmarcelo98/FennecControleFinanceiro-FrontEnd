@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Login } from 'src/app/models/login';
+import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 
 @Component({
@@ -19,9 +21,9 @@ export class LoginComponent implements OnInit {
   existe = false;
 
   response = null;
-  
+
   loginForm = this.formBuilder.group({
-    usuario: [null, [Validators.required, Validators.minLength(4)]],
+    email: [null, [Validators.required, Validators.email]],
     senha: [null, [Validators.required, Validators.minLength(6)]]
   })
 
@@ -29,7 +31,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(this.autenticacaoService.estaAutenticado()) {
+    if (this.autenticacaoService.estaAutenticado()) {
       this.router.navigate(['']);
     }
 
@@ -47,14 +49,14 @@ export class LoginComponent implements OnInit {
 
     this.foiEnviado = true;
 
-    if(this.loginForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
 
-    this.autenticacaoService.login(this.loginForm.get('usuario')?.value, this.loginForm.get('senha')?.value).subscribe(
+    this.autenticacaoService.login(this.loginForm.get('email')?.value, this.loginForm.get('senha')?.value).subscribe(
       (login) => {
         this.autenticacaoService.setToken(login.token);
-        this.autenticacaoService.setUsuario(login.usuario);
+        this.autenticacaoService.setUsuario(login);
         this.router.navigate(['']);
       }, (err) => {
         this.response = err.error.message;

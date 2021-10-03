@@ -25,14 +25,13 @@
                     <form [formGroup]="loginForm" (ngSubmit)="login()">
 
                         <div class="mb-4">
-                            <label for="usuario" class="form-label">Usuário</label>
-                            <input type="text" formControlName="usuario" class="form-control semSombra"
-                                placeholder="Digite seu usuário" id="usuario"
-                                [ngClass]="{'is-invalid': foiEnviado && f.usuario.errors}" />
-                            <div *ngIf="foiEnviado && f.usuario.errors" class="invalid-feedback">
-                                <div *ngIf="f.usuario.errors.required">O campo de usuário é obrigatório</div>
-                                <div *ngIf="f.usuario.errors.minlength">O campo de usuário precisa ter no mínimo 4
-                                    digitos</div>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" formControlName="email" class="form-control semSombra"
+                                placeholder="Digite seu email" id="email"
+                                [ngClass]="{'is-invalid': foiEnviado && f.email.errors}" />
+                            <div *ngIf="foiEnviado && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">O campo de email é obrigatório</div>
+                                <div *ngIf="f.email.errors.email">O campo de email digitado é inválido</div>
                             </div>
                             
                         </div>

@@ -13,6 +13,8 @@ export class AutenticacaoService {
 
   private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth/login`
   nameToken: string = "jwttoken"
+  nome: string = "nome";
+  sobrenome: string = "sobrenome";
   usuario: Usuario
 
   constructor(private httpClient: HttpClient, private router: Router, public jwtHelper: JwtHelperService) { }
@@ -22,8 +24,8 @@ export class AutenticacaoService {
     return !this.jwtHelper.isTokenExpired(token || undefined);
   }
 
-  login(usuario: string, senha: string) {
-    return this.httpClient.post<Login>(this.CAMINHO_API, { usuario, senha })
+  login(email: string, senha: string) {
+    return this.httpClient.post<Login>(this.CAMINHO_API, { email, senha })
   }
 
   setToken(token: string) {
@@ -31,17 +33,26 @@ export class AutenticacaoService {
   }
 
   setUsuario(usuario: Usuario) {
-    localStorage.setItem('user', JSON.stringify(usuario));
+    localStorage.setItem(this.nome, JSON.stringify(usuario.nome));
+    localStorage.setItem(this.sobrenome, JSON.stringify(usuario.sobrenome));
   }
 
-  getUsuario(): Usuario {
-    this.usuario = JSON.parse(localStorage.getItem('user') || '');
+  getNomeUsuario(): Usuario {
+    this.usuario = JSON.parse(localStorage.getItem(this.nome) || '');
+    return this.usuario;
+  }
+
+
+  getSobreNomeUsuario(): Usuario {
+    this.usuario = JSON.parse(localStorage.getItem(this.sobrenome) || '');
     return this.usuario;
   }
 
   logout() {
-    localStorage.removeItem('user');
-    localStorage.removeItem(this.nameToken)
+    localStorage.clear();
+    localStorage.removeItem(this.nameToken);
+    localStorage.removeItem(this.nome);
+    localStorage.removeItem(this.sobrenome);
     this.router.navigate(['login']);
   }
 

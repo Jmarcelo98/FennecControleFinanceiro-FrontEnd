@@ -10,6 +10,8 @@ import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 export class HomeComponent implements OnInit {
 
   nomeUsuario: Usuario
+  sobrenomeUsuario: Usuario
+
 
   constructor(private autenticao: AutenticacaoService) { }
 
@@ -17,7 +19,8 @@ export class HomeComponent implements OnInit {
 
     if (this.autenticao.estaAutenticado()) {
 
-      this.nomeUsuario = this.autenticao.getUsuario()
+      this.nomeUsuario = this.autenticao.getNomeUsuario()
+      this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
      
     }
 

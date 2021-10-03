@@ -39,6 +39,14 @@ label {
   padding-left: 0;
 }
 
+.tamanhoInputNome{
+    width: 95%;
+}
+
+.row {
+    --bs-gutter-x: 0;
+}
+
 #ladoEsquerdoCadastro {
     background-color: #58AF9C;
     border-top-left-radius: 0.5em;
@@ -78,6 +86,9 @@ p {
 .espacamentoCelular {
     margin-top: 0%;
 }
+.sobreNomeEspacoCelular {
+    margin-top: 0;
+}
 
 @media screen and (max-width: 767px) {
   .espacamentoCelular {
@@ -88,9 +99,13 @@ p {
   }
   .distanciamentoNavbar {
     margin-top:3.5em;
-  }
+  }.sobreNomeEspacoCelular {
+    margin-top: 1em;
+}.tamanhoInputNome{
+    width: 100%;
+}
   #ladoEsquerdoCadastro {
     border-top-right-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
+    }
 }
-  }
