@@ -48,6 +48,10 @@ export class AutenticacaoService {
     return this.usuario;
   }
 
+  getToken(): string {
+    return localStorage.getItem(this.nameToken) || '';
+  }
+
   logout() {
     localStorage.clear();
     localStorage.removeItem(this.nameToken);

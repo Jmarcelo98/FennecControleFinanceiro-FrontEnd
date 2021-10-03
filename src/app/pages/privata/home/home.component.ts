@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { DespesasService } from 'src/app/services/despesas.service';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,9 @@ export class HomeComponent implements OnInit {
   nomeUsuario: Usuario
   sobrenomeUsuario: Usuario
 
+  valorDespesaAtual: number;
 
-  constructor(private autenticao: AutenticacaoService) { }
+  constructor(private autenticao: AutenticacaoService, private despesa: DespesasService) { }
 
   ngOnInit(): void {
 
@@ -21,9 +23,23 @@ export class HomeComponent implements OnInit {
 
       this.nomeUsuario = this.autenticao.getNomeUsuario()
       this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
-     
+
+      this.despesa.valorDespesaMesAtual().subscribe(valor => {
+
+        this.valorDespesaAtual = valor;
+
+      }
+        , (err) => {
+          console.log(err);
+
+          // this.response = err.error.message;
+          // this.existe = true;
+        })
+
     }
 
   }
+
+
 
 }
