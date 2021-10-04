@@ -1,0 +1,17 @@
+#espacamentoInicio{
+    margin-top: 6em;
+}
+
+.centralizar {
+    text-align: center;
+}
+
+.balanco {
+    height: 15em;
+}
+
+.btnBalanco {
+    border-radius: 2em 2em;
+    width: 25em;
+    height: 5em;
+}

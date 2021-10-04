@@ -2,10 +2,14 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { HttpHeaders } from "@angular/common/http";
+import { AutenticacaoService } from "src/app/services/autenticacao.service";
+
 export const environment = {
   production: false,
   CAMINHO_RAIZ: "http://localhost:8080"
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

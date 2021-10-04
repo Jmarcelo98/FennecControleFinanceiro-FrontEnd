@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit {
 
   valorDespesaAtual: number;
 
+  colorBorder = "red";
+
   constructor(private autenticao: AutenticacaoService, private despesa: DespesasService) { }
 
   ngOnInit(): void {
