@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { DespesasService } from 'src/app/services/despesas.service';
+import { ReceitaService } from 'src/app/services/receita.service';
 
 @Component({
   selector: 'app-home',
@@ -13,35 +14,40 @@ export class HomeComponent implements OnInit {
   nomeUsuario: Usuario
   sobrenomeUsuario: Usuario
 
-  valorDespesaAtual: number;
+  valorReceita: any
+  valorDespesa: any
+  resultado: number
 
-  colorBorder = "red";
+  errorMessage: any
 
-  constructor(private autenticao: AutenticacaoService, private despesa: DespesasService) { }
+  colorBorder = "green";
 
-  ngOnInit(): void {
+  constructor(private autenticao: AutenticacaoService, private despesaService: DespesasService, private receitaService: ReceitaService) { }
+
+  async ngOnInit() {
 
     if (this.autenticao.estaAutenticado()) {
-
       this.nomeUsuario = this.autenticao.getNomeUsuario()
       this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
+    }
 
-      this.despesa.valorDespesaMesAtual().subscribe(valor => {
+    this.valorDespesa = await this.despesaService.valorDespesaMesAtual().toPromise();
+    this.valorReceita = await this.receitaService.valorReceitaMesAtual().toPromise();
 
-        this.valorDespesaAtual = valor;
+    this.resultado = this.valorReceita - this.valorDespesa
 
-      }
-        , (err) => {
-          console.log(err);
+    this.resultado.toString().substr(-2);
 
-          // this.response = err.error.message;
-          // this.existe = true;
-        })
-
+    if (this.valorReceita - this.valorDespesa >= 0) {
+      this.colorBorder = "green";
+    } else {
+      this.colorBorder = "red";
     }
 
   }
 
-
+  getFormattedPrice(valor: number) {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+}
 
 }

@@ -13,7 +13,9 @@
 
                             <h3 class="mb-4 mt-3">BALANÇO DO MÊS ATUAL</h3>
 
-                            <button disabled class="btn btnBalanco mt-4" style="border-color: {{colorBorder}}">Balanço do mês atual</button>
+                            <button disabled class="btn btnBalanco mt-4" style="border-color: {{colorBorder}}">
+                              <p id="resultadoBalanco">{{getFormattedPrice(resultado)}}</p>
+                            </button>
 
                         </div>
 

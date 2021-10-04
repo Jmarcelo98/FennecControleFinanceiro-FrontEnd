@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,7 +11,6 @@ import { LoginComponent } from './pages/publica/login/login.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
-
 export function tokenGetter() {
   return localStorage.getItem('jwttoken');
 }
@@ -21,7 +20,7 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     CadastroComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +33,8 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
