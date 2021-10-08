@@ -23,13 +23,6 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
 
-    // await this.despesaService.valorDespesaMesAtual().toPromise().then(
-    //   responseDespesa => this.valorDespesa = responseDespesa
-      
-    // ).catch(err => {
-    //   this.valorDespesa = err.error.msg;     
-    // }) 
-
     await this.serverOnService.verificarStatus().toPromise().then(
       responseServer => this.serverOn = responseServer
     ).catch(err => {
