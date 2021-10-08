@@ -11,14 +11,14 @@ import { ReceitaService } from 'src/app/services/receita.service';
 })
 export class HomeComponent implements OnInit {
 
+  carregar = false;
+
   nomeUsuario: Usuario
   sobrenomeUsuario: Usuario
 
   valorReceita: any
   valorDespesa: any
-  resultado: number
-
-  errorMessage: any
+  resultado: any
 
   colorBorder = "green";
 
@@ -31,23 +31,39 @@ export class HomeComponent implements OnInit {
       this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
     }
 
-    this.valorDespesa = await this.despesaService.valorDespesaMesAtual().toPromise();
-    this.valorReceita = await this.receitaService.valorReceitaMesAtual().toPromise();
+    await this.despesaService.valorDespesaMesAtual().toPromise().then(
+      responseDespesa => this.valorDespesa = responseDespesa
+      
+    ).catch(err => {
+      this.valorDespesa = err.error.msg;     
+    }) 
+
+    await this.receitaService.valorReceitaMesAtual().toPromise().then(
+      responseReceita => this.valorReceita = responseReceita
+      
+    ).catch(err => {
+      this.valorReceita = err.error.msg;
+    })    
+
+   // console.clear()
 
     this.resultado = this.valorReceita - this.valorDespesa
 
-    this.resultado.toString().substr(-2);
-
-    if (this.valorReceita - this.valorDespesa >= 0) {
+    if (isNaN(this.resultado)) {
+      this.resultado = "----";
+      this.colorBorder = "gray"
+    } else if (this.resultado >= 0) {
       this.colorBorder = "green";
     } else {
       this.colorBorder = "red";
     }
 
+    this.carregar = true
+
   }
 
   getFormattedPrice(valor: number) {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-}
+  }
 
 }

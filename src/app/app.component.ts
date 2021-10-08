@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutenticacaoService } from './services/autenticacao.service';
+import { ServerOnService } from './services/server-on.service';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,32 @@ import { AutenticacaoService } from './services/autenticacao.service';
 
 export class AppComponent implements OnInit {
 
-  constructor(public router: Router, private autenticacao: AutenticacaoService) { }
+  constructor(public router: Router, private autenticacao: AutenticacaoService, private serverOnService: ServerOnService) { }
 
   title = 'Fennec Controle Financeiro';
 
   isLogado?: boolean = false
 
-  ngOnInit() {
+  serverOn: boolean
+
+  async ngOnInit() {
+
+    // await this.despesaService.valorDespesaMesAtual().toPromise().then(
+    //   responseDespesa => this.valorDespesa = responseDespesa
+      
+    // ).catch(err => {
+    //   this.valorDespesa = err.error.msg;     
+    // }) 
+
+    await this.serverOnService.verificarStatus().toPromise().then(
+      responseServer => this.serverOn = responseServer
+    ).catch(err => {
+      if (err.status == 0) {
+        console.log(err);
+        
+        this.serverOn = false;
+      }
+    })
 
     if (localStorage.getItem != null) {
       this.isLogado = true

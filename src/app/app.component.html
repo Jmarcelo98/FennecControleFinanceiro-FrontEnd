@@ -1,4 +1,14 @@
 <!-- Toolbar -->
+
+<div *ngIf="serverOn then carregou else naoCarregou"></div>
+
+<ng-template #naoCarregou >
+<app-server-off></app-server-off>
+</ng-template>
+
+<ng-template #carregou >
+  
+
 <nav class="navbar">
   <div class="toolbar" role="banner">
     <img width="40" alt="Fennec Controle Financeiro Logo" src="../assets/img/fennec.png" />
@@ -26,6 +36,9 @@
   </div>
 </nav>
 
+
 <div class="container">
   <router-outlet></router-outlet>
 </div>
+
+</ng-template>

@@ -10,6 +10,7 @@ import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
 import { LoginComponent } from './pages/publica/login/login.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ServerOffComponent } from './component/server-off/server-off.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwttoken');
@@ -21,6 +22,7 @@ export function tokenGetter() {
     LoginComponent,
     CadastroComponent,
     HomeComponent,
+    ServerOffComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/models/login';
 import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -22,12 +24,15 @@ export class LoginComponent implements OnInit {
 
   response = null;
 
+  serverOn = true
+
   loginForm = this.formBuilder.group({
     email: [null, [Validators.required, Validators.email]],
     senha: [null, [Validators.required, Validators.minLength(6)]]
   })
 
-  constructor(private formBuilder: FormBuilder, private autenticacaoService: AutenticacaoService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private autenticacaoService: AutenticacaoService, private router: Router,
+    ) { }
 
   ngOnInit(): void {
 
@@ -59,8 +64,16 @@ export class LoginComponent implements OnInit {
         this.autenticacaoService.setUsuario(login);
         this.router.navigate(['']);
       }, (err) => {
-        this.response = err.error.message;
-        this.existe = true;
+      
+          // if (err.status == 0) {
+            
+          //   // this.router.navigate(['/offServer'])
+          //   this.serverOn = false
+          // }
+        
+          this.response = err.error.message;
+          this.existe = true;
+        
       },
     )
 

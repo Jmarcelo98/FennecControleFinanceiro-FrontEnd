@@ -1,5 +1,20 @@
+hr {
+    color: #043621;
+    width: 50%;
+    margin-left: 25%;
+}
+
+h5{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.teste {
+    padding: 0 0;
+    margin-top: 1em;
+}
+
 #espacamentoInicio{
-    margin-top: 6em;
+    margin-top: 8em;
 }
 
 .centralizar {
@@ -16,7 +31,46 @@
     height: 5em;
 }
 
+.btnReceita {
+    border-radius: 2em 2m;
+    width: 85%;
+    background-color: #8ac98a;
+    height: 4em;
+}
+
+.btnDespesa {
+    border-radius: 2em 2m;
+    width: 85%;
+    background-color: #b55050;
+    height: 4em;
+    margin-bottom: 2%;
+}
+
+.fonteBtnResumo {
+    color: black;
+    font-size: 2em;
+    font-family: cursive;
+}
+
+.gif {
+    width: 4em
+}
+
+.fontTextoSemReceitaEDespesa{
+    color: black;
+    font-weight: bold;
+}
+
 #resultadoBalanco {
     font-size: 2.5em;
     font-family: system-ui;
+}
+
+
+
+@media screen and (max-width: 767px) {
+
+    .btnDespesa {
+        margin-top: 1em;
+    }  
 }

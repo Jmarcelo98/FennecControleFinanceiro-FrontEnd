@@ -3,7 +3,7 @@
     <div class="row justify-content-md-center">
 
         <div class="col-12 centralizar">
-            
+
             <div class="card">
                 <div class="card-header balanco">
 
@@ -11,23 +11,94 @@
 
                         <div class="col-12">
 
-                            <h3 class="mb-4 mt-3">BALANÇO DO MÊS ATUAL</h3>
+                            <h3 class=" mt-3">BALANÇO DO MÊS ATUAL</h3>
 
-                            <button disabled class="btn btnBalanco mt-4" style="border-color: {{colorBorder}}">
-                              <p id="resultadoBalanco">{{getFormattedPrice(resultado)}}</p>
+                            <button disabled class="btn btnBalanco mt-4" style="border-color: {{colorBorder}}; border-width: thick;">
+                                <div *ngIf="carregar == true then valor else gif"></div>
+                                <ng-template #gif>
+                                    <img src="../../../../assets/gif/carregando.gif" class="gif">
+                                </ng-template>
+                                <ng-template #valor>
+                                    <div *ngIf="resultado == '----' then NaNRes else NotNaN"></div>
+
+                                    <ng-template #NaNRes>
+                                        <p id="resultadoBalanco">{{resultado}}</p>
+                                    </ng-template>
+                                    <ng-template #NotNaN>
+                                        <p id="resultadoBalanco">{{getFormattedPrice(resultado)}}</p>
+                                    </ng-template>
+
+                                </ng-template>
                             </button>
 
                         </div>
 
                     </div>
 
-                  
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+                <div class="card-body teste">
+                    <h5 class="card-title">CLIQUE PARA DETALHAR</h5>
+
+                    <hr>
+
+                    <div class="row justify-content-md-center">
+
+                        <div class="col-md-6 col-sm-12">
+
+                            <div class="card-text">
+
+                                <div>
+                                    <button class="btn btnReceita">
+                                        <div
+                                            *ngIf="valorReceita == 'Você não possui receita no mês atual' then errorReceita else numeroReceita">
+                                        </div>
+
+                                        <ng-template #numeroReceita>
+                                            <span class="fonteBtnResumo">{{getFormattedPrice(valorReceita)}}</span>
+                                        </ng-template>
+                                        
+                                        <ng-template #errorReceita>
+                                            <span class="fontTextoSemReceitaEDespesa">{{valorReceita}}</span>
+                                        </ng-template>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+
+                            <div class="card-text">
+
+                                <div >
+                                    <button class="btn btnDespesa">
+
+                                        <div *ngIf="valorDespesa == 'Você não possui despesa no mês atual' then errorDespesa else numeroDespesa"></div>
+
+                                        <ng-template #numeroDespesa>
+                                            <span class="fonteBtnResumo">{{getFormattedPrice(valorDespesa)}}</span>
+                                        </ng-template>
+
+                                        <ng-template #errorDespesa>
+                                            <span class="fontTextoSemReceitaEDespesa">{{valorDespesa}}</span>
+                                        </ng-template>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
-              </div>
+            </div>
 
         </div>
 
