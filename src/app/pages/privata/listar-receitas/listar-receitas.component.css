@@ -1,0 +1,21 @@
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input, label {
+    margin: .4rem 0;
+}
+
+
+.inputData {
+    border-radius: 0.4em;
+}
+
+.centralizar{
+    text-align: center;
+}
+
+.espacamento {
+    margin-top: 3em;
+}

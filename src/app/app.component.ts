@@ -27,11 +27,15 @@ export class AppComponent implements OnInit {
       responseServer => this.serverOn = responseServer
     ).catch(err => {
       if (err.status == 0) {
-        console.log(err);
-        
         this.serverOn = false;
       }
     })
+
+    if (!this.serverOn) {
+      setTimeout(()=>{
+        window.location.reload()
+      }, 10000)
+    }
 
     if (localStorage.getItem != null) {
       this.isLogado = true

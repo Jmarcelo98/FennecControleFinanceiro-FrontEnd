@@ -15,29 +15,30 @@
     <span>Fennec Controle Finaceiro</span>
     <div class="spacer"></div>
 
-    <div *ngIf="router.url !== '/login' && router.url !== '/cadastro' && router.url !== '/login?redirectUri='">
-      <button class="btn buttonColor">
+    <div *ngIf="router.url !== '/login' && router.url !== '/cadastro' && router.url !== '/login?redirectUri=' && router.url !== '/login?redirectUri=receitas'">
         <div *ngIf="isLogado == false then naoLogado else logado"></div>
-      </button>
     </div>
 
 
     <ng-template #naoLogado>
       <a href="/login" title="Logar">
+        <button class="btn buttonColor">
         <img src="../assets/img/icones/login.png" class="imagensLoginLogout"  alt="Login">
+        </button>
       </a>
     </ng-template>
 
     <ng-template #logado>
       <a title="Sair" (click)="logout()" >
+        <button class="btn buttonColor">
         <img src="../assets/img/icones/logout.png" class="imagensLoginLogout" alt="Logout">
+      </button>
       </a>
     </ng-template>
   </div>
 </nav>
 
-
-<div class="container">
+<div class="container" id="espacamentoInicio">
   <router-outlet></router-outlet>
 </div>
 

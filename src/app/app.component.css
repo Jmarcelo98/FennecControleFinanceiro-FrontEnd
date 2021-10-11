@@ -7,6 +7,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  #espacamentoInicio{
+    margin-top: 8em;
+}
 
   h1,
   h2,

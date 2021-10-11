@@ -1,8 +1,9 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,10 @@ import { LoginComponent } from './pages/publica/login/login.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ServerOffComponent } from './component/server-off/server-off.component';
+import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
+
+
+
 
 export function tokenGetter() {
   return localStorage.getItem('jwttoken');
@@ -23,17 +28,24 @@ export function tokenGetter() {
     CadastroComponent,
     HomeComponent,
     ServerOffComponent,
+    ListarReceitasComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+
+    BrowserModule,
+    BrowserAnimationsModule,
+
+    FormsModule,
     ReactiveFormsModule,
+
     HttpClientModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
       }
-    })
+    }),
+    BrowserAnimationsModule,
   ],
   providers: [
   ],

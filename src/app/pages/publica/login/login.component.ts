@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Login } from 'src/app/models/login';
 import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { ServerOnService } from 'src/app/services/server-on.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   })
 
   constructor(private formBuilder: FormBuilder, private autenticacaoService: AutenticacaoService, private router: Router,
-    ) { }
+    private server: ServerOnService) { }
 
   ngOnInit(): void {
 
