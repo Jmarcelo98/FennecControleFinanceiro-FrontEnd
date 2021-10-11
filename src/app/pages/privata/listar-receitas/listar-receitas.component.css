@@ -19,3 +19,31 @@ input, label {
 .espacamento {
     margin-top: 3em;
 }
+
+#mensagemSemReceita {
+    font-size: 2em;
+    font-family: system-ui;
+}
+
+#botaoEditar {
+    width: 5em;
+    margin-left: 2em;
+}
+
+#botaoExcluir {
+    width: 5em;
+    margin-left: -2%;
+}
+
+@media screen and (max-width: 767px) {
+
+    #botaoEditar {
+        margin-left: 0;
+    }
+    
+    #botaoExcluir {
+        margin-top: 1em;
+        margin-left: 0%;
+    }
+
+  }

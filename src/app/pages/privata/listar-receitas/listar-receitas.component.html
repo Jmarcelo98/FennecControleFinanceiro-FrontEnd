@@ -39,19 +39,27 @@
           <td>{{item.valorReceita}}</td>
           <td>{{item.dataReceita | date: 'dd/MM/yyyy'}}</td>
           <td>
-            <button class="btn btn-success">
-              Editar
-            </button>
-            <button class="btn btn-danger">
-              Excluir
-            </button>
+            <div class="row">
+
+              <div class="col-md-6 col-sm-12">
+                <button class="btn btn-success" id="botaoEditar">
+                  Editar
+                </button>
+              </div>
+
+              <div class="col-md-6 col-sm-12">
+                <button class="btn btn-danger" id="botaoExcluir">
+                  Excluir
+                </button>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
     </ng-template>
 
     <ng-template #vazio>
-      <span>{{responseError}}</span>
+      <span id="mensagemSemReceita">{{responseError}}</span>
     </ng-template>
 
   </table>
