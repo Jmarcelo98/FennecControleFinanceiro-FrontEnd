@@ -15,8 +15,6 @@ import { ServerOffComponent } from './component/server-off/server-off.component'
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
 
 
-
-
 export function tokenGetter() {
   return localStorage.getItem('jwttoken');
 }

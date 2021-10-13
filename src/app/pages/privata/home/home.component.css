@@ -72,5 +72,8 @@ h5{
 
     .btnDespesa {
         margin-top: 1em;
-    }  
+    }.btnBalanco {
+        width: 90%;
+    }
+    
 }

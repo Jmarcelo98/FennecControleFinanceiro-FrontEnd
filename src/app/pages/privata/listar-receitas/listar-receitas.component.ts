@@ -13,11 +13,10 @@ import { ReceitaService } from 'src/app/services/receita.service';
 export class ListarReceitasComponent implements OnInit {
 
   receitaExiste: boolean
-  responseError : any
+  responseError: any
 
-  formData = this.formBuilder.group({
-    data: [null, [Validators.required]],
-  })
+  dataAtual: any
+  formData: any
 
   receitas: Array<Receita>
 
@@ -31,6 +30,15 @@ export class ListarReceitasComponent implements OnInit {
 
     }
 
+    this.dataAtual = new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString();
+
+    this.formData = this.formBuilder.group({
+      data: [this.dataAtual, [Validators.required]],
+    })
+
+
+    this.buscarPelaData()
+
   }
 
   buscarPelaData() {
@@ -43,5 +51,11 @@ export class ListarReceitasComponent implements OnInit {
       this.receitaExiste = false
     })
   }
+
+
+  editar() {
+    alert('aq')
+  }
+
 
 }

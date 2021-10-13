@@ -7,6 +7,15 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  .inicio{
+    color: white;
+    font-size: 1em;
+  }
+
+ .inicio:hover{
+   color: rgb(233, 245, 179);
+ }
+
   #espacamentoInicio{
     margin-top: 8em;
 }
@@ -71,11 +80,6 @@
 
   .imagensLoginLogout {
     width: 1.5em;
-  }
-
-  .toolbar #twitter-logo:hover,
-  .toolbar #youtube-logo:hover {
-    opacity: 0.8;
   }
 
   

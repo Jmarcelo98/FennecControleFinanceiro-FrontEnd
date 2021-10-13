@@ -2,44 +2,47 @@
 
 <div *ngIf="serverOn then carregou else naoCarregou"></div>
 
-<ng-template #naoCarregou >
-<app-server-off></app-server-off>
+<ng-template #naoCarregou>
+  <app-server-off></app-server-off>
 </ng-template>
 
-<ng-template #carregou >
-  
+<ng-template #carregou>
 
-<nav class="navbar">
-  <div class="toolbar" role="banner">
-    <img width="40" alt="Fennec Controle Financeiro Logo" src="../assets/img/fennec.png" />
-    <span>Fennec Controle Finaceiro</span>
-    <div class="spacer"></div>
+  <nav class="navbar">
+    <div class="toolbar" role="banner">
+      <a href="/">
+        <img width="40" alt="Fennec Controle Financeiro Logo" src="../assets/img/fennec.png" />
+        <span class="inicio">Fennec Controle Finaceiro</span>
+      </a>
 
-    <div *ngIf="router.url !== '/login' && router.url !== '/cadastro' && router.url !== '/login?redirectUri=' && router.url !== '/login?redirectUri=receitas'">
+      <div class="spacer"></div>
+
+      <div
+        *ngIf="router.url !== '/login' && router.url !== '/cadastro' && router.url !== '/login?redirectUri=' && router.url !== '/login?redirectUri=receitas'">
         <div *ngIf="isLogado == false then naoLogado else logado"></div>
+      </div>
+
+
+      <ng-template #naoLogado>
+        <a href="/login" title="Logar">
+          <button class="btn buttonColor">
+            <img src="../assets/img/icones/login.png" class="imagensLoginLogout" alt="Login">
+          </button>
+        </a>
+      </ng-template>
+
+      <ng-template #logado>
+        <a title="Sair" (click)="logout()">
+          <button class="btn buttonColor">
+            <img src="../assets/img/icones/logout.png" class="imagensLoginLogout" alt="Logout">
+          </button>
+        </a>
+      </ng-template>
     </div>
+  </nav>
 
-
-    <ng-template #naoLogado>
-      <a href="/login" title="Logar">
-        <button class="btn buttonColor">
-        <img src="../assets/img/icones/login.png" class="imagensLoginLogout"  alt="Login">
-        </button>
-      </a>
-    </ng-template>
-
-    <ng-template #logado>
-      <a title="Sair" (click)="logout()" >
-        <button class="btn buttonColor">
-        <img src="../assets/img/icones/logout.png" class="imagensLoginLogout" alt="Logout">
-      </button>
-      </a>
-    </ng-template>
+  <div class="container" id="espacamentoInicio">
+    <router-outlet></router-outlet>
   </div>
-</nav>
-
-<div class="container" id="espacamentoInicio">
-  <router-outlet></router-outlet>
-</div>
 
 </ng-template>
