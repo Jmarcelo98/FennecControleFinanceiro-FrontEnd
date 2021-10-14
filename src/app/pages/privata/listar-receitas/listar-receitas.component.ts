@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -12,20 +12,22 @@ import { ReceitaService } from 'src/app/services/receita.service';
   templateUrl: './listar-receitas.component.html',
   styleUrls: ['./listar-receitas.component.css']
 })
-export class ListarReceitasComponent implements OnInit {
+export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   podeExcluir = false
   fechar: any
+  setarOutraData = false
 
   receitaExiste: boolean
   responseError: any
 
   dataAtual: any
-  formData: any
 
   formatar: FormatarPrice = new FormatarPrice();
 
   receitas: Array<Receita>
+
+  formData: any
 
   atualizarValores = this.formBuilder.group({
     id: [null],
@@ -40,7 +42,17 @@ export class ListarReceitasComponent implements OnInit {
 
   constructor(private autenticacaoService: AutenticacaoService, private router: Router,
     private formBuilder: FormBuilder, private receitaService: ReceitaService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private cdr: ChangeDetectorRef) { }
+
+  ngAfterViewChecked() {
+    if (this.setarOutraData === false) {
+      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+    } else {
+      this.dataAtual = (this.formData.get('data')?.value)
+    }
+    this.cdr.detectChanges();
+  }
+
 
   ngOnInit(): void {
 
@@ -48,7 +60,11 @@ export class ListarReceitasComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    this.dataAtual = new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString();
+    if (this.setarOutraData === false) {
+      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+    } else {
+      this.dataAtual = (this.formData.get('data')?.value)
+    }
 
     this.formData = this.formBuilder.group({
       data: [this.dataAtual, [Validators.required]],
@@ -58,8 +74,18 @@ export class ListarReceitasComponent implements OnInit {
 
   }
 
-  buscarPelaData() {
+  // setarData(date: any) {
+  //  // this.setarData(new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+  //   if (this.setarOutraData == true) {
+  //     console.log(date);
+  //     this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+  //     console.log(this.dataAtual);
+  //   } else {
+  //     this.dataAtual = date;
+  //   }
+  // }
 
+  buscarPelaData() {
     this.receitaService.valorReceitaData(this.formData.get('data')?.value)?.subscribe(res => {
       this.receitas = res
       this.receitaExiste = true
@@ -70,10 +96,8 @@ export class ListarReceitasComponent implements OnInit {
   }
 
   editar(receita: Receita) {
-
     receita.valorReceita = this.atualizarValores.get('valorReceita')?.value;
     receita.nomeReceita = this.atualizarValores.get('nomeReceita')?.value;
-
   }
 
   confirmado(id: number) {
@@ -83,8 +107,18 @@ export class ListarReceitasComponent implements OnInit {
 
   excluir(id: number) {
     if (this.podeExcluir === true) {
-      this.receitaService.excluir(id).subscribe(res => {  
+      this.receitaService.excluir(id).subscribe(res => {
         this.sucessoToastr("Receita removida com sucesso!")
+
+        // console.log(this.formData.get('data')?.value);
+        // console.log(new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
+
+        if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
+          this.setarOutraData = true
+          //  this.setarData(this.formData.get('data')?.value)
+        } else {
+          this.setarOutraData = false
+        }
         this.ngOnInit();
       }, err => {
         console.log(err);
@@ -96,4 +130,5 @@ export class ListarReceitasComponent implements OnInit {
   sucessoToastr(mensagem: string) {
     this.toastr.success(mensagem)
   }
+
 }

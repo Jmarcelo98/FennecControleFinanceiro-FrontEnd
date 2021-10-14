@@ -133,11 +133,11 @@
 
                       <div class="modal-body">
 
-                        <form [formGroup]="confirmar" >
+                        <form [formGroup]="confirmar">
 
                           <div class="row ">
 
-                            <span class="permanente">EXCLUIR ESSA RECEITA PERMANENTEMENTE?</span>
+                            <span class="permanente">DESEJA EXCLUIR ESSA RECEITA PERMANENTEMENTE?</span>
 
                           </div>
 
@@ -150,7 +150,8 @@
                             </div>
 
                             <div class="col-6">
-                              <button class="btn btn-primary btn-sm" (click)="confirmado(item.id)" data-dismiss="modal" type="button" id="teste" style="float: right;">Sim</button>
+                              <button class="btn btn-primary btn-sm" (click)="confirmado(item.id)" data-dismiss="modal"
+                                type="button" id="teste" style="float: right;">Sim</button>
                             </div>
 
                           </div>
