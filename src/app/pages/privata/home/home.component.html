@@ -26,7 +26,7 @@
                                         <p id="resultadoBalanco">{{resultado}}</p>
                                     </ng-template>
                                     <ng-template #NotNaN>
-                                        <p id="resultadoBalanco">{{getFormattedPrice(resultado)}}</p>
+                                        <p id="resultadoBalanco">{{formatar.aplicarMascaraDinheiro(resultado)}}</p>
                                     </ng-template>
 
                                 </ng-template>
@@ -53,11 +53,11 @@
                                     <a href="/receitas">
                                         <button class="btn btnReceita">
                                             <div
-                                                *ngIf="valorReceita == 'Você não possui receita no mês atual' then errorReceita else numeroReceita">
+                                                *ngIf="valorReceita == 'Você não possuí receitas no mês atual!' then errorReceita else numeroReceita">
                                             </div>
 
                                             <ng-template #numeroReceita>
-                                                <span class="fonteBtnResumo">{{getFormattedPrice(valorReceita)}}</span>
+                                                <span class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorReceita)}}</span>
                                             </ng-template>
 
                                             <ng-template #errorReceita>
@@ -81,11 +81,11 @@
                                         <button class="btn btnDespesa">
 
                                             <div
-                                                *ngIf="valorDespesa == 'Você não possui despesa no mês atual' then errorDespesa else numeroDespesa">
+                                                *ngIf="valorDespesa == 'Você não possuí despesas no mês atual!' then errorDespesa else numeroDespesa">
                                             </div>
 
                                             <ng-template #numeroDespesa>
-                                                <span class="fonteBtnResumo">{{getFormattedPrice(valorDespesa)}}</span>
+                                                <span class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorDespesa)}}</span>
                                             </ng-template>
 
                                             <ng-template #errorDespesa>

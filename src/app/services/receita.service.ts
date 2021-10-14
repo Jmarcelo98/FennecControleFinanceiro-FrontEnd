@@ -20,6 +20,12 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
   }
 
+  excluir(id: number) { 
+    return this.httpClient.delete(`${this.CAMINHO_API}/${id}`,  
+    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() })})
+  }
+
+
   valorReceitaData(data: string) {
 
     if (data == null) {

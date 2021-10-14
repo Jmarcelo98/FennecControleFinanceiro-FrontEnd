@@ -35,6 +35,10 @@ input, label {
     margin-left: -2%;
 }
 
+.acoesTabela {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 767px) {
 
     #botaoEditar {

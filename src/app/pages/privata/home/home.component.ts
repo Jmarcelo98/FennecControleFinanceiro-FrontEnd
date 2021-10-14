@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormatarPrice } from 'src/app/component/formatarPrice';
 import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { DespesasService } from 'src/app/services/despesas.service';
@@ -20,6 +21,8 @@ export class HomeComponent implements OnInit {
   valorDespesa: any
   resultado: any
 
+  formatar: FormatarPrice = new FormatarPrice();
+
   colorBorder = "green";
 
   constructor(private autenticao: AutenticacaoService, private despesaService: DespesasService, private receitaService: ReceitaService) { }
@@ -33,22 +36,19 @@ export class HomeComponent implements OnInit {
 
     await this.despesaService.valorDespesaMesAtual().toPromise().then(
       responseDespesa => this.valorDespesa = responseDespesa
-      
     ).catch(err => {
-      this.valorDespesa = err.error.msg;     
+      this.valorDespesa = err.error;
     }) 
 
     await this.receitaService.valorReceitaMesAtual().toPromise().then(
       responseReceita => this.valorReceita = responseReceita
       
-    ).catch(err => {
-      this.valorReceita = err.error.msg;
+    ).catch(err => {   
+      this.valorReceita = err.error;
     })    
 
-   // console.clear()
-
     this.resultado = this.valorReceita - this.valorDespesa
-
+    
     if (isNaN(this.resultado)) {
       this.resultado = "----";
       this.colorBorder = "gray"
@@ -62,8 +62,8 @@ export class HomeComponent implements OnInit {
 
   }
 
-  getFormattedPrice(valor: number) {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-  }
+  // getFormattedPrice(valor: number) {
+  //   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+  // }
 
 }
