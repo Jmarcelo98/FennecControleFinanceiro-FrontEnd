@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     ).catch(err => {   
       this.valorReceita = err.error;
     })    
-
+    
     this.resultado = this.valorReceita - this.valorDespesa
     
     if (isNaN(this.resultado)) {

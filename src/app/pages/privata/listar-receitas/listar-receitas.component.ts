@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { FormatarPrice } from 'src/app/component/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
@@ -14,6 +15,7 @@ import { ReceitaService } from 'src/app/services/receita.service';
 export class ListarReceitasComponent implements OnInit {
 
   podeExcluir = false
+  fechar: any
 
   receitaExiste: boolean
   responseError: any
@@ -36,7 +38,9 @@ export class ListarReceitasComponent implements OnInit {
     confirmacao: [null]
   })
 
-  constructor(private autenticacaoService: AutenticacaoService, private router: Router, private formBuilder: FormBuilder, private receitaService: ReceitaService) { }
+  constructor(private autenticacaoService: AutenticacaoService, private router: Router,
+    private formBuilder: FormBuilder, private receitaService: ReceitaService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -67,38 +71,29 @@ export class ListarReceitasComponent implements OnInit {
 
   editar(receita: Receita) {
 
-
-
     receita.valorReceita = this.atualizarValores.get('valorReceita')?.value;
     receita.nomeReceita = this.atualizarValores.get('nomeReceita')?.value;
 
-    // let element;
-    // for (let index = 0; index < this.receitas.length; index++) {
-    //   element = this.receitas[index];
-    //   element.nomeReceita = this.atualizarValores.get('nomeReceita')?.value;
-    //   element.valorReceita = this.atualizarValores.get('valorReceita')?.value;
-    // }
-    // console.log(element);
-
   }
 
-  confirmado() {
+  confirmado(id: number) {
     this.podeExcluir = true
+    this.excluir(id);
   }
 
   excluir(id: number) {
-
     if (this.podeExcluir === true) {
-      this.receitaService.excluir(id).subscribe(res => {
-        console.log(res);
-        window.location.reload()
+      this.receitaService.excluir(id).subscribe(res => {  
+        this.sucessoToastr("Receita removida com sucesso!")
+        this.ngOnInit();
       }, err => {
         console.log(err);
       })
     }
 
-
   }
 
-
+  sucessoToastr(mensagem: string) {
+    this.toastr.success(mensagem)
+  }
 }

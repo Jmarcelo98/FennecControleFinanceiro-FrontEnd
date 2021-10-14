@@ -53,7 +53,7 @@
                                     <a href="/receitas">
                                         <button class="btn btnReceita">
                                             <div
-                                                *ngIf="valorReceita == 'Você não possuí receitas no mês atual!' then errorReceita else numeroReceita">
+                                                *ngIf="valorReceita === 'Você não possuí receitas no mês atual!' then errorReceita else numeroReceita">
                                             </div>
 
                                             <ng-template #numeroReceita>

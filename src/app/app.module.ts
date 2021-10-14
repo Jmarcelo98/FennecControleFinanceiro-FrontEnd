@@ -14,6 +14,7 @@ import { HomeComponent } from './pages/privata/home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ServerOffComponent } from './component/server-off/server-off.component';
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 export function tokenGetter() {
@@ -40,6 +41,7 @@ export function tokenGetter() {
     CurrencyMaskModule,
 
     HttpClientModule,
+    ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

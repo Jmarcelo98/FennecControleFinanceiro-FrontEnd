@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-12">
     <h5>Escolhe uma data para visualizar suas receitas</h5>
   </div>
@@ -127,31 +126,31 @@
 
                 <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                   aria-hidden="true">
-                  <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-dialog" role="document">
 
 
                     <div class="modal-content">
 
                       <div class="modal-body">
 
-                        <form [formGroup]="confirmar" (ngSubmit)="excluir(item.id)">
+                        <form [formGroup]="confirmar" >
 
                           <div class="row ">
 
-                            <span>Deseja mesmo excluir essa receita?</span>
+                            <span class="permanente">EXCLUIR ESSA RECEITA PERMANENTEMENTE?</span>
 
                           </div>
 
                           <hr>
 
-                          <div class="row ">
+                          <div class="row" style="margin-top: 4%;">
 
                             <div class="col-6">
                               <button class="btn btn-secondary btn-sm" data-dismiss="modal">Não</button>
                             </div>
 
                             <div class="col-6">
-                              <button class="btn btn-primary btn-sm" style="float: right;" (click)="confirmado()">Sim</button>
+                              <button class="btn btn-primary btn-sm" (click)="confirmado(item.id)" data-dismiss="modal" type="button" id="teste" style="float: right;">Sim</button>
                             </div>
 
                           </div>

@@ -39,6 +39,15 @@ input, label {
     cursor: pointer;
 }
 
+.permanente {
+    font-weight: bolder;
+    margin-bottom: 5%;
+}
+
+hr{
+    margin: 0 0;
+}
+
 @media screen and (max-width: 767px) {
 
     #botaoEditar {
