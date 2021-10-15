@@ -48,6 +48,10 @@ hr{
     margin: 0 0;
 }
 
+.table-bordered-retirar {
+     border: none
+}
+
 @media screen and (max-width: 767px) {
 
     #botaoEditar {

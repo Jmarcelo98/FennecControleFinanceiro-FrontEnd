@@ -96,7 +96,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   excluir(id: number) {
     if (this.podeExcluir === true) {
-      this.receitaService.excluir(id).subscribe(res => {
+      this.receitaService.excluir(id).subscribe(res => {  
         this.sucessoToastr("Receita removida com sucesso!")
         if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
           this.setarOutraData = true

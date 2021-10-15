@@ -21,7 +21,7 @@ export class ReceitaService {
   }
 
   excluir(id: number) { 
-    return this.httpClient.delete(`${this.CAMINHO_API}/${id}`,  
+    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,  
     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() })})
   }
 
