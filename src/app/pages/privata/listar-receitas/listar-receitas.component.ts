@@ -74,17 +74,6 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   }
 
-  // setarData(date: any) {
-  //  // this.setarData(new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
-  //   if (this.setarOutraData == true) {
-  //     console.log(date);
-  //     this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
-  //     console.log(this.dataAtual);
-  //   } else {
-  //     this.dataAtual = date;
-  //   }
-  // }
-
   buscarPelaData() {
     this.receitaService.valorReceitaData(this.formData.get('data')?.value)?.subscribe(res => {
       this.receitas = res
@@ -109,13 +98,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     if (this.podeExcluir === true) {
       this.receitaService.excluir(id).subscribe(res => {
         this.sucessoToastr("Receita removida com sucesso!")
-
-        // console.log(this.formData.get('data')?.value);
-        // console.log(new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
-
         if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
           this.setarOutraData = true
-          //  this.setarData(this.formData.get('data')?.value)
         } else {
           this.setarOutraData = false
         }

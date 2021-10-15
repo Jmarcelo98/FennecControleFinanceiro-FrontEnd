@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormatarPrice } from 'src/app/component/formatarPrice';
 import { Usuario } from 'src/app/models/usuario';
@@ -38,28 +39,36 @@ export class HomeComponent implements OnInit {
       responseDespesa => this.valorDespesa = responseDespesa
     ).catch(err => {
       this.valorDespesa = err.error;
-    }) 
+    })
 
     await this.receitaService.valorReceitaMesAtual().toPromise().then(
       responseReceita => this.valorReceita = responseReceita
-      
-    ).catch(err => {   
+    ).catch(err => {
       this.valorReceita = err.error;
-    })    
-    
+
+    })
+
+
+    if (typeof (this.valorReceita) === 'string' && typeof (this.valorDespesa) == 'string') {
+      this.valorReceita = 0.0;
+      this.valorDespesa = 0.0;
+    } else if (typeof (this.valorReceita) == 'string') {
+      this.valorReceita = 0.0
+    } else if (typeof (this.valorDespesa) == 'string') {
+      this.valorDespesa = 0.0
+    }
+
     this.resultado = this.valorReceita - this.valorDespesa
-    
-    if (isNaN(this.resultado)) {
-      this.resultado = "----";
-      this.colorBorder = "gray"
-    } else if (this.resultado >= 0) {
-      this.colorBorder = "green";
+
+    if (this.resultado > 0) {
+      this.colorBorder = "green"
+    } else if (this.resultado < 0) {
+      this.colorBorder = "red"
     } else {
-      this.colorBorder = "red";
+      this.colorBorder = "gray"
     }
 
     this.carregar = true
-
   }
 
   // getFormattedPrice(valor: number) {
