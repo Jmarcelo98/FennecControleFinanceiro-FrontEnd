@@ -6,6 +6,7 @@ import { FormatarPrice } from 'src/app/component/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { ReceitaService } from 'src/app/services/receita.service';
+import { ToastrServiceClasse } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-listar-receitas',
@@ -13,6 +14,9 @@ import { ReceitaService } from 'src/app/services/receita.service';
   styleUrls: ['./listar-receitas.component.css']
 })
 export class ListarReceitasComponent implements OnInit, AfterViewChecked {
+
+  mesEAnoAtual: string
+
 
   podeExcluir = false
   fechar: any
@@ -42,7 +46,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   constructor(private autenticacaoService: AutenticacaoService, private router: Router,
     private formBuilder: FormBuilder, private receitaService: ReceitaService,
-    private toastr: ToastrService, private cdr: ChangeDetectorRef) { }
+    private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef) { }
 
   ngAfterViewChecked() {
     if (this.setarOutraData === false) {
@@ -60,8 +64,10 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       this.router.navigate(['/login']);
     }
 
+    this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
+
     if (this.setarOutraData === false) {
-      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+      this.dataAtual = this.mesEAnoAtual;
     } else {
       this.dataAtual = (this.formData.get('data')?.value)
     }
@@ -96,14 +102,19 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   excluir(id: number) {
     if (this.podeExcluir === true) {
-      this.receitaService.excluir(id).subscribe(res => {  
-        this.sucessoToastr("Receita removida com sucesso!")
+      this.receitaService.excluir(id).subscribe(res => {
+        this.toastr.atencaoToastr("Sua receita está sendo excluida");
         if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
           this.setarOutraData = true
         } else {
           this.setarOutraData = false
         }
-        this.ngOnInit();
+        setTimeout(() => {
+          this.toastr.sucessoToastr("Receita removida com sucesso!");
+          // this.sucessoToastr("Receita removida com sucesso!")
+          this.ngOnInit();
+        }, 2000);
+
       }, err => {
         console.log(err);
       })
@@ -111,8 +122,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   }
 
-  sucessoToastr(mensagem: string) {
-    this.toastr.success(mensagem)
-  }
+  // sucessoToastr(mensagem: string) {
+  //   this.toastr.success(mensagem)
+  // }
 
 }

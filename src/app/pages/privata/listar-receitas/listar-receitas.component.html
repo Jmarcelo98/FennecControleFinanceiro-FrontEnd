@@ -11,7 +11,7 @@
 
     <form [formGroup]="formData">
       <input class="textbox-n inputData" type="month" formControlName="data" id="date"
-        (ngModelChange)="buscarPelaData()" />
+        (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
     </form>
 
   </div>
@@ -20,11 +20,11 @@
 
 <div class="espacamento">
 
-  
-    <div *ngIf="receitaExiste then temValor else vazio"></div>
+  <div *ngIf="receitaExiste then temValor else vazio"></div>
 
-    <ng-template #temValor>
-      <table class="table table-hover table-bordered  table-striped">
+  <ng-template #temValor>
+    <div class="table-responsive-md">
+    <table class="table table-bordered  table-striped">
       <thead>
         <tr>
           <th scope="col">Nome da Receita</th>
@@ -34,22 +34,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of receitas">
-          <td>{{item.nomeReceita}}</td>
-          <td>{{formatar.aplicarMascaraDinheiro(item.valorReceita)}}</td>
-          <td>{{item.dataReceita | date: 'dd/MM/yyyy'}}</td>
-          <td>
-            <div class="row">
+        <tr *ngFor="let item of receitas" style="height: 4em;">
+          <td class="centralizarTd">{{item.nomeReceita}}</td>
+          <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorReceita)}}</td>
+          <td class="centralizarTd">{{item.dataReceita | date: 'dd/MM/yyyy'}}</td>
+          <td class="centralizarTd">
+            <div class="row  justify-content-md-center">
 
-              <div class=" col-6">
-                <!-- <button class="btn btn-outline-success btn-sm" id="botaoEditar">
-                 <span>Editar</span>
-                </button> -->
-                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Launch demo modal
-                </button> -->
-                <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela">
-                  <img src="../../../../assets/img/icones/editar.png" style="width: 20px;" alt="Editar" title="Editar">
+              <div class=" col-5">
+                <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela espacar">
+                  <img src="../../../../assets/img/icones/editar.png" style="width: 24px;" alt="Editar" title="Editar">
                 </a>
               </div>
 
@@ -115,20 +109,17 @@
 
 
 
-              <div class=" col-6">
-                <!-- <button class="btn btn-outline-danger btn-sm" id="botaoExcluir">
-                  <span>Excluir</span>
-                </button> -->
-                <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela">
-                  <img src="../../../../assets/img/icones/deletar.png" style="width: 20px;" alt="Excluir"
+              <div class="col-5 grudarNaDireita" >
+                <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
+                  <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir"
                     title="Excluir">
                 </a>
 
-
+                
+                <!-- MODAL EXCLUIR -->
                 <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                   aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-
+                  <div class="modal-dialog  modal-dialog-centered" role="document">
 
                     <div class="modal-content">
 
@@ -138,7 +129,7 @@
 
                           <div class="row ">
 
-                            <span class="permanente">DESEJA EXCLUIR ESSA RECEITA PERMANENTEMENTE?</span>
+                            <span class="permanente">CONFIRME A EXCLUSÃO PERMANENTE DESSA RECEITA</span>
 
                           </div>
 
@@ -174,12 +165,13 @@
         </tr>
       </tbody>
     </table>
-    </ng-template>
+  </div>
+  </ng-template>
 
 
-    <ng-template #vazio>
-      <span id="mensagemSemReceita">{{responseError}}</span>
-    </ng-template>
+  <ng-template #vazio>
+    <span id="mensagemSemReceita">{{responseError}}</span>
+  </ng-template>
 
- 
+
 </div>
