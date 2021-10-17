@@ -1,3 +1,12 @@
+<div class="centralizar" id="bemVindo">
+    <span>Seja bem-vindo(a) {{nomeUsuario}} {{sobrenomeUsuario}}!</span>
+</div>
+
+<div class="centralizar" id="mensagemAqui">
+    Aqui você pode visualizar seu balanço do mês atual
+</div>
+
+
 <div id="espacamentoInicio">
 
     <div class="row justify-content-md-center">
@@ -7,6 +16,7 @@
             <div class="card">
                 <div class="card-header balanco">
 
+                    <!-- VISÃO BALANÇO DO MÊS ATUAL -->
                     <div class="row">
 
                         <div class="col-12">
@@ -38,6 +48,7 @@
 
                 </div>
 
+                <!-- DETALHAR RECEITA E DESPESAS -->
                 <div class="card-body teste">
                     <h5 class="card-title">CLIQUE PARA DETALHAR</h5>
 
@@ -57,7 +68,8 @@
                                             </div>
 
                                             <ng-template #numeroReceita>
-                                                <span class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorReceita)}}</span>
+                                                <span
+                                                    class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorReceita)}}</span>
                                             </ng-template>
 
                                             <ng-template #errorReceita>
@@ -85,7 +97,8 @@
                                             </div>
 
                                             <ng-template #numeroDespesa>
-                                                <span class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorDespesa)}}</span>
+                                                <span
+                                                    class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorDespesa)}}</span>
                                             </ng-template>
 
                                             <ng-template #errorDespesa>
@@ -105,8 +118,68 @@
                 </div>
             </div>
 
+
+            <div id="espacamentoInicio">
+
+
+            </div>
+
+
         </div>
 
     </div>
 
+</div>
+
+<hr id="hrAposBoasVindas">
+
+<div id="espacamentoBemVindo" class="centralizar">
+
+    <div>
+        <span>Para adicionar um novo registro financeiro</span>
+        <p>clique no botão abaixo</p>
+    </div>
+
+    <div>
+        <a role="button" class="btn ajustar" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+            <button class="btn btn-primary ">Adicionar novo registro</button>
+        </a>
+    </div>
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel">
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
+
+                <div class="row" id="espacamentoBemVindo">
+
+                    <div class="col-12 col-md-6 centralizar">
+                        <a href="/nova-receita">
+                            <button class="btn" id="botaoNovaReceita">
+                                <span>Nova receita</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-md-6 centralizar espacoEntreBotoesNovoRegistro">
+                        <a href="/nova-despesa">
+                            <button class="btn" id="botaoNovaDespesa">
+                                <span>Nova despesa</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <hr id="hrAposClicarBotao">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <a href="/nova-receita">
+        <button class="btn" id="botaoNovaReceita">
+            <span>Adiconar nova receita</span>
+        </button>
+    </a> -->
 </div>

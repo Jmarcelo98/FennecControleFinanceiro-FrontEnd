@@ -20,19 +20,23 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
   }
 
-  excluir(id: number) { 
-    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,  
-    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() })})
+  excluir(id: number) {
+    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
+  atualizarReceita(receita: Receita) {
+    return this.httpClient.put(`${this.CAMINHO_API}`, receita,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+  }
 
   valorReceitaData(data: string) {
 
     if (data == null) {
       return null;
     } else {
-      return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/${data.substring(0, 4)}/${data.substring(5, 7)}`, 
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+      return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/${data.substring(0, 4)}/${data.substring(5, 7)}`,
+        { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
     }
 
   }

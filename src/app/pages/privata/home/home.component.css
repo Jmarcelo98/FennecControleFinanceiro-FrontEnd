@@ -14,12 +14,61 @@ h5{
     margin-top: 1em;
 }
 
+#mensagemAqui{
+    font-size: 1.3em;
+    font-family: auto;
+}
+
 #espacamentoInicio{
-    margin-top: 8em;
+    margin-top: 4em;
+}
+
+#espacamentoBemVindo {
+    margin-top: 3em;
+}
+
+.ajustar {
+    padding: 0.375em 0;
+}
+
+#hrAposBoasVindas {
+    color: #043621;
+    width: 100%;
+    margin-left: 0;
+}
+
+#hrAposClicarBotao {
+    color: #043621;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 3em;
+}
+
+#botaoNovaReceita {
+    background-color: #8ac98a;
+    border: 0.5px solid rgb(232, 232, 238);
+    border-radius: 0.5em 0.5em;
+    width: 13em;
+    height: 3em;
+    font-size: 150%;
+}
+
+#botaoNovaDespesa {
+    background-color: #b55050;
+    border: 0.5px solid rgb(232, 232, 238);
+    border-radius: 0.5em 0.5em;
+    width: 13em;
+    height: 3em;
+    font-size: 150%;
 }
 
 .centralizar {
     text-align: center;
+}
+
+#bemVindo{
+    font-size: 3em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .balanco {
@@ -75,6 +124,8 @@ h5{
         margin-top: 1em;
     }.btnBalanco {
         width: 90%;
+    } .espacoEntreBotoesNovoRegistro {
+        margin-top: 1em;
     }
     
 }

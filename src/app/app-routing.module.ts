@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './guards/AuthGuardService';
+import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
 import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
@@ -24,6 +25,11 @@ const routes: Routes = [
     path: "receitas",
     canActivate: [AuthGuardService],
     component: ListarReceitasComponent
+  },
+  {
+    path: "nova-receita",
+    canActivate: [AuthGuardService],
+    component: AdicionarReceitaComponent
   }
 ];
 

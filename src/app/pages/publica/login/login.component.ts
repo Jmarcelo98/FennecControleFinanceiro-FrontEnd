@@ -60,21 +60,13 @@ export class LoginComponent implements OnInit {
     }
 
     this.autenticacaoService.login(this.loginForm.get('email')?.value, this.loginForm.get('senha')?.value).subscribe(
-      (login) => {
+      (login) => {        
         this.autenticacaoService.setToken(login.token);
         this.autenticacaoService.setUsuario(login);
         this.router.navigate(['']);
       }, (err) => {
-      
-          // if (err.status == 0) {
-            
-          //   // this.router.navigate(['/offServer'])
-          //   this.serverOn = false
-          // }
-        
           this.response = err.error.message;
           this.existe = true;
-        
       },
     )
 

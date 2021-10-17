@@ -1,6 +1,5 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormatarPrice } from 'src/app/component/formatarPrice';
+import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { DespesasService } from 'src/app/services/despesas.service';

@@ -1,8 +1,7 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { FormatarPrice } from 'src/app/component/formatarPrice';
+import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { ReceitaService } from 'src/app/services/receita.service';
@@ -17,8 +16,9 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   mesEAnoAtual: string
 
-
   podeExcluir = false
+  podeAlterar = false;
+
   fechar: any
   setarOutraData = false
 
@@ -26,6 +26,13 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   responseError: any
 
   dataAtual: any
+  
+  receitaAtt: Receita
+
+  idReceitaModal: number
+  nomeReceitaModal: string
+  valorReceitaModal: number
+  dataReceitaModal: Date
 
   formatar: FormatarPrice = new FormatarPrice();
 
@@ -35,8 +42,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   atualizarValores = this.formBuilder.group({
     id: [null],
-    nomeReceita: [null, [Validators.required, Validators.minLength(3)]],
-    valorReceita: [null, [Validators.required, Validators.minLength(3)]],
+    nomeNovaReceita: [null, [Validators.required]],
+    valorNovaReceita: [null, [Validators.required]],
     dataReceita: [null]
   })
 
@@ -81,19 +88,58 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   }
 
   buscarPelaData() {
-    this.receitaService.valorReceitaData(this.formData.get('data')?.value)?.subscribe(res => {
-      this.receitas = res
-      this.receitaExiste = true
-    }, err => {
-      this.responseError = err.error.msg
-      this.receitaExiste = false
-    })
+
+    if (this.formData.get('data').value == "") {
+      this.toastr.errorToastr("Adicione uma data para visualizar suas receitas");
+
+    } else {
+      this.receitaService.valorReceitaData(this.formData.get('data')?.value)?.subscribe(res => {
+        this.receitas = res
+        this.receitaExiste = true
+      }, err => {
+        this.responseError = err.error.msg
+        this.receitaExiste = false
+      })
+    }
   }
 
   editar(receita: Receita) {
-    receita.valorReceita = this.atualizarValores.get('valorReceita')?.value;
-    receita.nomeReceita = this.atualizarValores.get('nomeReceita')?.value;
+
+    this.atualizarValores = this.formBuilder.group({
+      id: [receita.id],
+      nomeNovaReceita: [receita.nomeReceita, [Validators.required]],
+      valorNovaReceita: [receita.valorReceita, [Validators.required]],
+      dataReceita: [receita.dataReceita]
+    })
+
   }
+
+  concluirAtualizarValorReceita() {
+
+    const novosValores: Receita = {
+      id: this.atualizarValores.get('id')?.value,
+      nomeReceita: this.atualizarValores.get('nomeNovaReceita')?.value,
+      valorReceita: this.atualizarValores.get('valorNovaReceita')?.value,
+      dataReceita: this.atualizarValores.get('dataReceita')?.value,
+    }
+    
+     this.receitaService.atualizarReceita(novosValores).subscribe( res =>  {
+
+      this.toastr.infoToastr("Sua receita está sendo atualizada")
+
+      setTimeout(() => {
+        this.toastr.sucessoToastr("Receita atualizada com sucesso!")
+        this.ngOnInit()
+      }, 2000);
+
+     }, err => {
+       this.toastr.errorToastr("Erro ao atualizar receita")
+       console.log(err);
+       
+     })
+
+  }
+
 
   confirmado(id: number) {
     this.podeExcluir = true
@@ -103,7 +149,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   excluir(id: number) {
     if (this.podeExcluir === true) {
       this.receitaService.excluir(id).subscribe(res => {
-        this.toastr.atencaoToastr("Sua receita está sendo excluida");
+        this.toastr.infoToastr("Sua receita está sendo excluida");
         if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
           this.setarOutraData = true
         } else {
@@ -111,19 +157,14 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         }
         setTimeout(() => {
           this.toastr.sucessoToastr("Receita removida com sucesso!");
-          // this.sucessoToastr("Receita removida com sucesso!")
           this.ngOnInit();
         }, 2000);
 
       }, err => {
-        console.log(err);
+        this.toastr.errorToastr("Erro ao excluir essa receita, tente mais tarde!")
       })
     }
 
   }
-
-  // sucessoToastr(mensagem: string) {
-  //   this.toastr.success(mensagem)
-  // }
 
 }

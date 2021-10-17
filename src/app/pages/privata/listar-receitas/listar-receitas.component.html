@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <h5>Escolhe uma data para visualizar suas receitas</h5>
+    <h2>Escolhe uma data para visualizar suas receitas</h2>
   </div>
 
 </div>
@@ -24,148 +24,151 @@
 
   <ng-template #temValor>
     <div class="table-responsive-md">
-    <table class="table table-bordered  table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Nome da Receita</th>
-          <th scope="col">Valor da Receita</th>
-          <th scope="col">Data da Receita</th>
-          <th scope="col">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of receitas" style="height: 4em;">
-          <td class="centralizarTd">{{item.nomeReceita}}</td>
-          <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorReceita)}}</td>
-          <td class="centralizarTd">{{item.dataReceita | date: 'dd/MM/yyyy'}}</td>
-          <td class="centralizarTd">
-            <div class="row  justify-content-md-center">
+      <table class="table table-bordered  table-striped">
+        <thead id="cabecalhoTabela">
+          <tr>
+            <th scope="col">NOME</th>
+            <th scope="col">VALOR</th>
+            <th scope="col">DATA</th>
+            <th scope="col">AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyEstilo">
+          <tr *ngFor="let item of receitas" style="height: 4em;">
+            <td class="centralizarTd">{{item.nomeReceita}}</td>
+            <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorReceita)}}</td>
+            <td class="centralizarTd">{{item.dataReceita | date: 'dd/MM/yyyy'}}</td>
+            <td class="centralizarTd">
+              <div class="row  justify-content-md-center">
 
-              <div class=" col-5">
-                <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela espacar">
-                  <img src="../../../../assets/img/icones/editar.png" style="width: 24px;" alt="Editar" title="Editar">
-                </a>
-              </div>
-
-              <!-- MODAL EDITAR-->
-              <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-
-
-                  <div class="modal-content">
-
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">EDITAR RECEITA</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-
-
-                    <div class="modal-body">
-
-                      <form [formGroup]="atualizarValores">
-
-                        <div class="row">
-
-                          <div class="col-6">
-                            <label for="nome">Nome da receita</label>
-                            <input class="form-control" type="text" formControlName="nomeReceita"
-                              ngModel="{{item.nomeReceita}}" name="nome" id="nome">
-                          </div>
-
-                          <div class="col-6">
-                            <label for="nome">Valor da receita</label>
-                            <input class="form-control" type="text" formControlName="valorReceita"
-                              ngModel="{{item.valorReceita}}" currencyMask name="nome" id="nome"
-                              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
-                          </div>
-
-                        </div>
-
-
-                      </form>
-
-                      <div class="row">
-
-                        <div class="col-4">
-                          <label for="nome">Data da receita</label>
-                          <input class="form-control" type="text" disabled
-                            ngModel="{{item.dataReceita | date: 'dd/MM/yyyy'}}" name="nome" id="nome">
-                        </div>
-
-                      </div>
-
-                    </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                      <button type="button" class="btn btn-primary" (click)="editar(item)">Salvar alteração</button>
-                    </div>
-                  </div>
-
+                <div class=" col-5">
+                  <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela espacar"
+                    (click)="editar(item)">
+                    <img src="../../../../assets/img/icones/editar.png" style="width: 24px;" alt="Editar"
+                      title="Editar">
+                  </a>
                 </div>
-              </div>
 
+                <!-- MODAL EDITAR-->
+                <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
 
-
-              <div class="col-5 grudarNaDireita" >
-                <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
-                  <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir"
-                    title="Excluir">
-                </a>
-
-                
-                <!-- MODAL EXCLUIR -->
-                <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog  modal-dialog-centered" role="document">
 
                     <div class="modal-content">
 
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">EDITAR RECEITA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+
                       <div class="modal-body">
 
-                        <form [formGroup]="confirmar">
+                        <form [formGroup]="atualizarValores" (ngSubmit)="concluirAtualizarValorReceita()">
 
-                          <div class="row ">
+                          <div class="row">
 
-                            <span class="permanente">CONFIRME A EXCLUSÃO PERMANENTE DESSA RECEITA</span>
+                            <div class="col-6">
+                              <label for="nome">Nome da receita</label>
+                              <input class="form-control" type="text" formControlName="nomeNovaReceita" name="nome"
+                                id="nome" ngModel="{{item.nomeReceita}}">
+                            </div>
+
+                            <div class="col-6">
+                              <label for="nome">Valor da receita</label>
+                              <input class="form-control" type="text" formControlName="valorNovaReceita"
+                              ngModel="{{item.valorReceita}}" currencyMask name="nome" id="nome"
+                                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                            </div>
 
                           </div>
 
-                          <hr>
+                          <div class="row">
 
-                          <div class="row" style="margin-top: 4%;">
-
-                            <div class="col-6">
-                              <button class="btn btn-secondary btn-sm" data-dismiss="modal">Não</button>
+                            <div class="col-4">
+                              <label for="nome">Data da receita</label>
+                              <input class="form-control" type="text" disabled 
+                              value="{{item.dataReceita| date: 'dd/MM/yyyy'}}" name="nome" id="nome">
                             </div>
 
-                            <div class="col-6">
-                              <button class="btn btn-primary btn-sm" (click)="confirmado(item.id)" data-dismiss="modal"
-                                type="button" id="teste" style="float: right;">Sim</button>
-                            </div>
+                          </div>
 
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" (click)="concluirAtualizarValorReceita()" data-dismiss="modal"  class="btn btn-primary">Salvar
+                              alteração</button>
                           </div>
 
                         </form>
 
                       </div>
 
-
                     </div>
 
                   </div>
                 </div>
 
-              </div>
 
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                <div class="col-5 grudarNaDireita">
+                  <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
+                    <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir"
+                      title="Excluir">
+                  </a>
+
+
+                  <!-- MODAL EXCLUIR -->
+                  <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered" role="document">
+
+                      <div class="modal-content">
+
+                        <div class="modal-body">
+
+                          <form [formGroup]="confirmar">
+
+                            <div class="row ">
+
+                              <span class="permanente">CONFIRME A EXCLUSÃO PERMANENTE DESSA RECEITA</span>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="row" style="margin-top: 4%;">
+
+                              <div class="col-6">
+                                <button class="btn btn-secondary btn-sm" data-dismiss="modal">Não</button>
+                              </div>
+
+                              <div class="col-6">
+                                <button class="btn btn-primary btn-sm" (click)="confirmado(item.id)"
+                                  data-dismiss="modal" type="button" id="teste" style="float: right;">Sim</button>
+                              </div>
+
+                            </div>
+
+                          </form>
+
+                        </div>
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </ng-template>
 
 

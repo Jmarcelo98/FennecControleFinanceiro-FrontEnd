@@ -23,5 +23,4 @@ export class ToastrServiceClasse {
   public atencaoToastr(mensagem: string) {
     this.toastr.warning(mensagem)
   }
-
 }
