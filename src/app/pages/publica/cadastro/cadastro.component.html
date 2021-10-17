@@ -28,7 +28,7 @@
                                 <label for="nome" class="form-label">Nome</label>
 
                                 <input type="text" formControlName="nome"
-                                    class="form-control semSombra tamanhoInputNome" placeholder="Ex: João" id="nome"
+                                    class="form-control semSombra tamanhoInputNome" placeholder="Ex: João Marcelo" id="nome"
                                     [ngClass]="{'is-invalid': foiEnviado && f.nome.errors}"
                                     onkeyup="$(this).val($(this).val().replace(/[0-9]/g, '')); $(this).val($(this).val().replace(/[&!@#$%*()^`;.,\|/~´[{]/, ''));" />
                                 <div *ngIf="foiEnviado && f.nome.errors" class="invalid-feedback">
@@ -45,7 +45,7 @@
                                 <label for="nome" class="form-label sobreNomeEspacoCelular">Sobrenome</label>
 
                                 <input type="text" formControlName="sobrenome" class="form-control semSombra"
-                                    placeholder="Ex: Marcelo" id="sobrenome"
+                                    placeholder="Ex: Da Silva" id="sobrenome"
                                     [ngClass]="{'is-invalid': foiEnviado && f.sobrenome.errors}"
                                     onkeyup="$(this).val($(this).val().replace(/[0-9]/g, '')); $(this).val($(this).val().replace(/[&!@#$%*()^`;.,\|/~´[{]/, ''));" />
                                 <div *ngIf="foiEnviado && f.sobrenome.errors" class="invalid-feedback">
