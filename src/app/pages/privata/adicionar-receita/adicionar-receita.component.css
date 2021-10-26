@@ -14,3 +14,11 @@
 .distanciarTitulo{
     margin-top: 2em;
 }
+
+@media screen and (max-width: 767px) {
+
+    #celular {
+        margin-top: 1em;
+    }
+    
+}

@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4 " id="celular">
             <label for="data">Data da receita</label>
             <input type="date" name="data" formControlName="dataReceita" max="{{dataMax | date: 'yyyy-MM-dd'}}"
                 class="form-control" [ngClass]="{'is-invalid': foiEnviado && f.dataReceita.errors}">

@@ -12,13 +12,15 @@
     <div class="toolbar" role="banner">
       <a href="/">
         <img width="40" alt="Fennec Controle Financeiro Logo" src="../assets/img/fennec.png" />
-        <span class="inicio">Fennec Controle Finaceiro</span>
+        <span class="inicio">FENNEC-CF</span>
       </a>
 
       <div class="spacer"></div>
 
       <div
-        *ngIf="router.url !== '/login' && router.url !== '/cadastro' && router.url !== '/login?redirectUri=' && router.url !== '/login?redirectUri=receitas'">
+        *ngIf="router.url !== '/login' && router.url !== '/cadastro' 
+        && router.url !== '/login?redirectUri=' 
+        && router.url !== '/login?redirectUri=receitas'">
         <div *ngIf="isLogado == false then naoLogado else logado"></div>
       </div>
 
