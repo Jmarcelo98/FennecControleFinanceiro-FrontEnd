@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
@@ -22,7 +21,8 @@ export class AdicionarReceitaComponent implements OnInit {
     valorReceita: [0, [Validators.required, Validators.min(0.01)]]
   })
 
-  constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService, private toastr: ToastrService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService, 
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -53,7 +53,7 @@ export class AdicionarReceitaComponent implements OnInit {
       this.formNovaReceita.clearValidators()
       this.formNovaReceita.get('valorReceita')?.setValue(0)
     }, err => {
-      this.toastr.error("Erro ao adicionar nova receita" + err);
+      this.toastr.error("Erro ao adicionar a nova receita" + err);
     })
 
   }

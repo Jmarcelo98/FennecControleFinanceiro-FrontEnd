@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './guards/AuthGuardService';
+import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
 import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
@@ -30,6 +31,11 @@ const routes: Routes = [
     path: "nova-receita",
     canActivate: [AuthGuardService],
     component: AdicionarReceitaComponent
+  },
+  {
+    path: "nova-despesa",
+    canActivate: [AuthGuardService],
+    component: AdicionarDespesaComponent
   }
 ];
 

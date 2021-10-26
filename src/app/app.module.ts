@@ -16,6 +16,7 @@ import { ServerOffComponent } from './component/server-off/server-off.component'
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
+import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
 
 
 export function tokenGetter() {
@@ -31,6 +32,7 @@ export function tokenGetter() {
     ServerOffComponent,
     ListarReceitasComponent,
     AdicionarReceitaComponent,
+    AdicionarDespesaComponent,
   ],
   imports: [
     AppRoutingModule,
