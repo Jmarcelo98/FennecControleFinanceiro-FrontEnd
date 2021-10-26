@@ -1,1 +1,60 @@
-<p>adicionar-receita works!</p>
+<div class="centralizar" id="bemVindo">
+    <span>Nova receita</span>
+</div>
+
+
+<form [formGroup]="formNovaReceita" (ngSubmit)="salvarReceita()">
+
+    <div class="row distanciarTitulo">
+
+        <div class="col-12 col-md-6">
+            <label for="nome">Nome da receita</label>
+            <input type="text" formControlName="nomeReceita" name="nome" placeholder="Nome ou descrição sobre a receita"
+                class="form-control" [ngClass]="{'is-invalid': foiEnviado && f.nomeReceita.errors}">
+            <div *ngIf="foiEnviado && f.nomeReceita.errors" class="invalid-feedback">
+                <div *ngIf="f.nomeReceita.errors.required">O campo nome é obrigatório</div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <label for="data">Data da receita</label>
+            <input type="date" name="data" formControlName="dataReceita" max="{{dataMax | date: 'yyyy-MM-dd'}}"
+                class="form-control" [ngClass]="{'is-invalid': foiEnviado && f.dataReceita.errors}">
+            <div *ngIf="foiEnviado && f.dataReceita.errors" class="invalid-feedback">
+                <div *ngIf="f.dataReceita.errors.required">O campo data é obrigatório</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="distanciarTitulo">
+
+        <div class="row">
+
+            <div class="col-12 col-md-3">
+                <label for="valor">Valor da receita</label>
+                <input type="text" currencyMask value="0" formControlName="valorReceita"
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" class="form-control"
+                    [ngClass]="{'is-invalid': foiEnviado && f.valorReceita.errors}">
+                <div *ngIf="foiEnviado && f.valorReceita.errors" class="invalid-feedback">
+                    <div *ngIf="f.valorReceita.errors.required">O campo valor é obrigatório</div>
+                    <div *ngIf="f.valorReceita.errors.min">Digite um número maior ou igual a 0,01 (um centavo)</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="distanciarTitulo">
+
+        <div class="row">
+
+            <div class="col-12 col-md-4">
+                <button class="btn btn-primary" type="submit">Adicionar nova receita</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</form>

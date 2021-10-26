@@ -30,6 +30,11 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
+  adicionarNovaReceita(receita: Receita) {
+    return this.httpClient.post(`${this.CAMINHO_API}`, receita,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+  }
+
   valorReceitaData(data: string) {
 
     if (data == null) {

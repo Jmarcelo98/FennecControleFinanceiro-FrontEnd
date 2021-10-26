@@ -1,0 +1,16 @@
+.espacamento {
+    margin-top: 20em;
+}
+
+.centralizar {
+    text-align: center;
+}
+
+#bemVindo{
+    font-size: 3em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.distanciarTitulo{
+    margin-top: 2em;
+}
