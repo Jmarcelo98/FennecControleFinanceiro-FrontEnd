@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Despesa } from 'src/app/models/despesa';
 import { DespesasService } from 'src/app/services/despesas.service';
+import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-adicionar-despesa',
@@ -16,6 +16,9 @@ export class AdicionarDespesaComponent implements OnInit {
   foiEnviado: boolean
   despesa: Despesa
 
+  dataString: any
+  formatadoDate: Date
+
   formNovaDespesa = this.formBuilder.group({
     nomeDespesa: [null, [Validators.required]],
     dataDespesa: [null, [Validators.required]],
@@ -23,7 +26,7 @@ export class AdicionarDespesaComponent implements OnInit {
   })
 
   constructor(private formBuilder: FormBuilder, private despesaService: DespesasService, 
-    private toastr: ToastrService) { }
+    private toastr: ToastrServiceClasse) { }
 
   ngOnInit(): void {
   }
@@ -40,21 +43,23 @@ export class AdicionarDespesaComponent implements OnInit {
       return;
     }
 
+    this.dataString = this.formNovaDespesa.get('dataDespesa')?.value + environment.FORMATAR_DATA;
+
     const novaDespesa: Despesa = {
       id: 0,
       nomeDespesa: this.formNovaDespesa.get('nomeDespesa')?.value,
       valorDespesa: this.formNovaDespesa.get('valorDespesa')?.value,
-      dataDespesa: this.formNovaDespesa.get('dataDespesa')?.value,
+      dataDespesa: this.formatadoDate = new Date(this.dataString),
     }
 
     this.despesaService.adicionarNovaReceita(novaDespesa).subscribe(sucesso => {
-      this.toastr.success("Despesa adicionada com sucesso!")
+      this.toastr.sucessoToastr("Despesa adicionada com sucesso!")
       this.foiEnviado = false
       this.formNovaDespesa.reset();
       this.formNovaDespesa.clearValidators()
       this.formNovaDespesa.get('valorDespesa')?.setValue(0)
     }, err => {
-      this.toastr.error("Erro ao adicionar a nova despesa" + err);
+      this.toastr.errorToastr("Erro ao adicionar a nova despesa" + err);
     })
 
   }

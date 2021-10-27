@@ -1,0 +1,87 @@
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input, label {
+    margin: .4rem 0;
+}
+
+
+.inputData {
+    border-radius: 0.2em;
+    font-size: 1.4em;
+    width: 14em;
+}
+
+.centralizar{
+    text-align: center;
+}
+
+#cabecalhoTabela {
+    font-size: 1.5em;
+    font-family: auto;
+}
+
+.espacamento {
+    margin-top: 3em;
+}
+
+#mensagemSemReceita {
+    font-size: 2em;
+    font-family: system-ui;
+}
+
+#botaoEditar {
+    width: 5em;
+    margin-left: 2em;
+}
+
+#botaoExcluir {
+    width: 5em;
+    margin-left: -2%;
+}
+
+#tbodyEstilo {
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+.acoesTabela {
+    cursor: pointer;
+}
+
+.centralizarTd {
+    vertical-align: middle;
+}
+
+.permanente {
+    font-weight: bolder;
+    margin-bottom: 3%;
+    text-align: center;
+    font-size: 1.2em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+hr{
+    margin: 0 0;
+}
+
+.grudarNaDireita {
+    margin-left: 15%;
+}
+
+@media screen and (max-width: 767px) {
+
+    .espacar {
+        margin-right: 5em;
+    }
+
+   
+    
+    /* #botaoExcluir {
+        margin-top: 1em;
+        margin-left: 0%;
+    } */
+
+  }

@@ -1,0 +1,180 @@
+<div class="row">
+    <div class="col-12">
+      <h2>Escolhe uma data para visualizar suas despesas</h2>
+    </div>
+  
+  </div>
+  
+  <div class="row">
+  
+    <div class="col-12">
+  
+      <form [formGroup]="formData">
+        <input class="textbox-n inputData" type="month" formControlName="data" id="date"
+          (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
+      </form>
+  
+    </div>
+  
+  </div>
+  
+  <div class="espacamento">
+  
+    <div *ngIf="despesaExiste then temValor else vazio"></div>
+  
+    <ng-template #temValor>
+      <div class="table-responsive-md">
+        <table class="table table-bordered  table-striped">
+          <thead id="cabecalhoTabela">
+            <tr>
+              <th scope="col">NOME</th>
+              <th scope="col">VALOR</th>
+              <th scope="col">DATA</th>
+              <th scope="col">AÇÕES</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyEstilo">
+            <tr *ngFor="let item of despesas" style="height: 4em;">
+              <td class="centralizarTd">{{item.nomeDespesa}}</td>
+              <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorDespesa)}}</td>
+              <td class="centralizarTd">{{item.dataDespesa | date: 'dd/MM/yyyy'}}</td>
+              <td class="centralizarTd">
+                <div class="row  justify-content-md-center">
+  
+                  <div class=" col-5">
+                    <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela espacar"
+                      (click)="editar(item)">
+                      <img src="../../../../assets/img/icones/editar.png" style="width: 24px;" alt="Editar"
+                        title="Editar">
+                    </a>
+                  </div>
+  
+                  <!-- MODAL EDITAR-->
+                  <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+  
+  
+                      <div class="modal-content">
+  
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">EDITAR DESPESA</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+  
+  
+                        <div class="modal-body">
+  
+                          <form [formGroup]="atualizarValores" (ngSubmit)="concluirAtualizarValorDespesa()">
+  
+                            <div class="row">
+  
+                              <div class="col-6">
+                                <label for="nome">Nome da despesa</label>
+                                <input class="form-control" type="text" formControlName="nomeNovaDespesa" name="nome"
+                                  id="nome" ngModel="{{item.nomeDespesa}}">
+                              </div>
+  
+                              <div class="col-6">
+                                <label for="nome">Valor da despesa</label>
+                                <input class="form-control" type="text" formControlName="valorNovaDespesa"
+                                ngModel="{{item.valorDespesa}}" currencyMask name="nome" id="nome"
+                                  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                              </div>
+  
+                            </div>
+  
+                            <div class="row">
+  
+                              <div class="col-4">
+                                <label for="nome">Data da despesa</label>
+                                <input class="form-control" type="text" disabled 
+                                value="{{dataDespesaModal| date: 'dd/MM/yyyy'}}" name="nome" id="nome">
+                              </div>
+  
+                            </div>
+  
+                            <div class="modal-footer">
+                              <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <button type="button" (click)="concluirAtualizarValorDespesa()" data-dismiss="modal"  class="btn btn-primary">Salvar
+                                alteração</button>
+                            </div>
+  
+                          </form>
+  
+                        </div>
+  
+                      </div>
+  
+                    </div>
+                  </div>
+  
+  
+                  <div class="col-5 grudarNaDireita">
+                    <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
+                      <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir"
+                        title="Excluir" (click)="pegarIdExclusao(item.id)">
+                    </a>
+  
+  
+                    <!-- MODAL EXCLUIR -->
+                    <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog  modal-dialog-centered" role="document">
+  
+                        <div class="modal-content">
+  
+                          <div class="modal-body">
+  
+                            <form [formGroup]="confirmar">
+  
+                              <div class="row ">
+  
+                                <span class="permanente">CONFIRME A EXCLUSÃO PERMANENTE DESSA RECEITA</span>
+  
+                              </div>
+  
+                              <hr>
+  
+                              <div class="row" style="margin-top: 4%;">
+  
+                                <div class="col-6">
+                                  <button class="btn btn-secondary btn-sm" data-dismiss="modal">Não</button>
+                                </div>
+  
+                                <div class="col-6">
+                                  <button class="btn btn-primary btn-sm" (click)="confirmado()"
+                                    data-dismiss="modal" type="button" id="teste" style="float: right;">Sim</button>
+                                </div>
+  
+                              </div>
+  
+                            </form>
+  
+                          </div>
+  
+  
+                        </div>
+  
+                      </div>
+                    </div>
+  
+                  </div>
+  
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  
+  
+    <ng-template #vazio>
+      <span id="mensagemSemReceita">{{responseError}}</span>
+    </ng-template>
+  
+  
+  </div>

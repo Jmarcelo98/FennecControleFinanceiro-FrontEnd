@@ -3,8 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: false,
-  CAMINHO_RAIZ: "http://localhost:8080"
+  CAMINHO_RAIZ: "http://localhost:8080",
+  FORMATAR_DATA: "T"+new Date().getHours()+":00:00.961Z",
 };
+
 
 
 /*

@@ -17,6 +17,7 @@ import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-
 import { ToastrModule } from 'ngx-toastr';
 import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
 import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
+import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
 
 
 export function tokenGetter() {
@@ -33,6 +34,7 @@ export function tokenGetter() {
     ListarReceitasComponent,
     AdicionarReceitaComponent,
     AdicionarDespesaComponent,
+    ListarDespesasComponent,
   ],
   imports: [
     AppRoutingModule,

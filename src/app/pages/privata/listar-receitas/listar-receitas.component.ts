@@ -6,6 +6,7 @@ import { Receita } from 'src/app/models/receita';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/toastr.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-listar-receitas',
@@ -26,7 +27,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   responseError: any
 
   dataAtual: any
-  
+
   receitaAtt: Receita
 
   idReceitaModal: number
@@ -39,6 +40,9 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   receitas: Array<Receita>
 
   formData: any
+
+  dataString: any
+  formatadoDate: Date
 
   atualizarValores = this.formBuilder.group({
     id: [null],
@@ -67,9 +71,9 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
 
-    if (!this.autenticacaoService.estaAutenticado()) {
-      this.router.navigate(['/login']);
-    }
+    // if (!this.autenticacaoService.estaAutenticado()) {
+    //   this.router.navigate(['/login']);
+    // }
 
     this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
 
@@ -105,6 +109,10 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   editar(receita: Receita) {
 
+    console.log(receita); 
+    
+    this.dataReceitaModal = receita.dataReceita
+
     this.atualizarValores = this.formBuilder.group({
       id: [receita.id],
       nomeNovaReceita: [receita.nomeReceita, [Validators.required]],
@@ -116,39 +124,51 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   concluirAtualizarValorReceita() {
 
+    this.dataString = this.atualizarValores.get('dataReceita')?.value + environment.FORMATAR_DATA;
+
     const novosValores: Receita = {
       id: this.atualizarValores.get('id')?.value,
       nomeReceita: this.atualizarValores.get('nomeNovaReceita')?.value,
       valorReceita: this.atualizarValores.get('valorNovaReceita')?.value,
-      dataReceita: this.atualizarValores.get('dataReceita')?.value,
+      dataReceita:this.atualizarValores.get('dataReceita')?.value,
     }
+
     
-     this.receitaService.atualizarReceita(novosValores).subscribe( res =>  {
 
-      this.toastr.infoToastr("Sua receita está sendo atualizada")
+      this.receitaService.atualizarReceita(novosValores).subscribe(res => {
 
-      setTimeout(() => {
-        this.toastr.sucessoToastr("Receita atualizada com sucesso!")
-        this.ngOnInit()
-      }, 2000);
+        this.toastr.infoToastr("Sua receita está sendo atualizada")
+        if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
+          this.setarOutraData = true
+        } else {
+          this.setarOutraData = false
+        }
+        setTimeout(() => {
+          this.toastr.sucessoToastr("Receita atualizada com sucesso!")
+          this.ngOnInit()
+        }, 2000);
 
-     }, err => {
-       this.toastr.errorToastr("Erro ao atualizar receita")
-       console.log(err);
-       
-     })
+      }, err => {
+        this.toastr.errorToastr("Erro ao atualizar receita")
+        console.log(err);
+
+      })
 
   }
 
-
-  confirmado(id: number) {
-    this.podeExcluir = true
-    this.excluir(id);
+  pegarIdExclusao(id: number) {
+    this.idReceitaModal = id
   }
 
-  excluir(id: number) {
+
+  confirmado() {
+    this.podeExcluir = true;
+    this.excluir()
+  }
+
+  excluir() {
     if (this.podeExcluir === true) {
-      this.receitaService.excluir(id).subscribe(res => {
+      this.receitaService.excluir(this.idReceitaModal).subscribe(res => {
         this.toastr.infoToastr("Sua receita está sendo excluida");
         if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
           this.setarOutraData = true
