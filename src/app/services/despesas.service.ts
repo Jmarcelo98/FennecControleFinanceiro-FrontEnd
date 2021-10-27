@@ -30,6 +30,11 @@ export class DespesasService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
+  valorDespesaMesAnoPesquisado(ano: number, mes: number){
+    return this.httpClient.get<number>(`${this.CAMINHO_API}/valorDespesaMes/${ano}/${mes}`,
+    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  }
+
   valorDespesaMesAtual() {
     return this.httpClient.get<number>(`${this.CAMINHO_API}/valorDespesaMes`, 
     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });

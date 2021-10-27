@@ -1,8 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Despesa } from 'src/app/models/despesa';
-import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { DespesasService } from 'src/app/services/despesas.service';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
@@ -15,20 +13,25 @@ import { environment } from 'src/environments/environment';
 })
 export class ListarDespesasComponent implements OnInit, AfterViewChecked {
 
+  pesquisarValor: Date
+  ano: number
+  mes: number
+
   mesEAnoAtual: string
+  resultadoDespesaMesPesquisado: number
 
   podeExcluir = false
   podeAlterar = false;
 
-  fechar: any
+  // fechar: any
   setarOutraData = false
 
   despesaExiste: boolean
   responseError: any
 
   dataAtual: any
-  
-  despesaAtt: Despesa
+
+  // despesaAtt: Despesa
 
   idDespesaModal: number
   nomeDespesaModal: string
@@ -55,8 +58,7 @@ export class ListarDespesasComponent implements OnInit, AfterViewChecked {
     confirmacao: [null]
   })
 
-  constructor(private autenticacaoService: AutenticacaoService, private router: Router,
-    private formBuilder: FormBuilder, private despesaService: DespesasService,
+  constructor(private formBuilder: FormBuilder, private despesaService: DespesasService,
     private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef) { }
 
   ngAfterViewChecked() {
@@ -97,14 +99,26 @@ export class ListarDespesasComponent implements OnInit, AfterViewChecked {
     if (this.formData.get('data').value == "") {
       this.toastr.errorToastr("Adicione uma data para visualizar suas despesas");
     } else {
-      this.despesaService.valorDespesaData(this.formData.get('data')?.value)?.subscribe(res => {      
+      this.despesaService.valorDespesaData(this.formData.get('data')?.value)?.subscribe(res => {
         this.despesas = res
-        this.despesaExiste = true   
-        
+        this.despesaExiste = true
+
       }, err => {
         this.responseError = err.error.msg
         this.despesaExiste = false
       })
+
+      this.pesquisarValor = new Date(this.formData.get('data').value)
+
+      this.ano = this.pesquisarValor.getFullYear()
+      this.mes = this.pesquisarValor.getUTCMonth() + 1
+
+      this.despesaService.valorDespesaMesAnoPesquisado(this.ano, this.mes).subscribe (result => {
+        this.resultadoDespesaMesPesquisado = result
+      }, err => {
+        this.resultadoDespesaMesPesquisado = 0
+      })
+
     }
   }
 
@@ -131,8 +145,8 @@ export class ListarDespesasComponent implements OnInit, AfterViewChecked {
       valorDespesa: this.atualizarValores.get('valorNovaDespesa')?.value,
       dataDespesa: this.formatadoDate = new Date(this.dataString),
     }
-    
-     this.despesaService.atualizarDespesa(novosValores).subscribe( res =>  {
+
+    this.despesaService.atualizarDespesa(novosValores).subscribe(res => {
 
       this.toastr.infoToastr("Sua despesa está sendo atualizada")
 
@@ -148,11 +162,11 @@ export class ListarDespesasComponent implements OnInit, AfterViewChecked {
         this.ngOnInit()
       }, 2000);
 
-     }, err => {
-       this.toastr.errorToastr("Erro ao atualizar despesa")
-       console.log(err);
-       
-     })
+    }, err => {
+      this.toastr.errorToastr("Erro ao atualizar despesa")
+      console.log(err);
+
+    })
 
   }
 

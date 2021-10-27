@@ -71,10 +71,19 @@ hr{
     margin-left: 15%;
 }
 
+#botaoValorDespesaMesPesquisado{
+    font-size: 1.5em;
+}
+
 @media screen and (max-width: 767px) {
 
     .espacar {
         margin-right: 5em;
+    } .centralizarQuandoCelular{
+        text-align: center;
+    }
+    .aumentarDistanciamento {
+        margin-top: 1em;
     }
 
    

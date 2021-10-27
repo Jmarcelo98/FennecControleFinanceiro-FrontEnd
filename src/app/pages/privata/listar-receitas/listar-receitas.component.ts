@@ -1,9 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Receita } from 'src/app/models/receita';
-import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/toastr.service';
 import { environment } from 'src/environments/environment';
@@ -15,12 +13,17 @@ import { environment } from 'src/environments/environment';
 })
 export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
+  pesquisarValor: Date
+  ano: number
+  mes: number
+  resultaReceitaMesPesquisado: any
+
   mesEAnoAtual: string
 
   podeExcluir = false
   podeAlterar = false;
 
-  fechar: any
+  // fechar: any
   setarOutraData = false
 
   receitaExiste: boolean
@@ -28,7 +31,9 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   dataAtual: any
 
-  receitaAtt: Receita
+  valorReceitaNoMesPesquisado: number
+
+  // receitaAtt: Receita
 
   idReceitaModal: number
   nomeReceitaModal: string
@@ -55,8 +60,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     confirmacao: [null]
   })
 
-  constructor(private autenticacaoService: AutenticacaoService, private router: Router,
-    private formBuilder: FormBuilder, private receitaService: ReceitaService,
+  constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
     private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef) { }
 
   ngAfterViewChecked() {
@@ -97,6 +101,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       this.toastr.errorToastr("Adicione uma data para visualizar suas receitas");
 
     } else {
+
       this.receitaService.valorReceitaData(this.formData.get('data')?.value)?.subscribe(res => {
         this.receitas = res
         this.receitaExiste = true
@@ -104,13 +109,22 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         this.responseError = err.error.msg
         this.receitaExiste = false
       })
+
+      this.pesquisarValor = new Date(this.formData.get('data').value)
+ 
+      this.ano = this.pesquisarValor.getFullYear()
+      this.mes = this.pesquisarValor.getUTCMonth() + 1
+
+      this.receitaService.valorReceitaMesAnoPesquisado(this.ano, this.mes).subscribe( result => {
+        this.resultaReceitaMesPesquisado = result
+      }, err => {
+        this.resultaReceitaMesPesquisado = 0
+      })
+
     }
   }
 
   editar(receita: Receita) {
-
-    console.log(receita); 
-    
     this.dataReceitaModal = receita.dataReceita
 
     this.atualizarValores = this.formBuilder.group({
@@ -130,29 +144,27 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       id: this.atualizarValores.get('id')?.value,
       nomeReceita: this.atualizarValores.get('nomeNovaReceita')?.value,
       valorReceita: this.atualizarValores.get('valorNovaReceita')?.value,
-      dataReceita:this.atualizarValores.get('dataReceita')?.value,
+      dataReceita: this.atualizarValores.get('dataReceita')?.value,
     }
 
-    
+    this.receitaService.atualizarReceita(novosValores).subscribe(res => {
 
-      this.receitaService.atualizarReceita(novosValores).subscribe(res => {
+      this.toastr.infoToastr("Sua receita está sendo atualizada")
+      if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
+        this.setarOutraData = true
+      } else {
+        this.setarOutraData = false
+      }
+      setTimeout(() => {
+        this.toastr.sucessoToastr("Receita atualizada com sucesso!")
+        this.ngOnInit()
+      }, 2000);
 
-        this.toastr.infoToastr("Sua receita está sendo atualizada")
-        if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
-          this.setarOutraData = true
-        } else {
-          this.setarOutraData = false
-        }
-        setTimeout(() => {
-          this.toastr.sucessoToastr("Receita atualizada com sucesso!")
-          this.ngOnInit()
-        }, 2000);
+    }, err => {
+      this.toastr.errorToastr("Erro ao atualizar receita")
+      console.log(err);
 
-      }, err => {
-        this.toastr.errorToastr("Erro ao atualizar receita")
-        console.log(err);
-
-      })
+    })
 
   }
 

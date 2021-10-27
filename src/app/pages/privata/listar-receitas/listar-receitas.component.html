@@ -1,18 +1,28 @@
-<div class="row">
-  <div class="col-12">
-    <h2>Escolhe uma data para visualizar suas receitas</h2>
+<div class="centralizarQuandoCelular">
+
+  <div class="row">
+
+    <div class=" col-12 col-md-9">
+      <h2>Escolhe uma data para visualizar suas receitas</h2>
+    </div>
+
+    <div class=" col-12 col-md-3 aumentarDistanciamento">
+      <button class="btn btn-success" id="botaoValorReceitaMesPesquisado" disabled>
+        <span>Total no mês: {{formatar.aplicarMascaraDinheiro(resultaReceitaMesPesquisado)}}</span>
+      </button>
+    </div>
   </div>
 
-</div>
+  <div class="row aumentarDistanciamento">
 
-<div class="row">
+    <div class=" col-12 col-md-6">
 
-  <div class="col-12">
+      <form [formGroup]="formData">
+        <input class="textbox-n inputData" type="month" formControlName="data" id="date"
+          (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
+      </form>
 
-    <form [formGroup]="formData">
-      <input class="textbox-n inputData" type="month" formControlName="data" id="date"
-        (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
-    </form>
+    </div>
 
   </div>
 
@@ -80,7 +90,7 @@
                             <div class="col-6">
                               <label for="nome">Valor da receita</label>
                               <input class="form-control" type="text" formControlName="valorNovaReceita"
-                              ngModel="{{item.valorReceita}}" currencyMask name="nome" id="nome"
+                                ngModel="{{item.valorReceita}}" currencyMask name="nome" id="nome"
                                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
                             </div>
 
@@ -90,15 +100,16 @@
 
                             <div class="col-4">
                               <label for="nome">Data da receita</label>
-                              <input class="form-control" type="text" disabled 
-                              value="{{dataReceitaModal | date: 'dd/MM/yyyy'}}" name="nome" id="nome">
+                              <input class="form-control" type="text" disabled
+                                value="{{dataReceitaModal | date: 'dd/MM/yyyy'}}" name="nome" id="nome">
                             </div>
 
                           </div>
 
                           <div class="modal-footer">
                             <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" (click)="concluirAtualizarValorReceita()" data-dismiss="modal"  class="btn btn-primary">Salvar
+                            <button type="button" (click)="concluirAtualizarValorReceita()" data-dismiss="modal"
+                              class="btn btn-primary">Salvar
                               alteração</button>
                           </div>
 
@@ -115,7 +126,7 @@
                 <div class="col-5 grudarNaDireita">
                   <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
                     <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir"
-                      title="Excluir"  (click)="pegarIdExclusao(item.id)">
+                      title="Excluir" (click)="pegarIdExclusao(item.id)">
                   </a>
 
 
@@ -145,8 +156,8 @@
                               </div>
 
                               <div class="col-6">
-                                <button class="btn btn-primary btn-sm" (click)="confirmado()"
-                                  data-dismiss="modal" type="button" id="teste" style="float: right;">Sim</button>
+                                <button class="btn btn-primary btn-sm" (click)="confirmado()" data-dismiss="modal"
+                                  type="button" id="teste" style="float: right;">Sim</button>
                               </div>
 
                             </div>

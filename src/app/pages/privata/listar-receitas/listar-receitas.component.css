@@ -47,6 +47,10 @@ input, label {
     vertical-align: middle;
 }
 
+#botaoValorReceitaMesPesquisado {
+    font-size: 1.5em;
+}
+
 .acoesTabela {
     cursor: pointer;
 }
@@ -76,7 +80,12 @@ hr{
     .espacar {
         margin-right: 5em;
     }
-
+    .centralizarQuandoCelular{
+        text-align: center;
+    }
+    .aumentarDistanciamento {
+        margin-top: 1em;
+    }
    
     
     /* #botaoExcluir {
