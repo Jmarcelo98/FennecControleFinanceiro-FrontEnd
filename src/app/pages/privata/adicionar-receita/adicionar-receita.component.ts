@@ -50,16 +50,16 @@ export class AdicionarReceitaComponent implements OnInit {
     }
 
     this.dataString = this.formNovaReceita.get('dataReceita')?.value + environment.FORMATAR_DATA;
-
+    
     const novaReceita: Receita = {
       id: 0,
       nomeReceita: this.formNovaReceita.get('nomeReceita')?.value,
       valorReceita: this.formNovaReceita.get('valorReceita')?.value,
       dataReceita: this.formatadoDate = new Date(this.dataString),
     }
-
+     
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {
-
+    
       this.toastr.sucessoToastr("Receita adicionada com sucesso!")
       this.foiEnviado = false
       this.formNovaReceita.reset();

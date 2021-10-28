@@ -4,9 +4,18 @@
 export const environment = {
   production: false,
   CAMINHO_RAIZ: "http://localhost:8080",
-  FORMATAR_DATA: "T"+new Date().getHours()+":00:00.961Z",
+  FORMATAR_DATA: atribuirZero()
 };
 
+function atribuirZero(): string {
+
+  if (new Date().getHours() < 10) {
+    return "T0" + new Date().getHours() + ":00:00.961Z"
+  } else {
+    return "T" + new Date().getHours() + ":00:00.961Z"
+
+  }
+}
 
 
 /*
