@@ -1,0 +1,31 @@
+<h2 class="centralizar">Painel de Controle</h2>
+
+<div>
+
+  <form [formGroup]="contactForm" (mouseup)="submit()">
+    <p>
+      <select formControlName="anoSelecionado" class="form-select">
+        <option [ngValue]="null" disabled>Selecione o ano</option>
+        <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
+      </select>
+      <!-- <button type="submit" class="btn">Submit</button> -->
+    </p>
+
+  </form>
+
+</div>
+
+
+<div class="card centralizar">
+  <div class="card-body">
+
+    <p class="card-text">
+
+   
+      <canvas #painel></canvas>
+    
+
+    </p>
+
+  </div>
+</div>

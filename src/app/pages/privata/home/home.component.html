@@ -1,113 +1,52 @@
-<div class="centralizar" id="bemVindo">
+<app-painel></app-painel>
+
+<!-- <div class="centralizar" id="bemVindo">
     <span>Seja bem-vindo(a) {{nomeUsuario}} {{sobrenomeUsuario}}!</span>
-</div>
+</div> -->
 
-<div class="centralizar" id="mensagemAqui">
+
+
+
+<!-- <div class="centralizar" id="mensagemAqui">
     Aqui você pode visualizar seu balanço do mês atual
-</div>
+</div> -->
 
+<ng-template #PRANCARREGARMSM>
 
-<div id="espacamentoInicio">
+    <div id="espacamentoInicio">
 
-    <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center">
 
-        <div class="col-12 centralizar">
+            <div class="col-12 centralizar">
 
-            <div class="card">
-                <div class="card-header balanco">
+                <div class="card">
+                    <div class="card-header balanco">
 
-                    <!-- VISÃO BALANÇO DO MÊS ATUAL -->
-                    <div class="row">
+                        <!-- VISÃO BALANÇO DO MÊS ATUAL -->
+                        <div class="row">
 
-                        <div class="col-12">
+                            <div class="col-12">
 
-                            <h3 class=" mt-3">BALANÇO DO MÊS ATUAL</h3>
+                                <h3 class=" mt-3">BALANÇO DO MÊS ATUAL</h3>
 
-                            <button disabled class="btn btnBalanco mt-4"
-                                style="border-color: {{colorBorder}}; border-width: thick;">
-                                <div *ngIf="carregar == true then valor else gif"></div>
-                                <ng-template #gif>
-                                    <img src="../../../../assets/gif/carregando.gif" class="gif">
-                                </ng-template>
-                                <ng-template #valor>
-                                    <div *ngIf="resultado == '----' then NaNRes else NotNaN"></div>
-
-                                    <ng-template #NaNRes>
-                                        <p id="resultadoBalanco">{{resultado}}</p>
+                                <button disabled class="btn btnBalanco mt-4"
+                                    style="border-color: {{colorBorder}}; border-width: thick;">
+                                    <div *ngIf="carregar == true then valor else gif"></div>
+                                    <ng-template #gif>
+                                        <img src="../../../../assets/gif/carregando.gif" class="gif">
                                     </ng-template>
-                                    <ng-template #NotNaN>
-                                        <p id="resultadoBalanco">{{formatar.aplicarMascaraDinheiro(resultado)}}</p>
+                                    <ng-template #valor>
+                                        <div *ngIf="resultado == '----' then NaNRes else NotNaN"></div>
+
+                                        <ng-template #NaNRes>
+                                            <p id="resultadoBalanco">{{resultado}}</p>
+                                        </ng-template>
+                                        <ng-template #NotNaN>
+                                            <p id="resultadoBalanco">{{formatar.aplicarMascaraDinheiro(resultado)}}</p>
+                                        </ng-template>
+
                                     </ng-template>
-
-                                </ng-template>
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- DETALHAR RECEITA E DESPESAS -->
-                <div class="card-body teste">
-                    <h5 class="card-title">CLIQUE ABAIXO PARA DETALHAR</h5>
-
-                    <hr>
-
-                    <div class="row justify-content-md-center">
-
-                        <div class="col-md-6 col-sm-12">
-
-                            <div class="card-text">
-
-                                <div>
-                                    <a href="/receitas">
-                                        <button class="btn btnReceita">
-                                            <div
-                                                *ngIf="valorReceita === 'Você não possuí receitas no mês atual!' then errorReceita else numeroReceita">
-                                            </div>
-
-                                            <ng-template #numeroReceita>
-                                                <span
-                                                    class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorReceita)}}</span>
-                                            </ng-template>
-
-                                            <ng-template #errorReceita>
-                                                <span class="fontTextoSemReceitaEDespesa">{{valorReceita}}</span>
-                                            </ng-template>
-
-                                        </button>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-
-                            <div class="card-text">
-
-                                <div>
-                                    <a href="/despesas">
-                                        <button class="btn btnDespesa">
-
-                                            <div
-                                                *ngIf="valorDespesa == 'Você não possuí despesas no mês atual!' then errorDespesa else numeroDespesa">
-                                            </div>
-
-                                            <ng-template #numeroDespesa>
-                                                <span
-                                                    class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorDespesa)}}</span>
-                                            </ng-template>
-
-                                            <ng-template #errorDespesa>
-                                                <span class="fontTextoSemReceitaEDespesa">{{valorDespesa}}</span>
-                                            </ng-template>
-
-                                        </button>
-                                    </a>
-                                </div>
+                                </button>
 
                             </div>
 
@@ -115,71 +54,139 @@
 
                     </div>
 
+                    <!-- DETALHAR RECEITA E DESPESAS -->
+                    <div class="card-body teste">
+                        <h5 class="card-title">CLIQUE ABAIXO PARA DETALHAR</h5>
+
+                        <hr>
+
+                        <div class="row justify-content-md-center">
+
+                            <div class="col-md-6 col-sm-12">
+
+                                <div class="card-text">
+
+                                    <div>
+                                        <a href="/receitas">
+                                            <button class="btn btnReceita">
+                                                <div
+                                                    *ngIf="valorReceita === 'Você não possuí receitas no mês atual!' then errorReceita else numeroReceita">
+                                                </div>
+
+                                                <ng-template #numeroReceita>
+                                                    <span
+                                                        class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorReceita)}}</span>
+                                                </ng-template>
+
+                                                <ng-template #errorReceita>
+                                                    <span class="fontTextoSemReceitaEDespesa">{{valorReceita}}</span>
+                                                </ng-template>
+
+                                            </button>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+
+                                <div class="card-text">
+
+                                    <div>
+                                        <a href="/despesas">
+                                            <button class="btn btnDespesa">
+
+                                                <div
+                                                    *ngIf="valorDespesa == 'Você não possuí despesas no mês atual!' then errorDespesa else numeroDespesa">
+                                                </div>
+
+                                                <ng-template #numeroDespesa>
+                                                    <span
+                                                        class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorDespesa)}}</span>
+                                                </ng-template>
+
+                                                <ng-template #errorDespesa>
+                                                    <span class="fontTextoSemReceitaEDespesa">{{valorDespesa}}</span>
+                                                </ng-template>
+
+                                            </button>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
+
+
+                <div id="espacamentoInicio">
+
+
+                </div>
+
+
             </div>
-
-
-            <div id="espacamentoInicio">
-
-
-            </div>
-
 
         </div>
 
     </div>
 
-</div>
+    <hr id="hrAposBoasVindas">
 
-<hr id="hrAposBoasVindas">
+    <div id="espacamentoBemVindo" class="centralizar">
 
-<div id="espacamentoBemVindo" class="centralizar">
+        <div>
+            <span>Para adicionar um novo registro financeiro</span>
+            <p>clique no botão abaixo</p>
+        </div>
 
-    <div>
-        <span>Para adicionar um novo registro financeiro</span>
-        <p>clique no botão abaixo</p>
-    </div>
+        <div>
+            <a role="button" class="btn ajustar" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                <button class="btn btn-primary ">Adicionar novo registro</button>
+            </a>
+        </div>
 
-    <div>
-        <a role="button" class="btn ajustar" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-            aria-expanded="true" aria-controls="collapseOne">
-            <button class="btn btn-primary ">Adicionar novo registro</button>
-        </a>
-    </div>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel">
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
 
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel">
-            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
+                    <div class="row" id="espacamentoBemVindo">
 
-                <div class="row" id="espacamentoBemVindo">
+                        <div class="col-12 col-md-6 centralizar">
+                            <a href="/nova-receita">
+                                <button class="btn" id="botaoNovaReceita">
+                                    <span>Nova receita</span>
+                                </button>
+                            </a>
+                        </div>
 
-                    <div class="col-12 col-md-6 centralizar">
-                        <a href="/nova-receita">
-                            <button class="btn" id="botaoNovaReceita">
-                                <span>Nova receita</span>
-                            </button>
-                        </a>
+                        <div class="col-12 col-md-6 centralizar espacoEntreBotoesNovoRegistro">
+                            <a href="/nova-despesa">
+                                <button class="btn" id="botaoNovaDespesa">
+                                    <span>Nova despesa</span>
+                                </button>
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="col-12 col-md-6 centralizar espacoEntreBotoesNovoRegistro">
-                        <a href="/nova-despesa">
-                            <button class="btn" id="botaoNovaDespesa">
-                                <span>Nova despesa</span>
-                            </button>
-                        </a>
-                    </div>
+                    <hr id="hrAposClicarBotao">
+
                 </div>
-
-                <hr id="hrAposClicarBotao">
-
             </div>
         </div>
-    </div>
 
 
-    <!-- <a href="/nova-receita">
+        <!-- <a href="/nova-receita">
         <button class="btn" id="botaoNovaReceita">
             <span>Adiconar nova receita</span>
         </button>
     </a> -->
-</div>
+    </div>
+</ng-template>

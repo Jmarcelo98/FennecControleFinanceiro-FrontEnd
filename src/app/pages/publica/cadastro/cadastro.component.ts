@@ -30,7 +30,6 @@ export class CadastroComponent implements OnInit {
 
   constructor(private autenticacaoService: AutenticacaoService, private cadastroService: CadastroService, private router: Router, private formBuilder: FormBuilder) { }
 
-
   ngOnInit(): void {
 
     if (this.autenticacaoService.estaAutenticado()) {

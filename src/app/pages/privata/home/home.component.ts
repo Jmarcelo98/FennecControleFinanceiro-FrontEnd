@@ -4,6 +4,9 @@ import { Usuario } from 'src/app/models/usuario';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { DespesasService } from 'src/app/services/despesas.service';
 import { ReceitaService } from 'src/app/services/receita.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { PainelService } from 'src/app/services/painel.service';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +14,10 @@ import { ReceitaService } from 'src/app/services/receita.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+  contactForm:FormGroup;
+ 
+  anos: any;
 
   carregar = false;
 
@@ -25,14 +32,17 @@ export class HomeComponent implements OnInit {
 
   colorBorder = "green";
 
-  constructor(private autenticao: AutenticacaoService, private despesaService: DespesasService, private receitaService: ReceitaService) { }
+  constructor(private fb:FormBuilder, 
+    private autenticao: AutenticacaoService,
+     private despesaService: DespesasService,
+      private receitaService: ReceitaService,
+      private painelService: PainelService) { }
 
   async ngOnInit() {
-
-    if (this.autenticao.estaAutenticado()) {
-      this.nomeUsuario = this.autenticao.getNomeUsuario()
-      this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
-    }
+    // if (this.autenticao.estaAutenticado()) {
+    //   this.nomeUsuario = this.autenticao.getNomeUsuario()
+    //   this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
+    // }
 
     await this.despesaService.valorDespesaMesAtual().toPromise().then(
       responseDespesa => this.valorDespesa = responseDespesa
@@ -69,9 +79,5 @@ export class HomeComponent implements OnInit {
 
     this.carregar = true
   }
-
-  // getFormattedPrice(valor: number) {
-  //   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-  // }
 
 }

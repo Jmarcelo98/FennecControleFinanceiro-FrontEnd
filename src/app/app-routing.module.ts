@@ -6,6 +6,7 @@ import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adi
 import { HomeComponent } from './pages/privata/home/home.component';
 import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
+import { NovaSenhaComponent } from './pages/privata/nova-senha/nova-senha.component';
 import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
 import { LoginComponent } from './pages/publica/login/login.component';
 
@@ -42,6 +43,9 @@ const routes: Routes = [
     path: "nova-despesa",
     canActivate: [AuthGuardService],
     component: AdicionarDespesaComponent
+  },
+  {path: "nova-senha",
+  component: NovaSenhaComponent
   }
 ];
 
