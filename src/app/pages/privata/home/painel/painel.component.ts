@@ -1,8 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as Chart from 'chart.js';
+import { PainelDespesa } from 'src/app/models/painelDespesa';
 import { PainelReceita } from 'src/app/models/painelReceita';
+import { PainelValoresFinaisAnuais } from 'src/app/models/painelValoresFinaisAnuais';
 import { PainelService } from 'src/app/services/painel.service';
+import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 
 @Component({
   selector: 'app-painel',
@@ -15,17 +18,23 @@ export class PainelComponent implements OnInit {
 
   anos: any;
 
+  anoNoChart: number
+
   lineChartValorReceita: number[] = [];
 
   lineChartValorDespesa: number[] = [];
 
-  anoNoChart: number
+  painelValoresFinaisAnuais: PainelValoresFinaisAnuais = new PainelValoresFinaisAnuais();
+
+  formatar: FormatarPrice = new FormatarPrice();
 
   public myChart: Chart
 
   anoAtual = new Date().getFullYear().toString();
 
   painelReceita: Array<PainelReceita> = []
+
+  painelDespesa: Array<PainelDespesa> = []
 
   @ViewChild("painel", { static: true }) elemento: ElementRef;
 
@@ -50,11 +59,10 @@ export class PainelComponent implements OnInit {
   }
 
   chart() {
-
     this.myChart = new Chart(this.elemento.nativeElement, {
       type: "line",
       data: {
-        labels: ["Jan", "Fev", "Mar", "Abr", "Maio", "Jun", "Jul", "Agos", "Set", "Out", "Nov", "Dez"],
+        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
         datasets: [
           {
             data: [this.lineChartValorReceita[0], this.lineChartValorReceita[1], this.lineChartValorReceita[2],
@@ -71,7 +79,10 @@ export class PainelComponent implements OnInit {
             pointRadius: 5,
           },
           {
-            data: [31, 44, 13, 552, 2343, 531, 122, 3, 441, 11, 22, 314],
+            data: [this.lineChartValorDespesa[0], this.lineChartValorDespesa[1], this.lineChartValorDespesa[2],
+            this.lineChartValorDespesa[3], this.lineChartValorDespesa[4], this.lineChartValorDespesa[5],
+            this.lineChartValorDespesa[6], this.lineChartValorDespesa[7], this.lineChartValorDespesa[8],
+            this.lineChartValorDespesa[9], this.lineChartValorDespesa[10], this.lineChartValorDespesa[11]],
             label: "Despesas",
             backgroundColor: 'rgba(255, 0, 0, 0.15)',
             borderColor: 'rgba(255, 0, 0)',
@@ -83,29 +94,36 @@ export class PainelComponent implements OnInit {
           }
         ],
       }, options: {
-        title: {
-          display: true,
-          fontSize: 35,
-          text: "Resultado do balanço anual",
-        }, legend: {
+        legend: {
           labels: {
-            fontSize: 20
-          }
-        }
-      }
+            fontSize: 20,
+            boxWidth: 50,
+            fontColor: "black",
+          }, position: 'top',
+          align: 'end',
+        },
+      },
     });
 
     this.anoNoChart = this.contactForm.get('anoSelecionado')?.value
   }
 
   async submit() {
+
+    await this.painelService.valoresFinaisAnuais(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
+      a => {
+        this.painelValoresFinaisAnuais = a
+      }
+    ).catch(err => {
+      console.log(err);
+    })
+
     this.lineChartValorReceita = []
     this.lineChartValorDespesa = []
 
-    await this.painelService.valoresReceitaPorAno(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
-      a => {
-        this.painelReceita = a;
-
+    await this.painelService.listaValoresReceitaPorAno(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
+      receita => {
+        this.painelReceita = receita;
         for (let i = 1; i <= 12; i++) {
 
           if (this.painelReceita.find(x => x.dataReceita == i)?.dataReceita == undefined) {
@@ -115,8 +133,30 @@ export class PainelComponent implements OnInit {
           }
         }
 
-        if (this.contactForm.get('anoSelecionado')?.value != this.anoNoChart) {
+        // if (this.contactForm.get('anoSelecionado')?.value != this.anoNoChart) {
+        //   this.myChart.destroy()
+        //   this.chart()
+        // }
 
+      }
+    ).catch(err => {
+      console.log(err);
+    })
+
+    await this.painelService.listaValoresDespesaPorAno(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
+      despesa => {
+        this.painelDespesa = despesa;
+
+        for (let i = 1; i <= 12; i++) {
+
+          if (this.painelDespesa.find(x => x.dataDespesa == i)?.dataDespesa == undefined) {
+            this.lineChartValorDespesa.push(0)
+          } else {
+            this.lineChartValorDespesa.push(this.painelDespesa.find(x => x.dataDespesa == i)?.valorTotalDespesa!)
+          }
+        }
+
+        if (this.contactForm.get('anoSelecionado')?.value != this.anoNoChart) {
           this.myChart.destroy()
           this.chart()
         }
@@ -125,6 +165,7 @@ export class PainelComponent implements OnInit {
     ).catch(err => {
       console.log(err);
     })
+
   }
 
 }

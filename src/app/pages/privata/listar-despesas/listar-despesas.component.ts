@@ -190,7 +190,7 @@ export class ListarDespesasComponent implements OnInit, AfterViewChecked {
           this.setarOutraData = false
         }
         setTimeout(() => {
-          this.toastr.sucessoToastr("despesa removida com sucesso!");
+          this.toastr.sucessoToastr("Despesa removida com sucesso!");
           this.ngOnInit();
         }, 2000);
 

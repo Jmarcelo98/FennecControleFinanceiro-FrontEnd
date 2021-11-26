@@ -4,7 +4,7 @@
 
   <form [formGroup]="contactForm" (mouseup)="submit()">
     <p>
-      <select formControlName="anoSelecionado" class="form-select" [value]="anoAtual" >
+      <select formControlName="anoSelecionado" class="form-select" [value]="anoAtual">
         <!-- <option [ngValue]="anoAtual" disabled>Selecione o ano</option> -->
         <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
       </select>
@@ -18,11 +18,34 @@
 
 <div class="card centralizar">
   <div class="card-body">
+    <h2 class="card-title">Resultado do balanço anual</h2>
 
-    <p class="card-text">
+    <div class="row justify-content-center" id="espacamento">
 
+      <div class="col-md-4 col-12">
+        <button type="button"  class="btn btn-outline-success" title="Receita"
+          id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualReceita)}}</button>
+      </div>
+
+      <div class="col-md-4 col-12">
+        <button class="btn btn-outline-danger" title="Despesa"
+          id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualDespesa)}}</button>
+      </div>
+
+      <div class="col-md-4 col-12">
+        <button class="btn btn-outline-info" title="Saldo Final"
+          id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.saldoFinalAnual)}}</button>
+      </div>
+
+    </div>
+
+
+    <!-- <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div> -->
+
+    <p class="card-text" id="espacamento">
       <canvas #painel></canvas>
-  
     </p>
 
   </div>

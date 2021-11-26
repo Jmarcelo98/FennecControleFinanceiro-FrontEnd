@@ -1,3 +1,52 @@
 .form-select {
     width: 15em;
 }
+
+.centralizar {
+    text-align: center;
+}
+
+#espacamento {
+    margin-top: 2em;
+}
+
+.btn {
+    color: black;
+    width: 13em;
+    height: 3em;
+}
+
+#botaoReceita {
+    background-color: rgba(0, 255, 0, 0.15);
+    cursor: auto;
+}
+
+
+#botaoDespesa {
+    background-color: rgba(255, 0, 0, 0.15);
+    cursor: auto;
+}
+
+#botaoSaldoFinal {
+    background-color: rgba(178, 208, 224, 0.15);
+    cursor: auto;
+}
+
+
+@media screen and (max-width: 767px) {
+
+    #botaoReceita {
+        margin-bottom: 1em;
+    } 
+    #botaoDespesa{
+        margin-bottom: 1em;
+    }
+
+   
+    
+    /* #botaoExcluir {
+        margin-top: 1em;
+        margin-left: 0%;
+    } */
+
+  }
