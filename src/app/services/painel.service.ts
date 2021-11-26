@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { PainelReceita } from '../models/painelReceita';
 import { AutenticacaoService } from './autenticacao.service';
 
 @Injectable({
@@ -14,6 +15,11 @@ export class PainelService {
 
   anosDashboard() {
     return this.httpClient.get<string[]>(this.CAMINHO_API,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  }
+
+  valoresReceitaPorAno(ano: string) {
+    return this.httpClient.get<PainelReceita[]>(`${this.CAMINHO_API}/${ano}`,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
   }
 
