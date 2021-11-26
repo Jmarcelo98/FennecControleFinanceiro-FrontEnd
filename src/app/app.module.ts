@@ -20,6 +20,7 @@ import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adi
 import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
 import { NovaSenhaComponent } from './pages/privata/nova-senha/nova-senha.component';
 import { PainelComponent } from './pages/privata/home/painel/painel.component';
+import { SelecioneUmAnoComponent } from './pages/privata/home/selecione-um-ano/selecione-um-ano.component';
 
 
 export function tokenGetter() {
@@ -39,6 +40,7 @@ export function tokenGetter() {
     ListarDespesasComponent,
     NovaSenhaComponent,
     PainelComponent,
+    SelecioneUmAnoComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -13,7 +13,7 @@ import { isNull } from '@angular/compiler/src/output/output_ast';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   contactForm:FormGroup;
  
@@ -38,46 +38,46 @@ export class HomeComponent implements OnInit {
       private receitaService: ReceitaService,
       private painelService: PainelService) { }
 
-  async ngOnInit() {
-    // if (this.autenticao.estaAutenticado()) {
-    //   this.nomeUsuario = this.autenticao.getNomeUsuario()
-    //   this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
-    // }
+  // async ngOnInit() {
+  //   // if (this.autenticao.estaAutenticado()) {
+  //   //   this.nomeUsuario = this.autenticao.getNomeUsuario()
+  //   //   this.sobrenomeUsuario = this.autenticao.getSobreNomeUsuario();
+  //   // }
 
-    await this.despesaService.valorDespesaMesAtual().toPromise().then(
-      responseDespesa => this.valorDespesa = responseDespesa
-    ).catch(err => {
-      this.valorDespesa = err.error;
-    })
+  //   await this.despesaService.valorDespesaMesAtual().toPromise().then(
+  //     responseDespesa => this.valorDespesa = responseDespesa
+  //   ).catch(err => {
+  //     this.valorDespesa = err.error;
+  //   })
 
-    await this.receitaService.valorReceitaMesAtual().toPromise().then(
-      responseReceita => this.valorReceita = responseReceita
-    ).catch(err => {
-      this.valorReceita = err.error;
+  //   await this.receitaService.valorReceitaMesAtual().toPromise().then(
+  //     responseReceita => this.valorReceita = responseReceita
+  //   ).catch(err => {
+  //     this.valorReceita = err.error;
 
-    })
+  //   })
 
 
-    if (typeof (this.valorReceita) === 'string' && typeof (this.valorDespesa) == 'string') {
-      this.valorReceita = 0.0;
-      this.valorDespesa = 0.0;
-    } else if (typeof (this.valorReceita) == 'string') {
-      this.valorReceita = 0.0
-    } else if (typeof (this.valorDespesa) == 'string') {
-      this.valorDespesa = 0.0
-    }
+  //   if (typeof (this.valorReceita) === 'string' && typeof (this.valorDespesa) == 'string') {
+  //     this.valorReceita = 0.0;
+  //     this.valorDespesa = 0.0;
+  //   } else if (typeof (this.valorReceita) == 'string') {
+  //     this.valorReceita = 0.0
+  //   } else if (typeof (this.valorDespesa) == 'string') {
+  //     this.valorDespesa = 0.0
+  //   }
 
-    this.resultado = this.valorReceita - this.valorDespesa
+  //   this.resultado = this.valorReceita - this.valorDespesa
 
-    if (this.resultado > 0) {
-      this.colorBorder = "green"
-    } else if (this.resultado < 0) {
-      this.colorBorder = "red"
-    } else {
-      this.colorBorder = "gray"
-    }
+  //   if (this.resultado > 0) {
+  //     this.colorBorder = "green"
+  //   } else if (this.resultado < 0) {
+  //     this.colorBorder = "red"
+  //   } else {
+  //     this.colorBorder = "gray"
+  //   }
 
-    this.carregar = true
-  }
+  //   this.carregar = true
+  // }
 
 }

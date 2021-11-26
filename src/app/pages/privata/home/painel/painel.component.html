@@ -1,52 +1,53 @@
-<h2>Painel de Controle</h2>
+<div *ngIf="anos.length > 0 then podeMostrar else naoPodeMostrar"></div>
 
-<div>
+<ng-template #podeMostrar>
+  <h2>Painel de Controle</h2>
 
-  <form [formGroup]="contactForm" (mouseup)="submit()">
-    <p>
-      <select formControlName="anoSelecionado" class="form-select" [value]="anoAtual">
-        <!-- <option [ngValue]="anoAtual" disabled>Selecione o ano</option> -->
-        <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
-      </select>
-      <!-- <button type="submit" class="btn">Submit</button> -->
-    </p>
+  <div>
 
-  </form>
+    <form [formGroup]="contactForm" (mouseup)="submit()">
+      <p>
+        <select formControlName="anoSelecionado" class="form-select" [value]="anos[0]">
+          <!-- <option [value]="pegarAnoMaisRecente()" disabled>Selecione o ano</option> -->
+          <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
+        </select>
+      </p>
 
-</div>
-
-
-<div class="card centralizar">
-  <div class="card-body">
-    <h2 class="card-title">Resultado do balanço anual</h2>
-
-    <div class="row justify-content-center" id="espacamento">
-
-      <div class="col-md-4 col-12">
-        <button type="button"  class="btn btn-outline-success" title="Receita"
-          id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualReceita)}}</button>
-      </div>
-
-      <div class="col-md-4 col-12">
-        <button class="btn btn-outline-danger" title="Despesa"
-          id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualDespesa)}}</button>
-      </div>
-
-      <div class="col-md-4 col-12">
-        <button class="btn btn-outline-info" title="Saldo Final"
-          id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.saldoFinalAnual)}}</button>
-      </div>
-
-    </div>
-
-
-    <!-- <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
-    </div> -->
-
-    <p class="card-text" id="espacamento">
-      <canvas #painel></canvas>
-    </p>
+    </form>
 
   </div>
-</div>
+
+  <div class="card centralizar">
+    <div class="card-body">
+      <h2 class="card-title">Resultado do balanço anual</h2>
+
+      <div class="row justify-content-center" id="espacamento">
+
+        <div class="col-md-4 col-12">
+          <button type="button" class="btn btn-outline-success" title="Receita"
+            id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualReceita)}}</button>
+        </div>
+
+        <div class="col-md-4 col-12">
+          <button class="btn btn-outline-danger" title="Despesa"
+            id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualDespesa)}}</button>
+        </div>
+
+        <div class="col-md-4 col-12">
+          <button class="btn btn-outline-info" title="Saldo Final"
+            id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.saldoFinalAnual)}}</button>
+        </div>
+
+      </div>
+
+      <p class="card-text" id="espacamento">
+        <canvas #painel style="height: 400px;"></canvas>
+      </p>
+
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #naoPodeMostrar>
+  <app-selecione-um-ano></app-selecione-um-ano>
+</ng-template>

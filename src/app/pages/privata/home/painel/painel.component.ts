@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import * as Chart from 'chart.js';
+import * as moment from 'moment';
 import { PainelDespesa } from 'src/app/models/painelDespesa';
 import { PainelReceita } from 'src/app/models/painelReceita';
 import { PainelValoresFinaisAnuais } from 'src/app/models/painelValoresFinaisAnuais';
@@ -14,9 +15,7 @@ import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 })
 export class PainelComponent implements OnInit {
 
-  contactForm: FormGroup;
-
-  anos: any;
+  anos: string[] = [];
 
   anoNoChart: number
 
@@ -30,32 +29,41 @@ export class PainelComponent implements OnInit {
 
   public myChart: Chart
 
+  contactForm = this.fb.group({
+    anoSelecionado: [null]
+  })
+
   anoAtual = new Date().getFullYear().toString();
+  anoMaisRecente: string;
 
   painelReceita: Array<PainelReceita> = []
 
   painelDespesa: Array<PainelDespesa> = []
 
-  @ViewChild("painel", { static: true }) elemento: ElementRef;
+  @ViewChild("painel", { static: false }) elemento: ElementRef 
 
   constructor(private painelService: PainelService, private fb: FormBuilder) { }
 
   async ngOnInit() {
 
-    this.contactForm = this.fb.group({
-      anoSelecionado: [this.anoAtual]
-    })
+    moment.locale('pt-BR');
 
-    this.painelService.anosDashboard().subscribe(anosResultado => {
+    await this.painelService.anosDashboard().toPromise().then(anosResultado => {
       this.anos = anosResultado
-    }, err => {
+    }).catch(err => {
       console.log(err);
     })
 
-    await this.submit()
+    if (this.anos.length > 0) {
+      this.contactForm = this.fb.group({
+        anoSelecionado: [this.anos[0]]
+      })
+      await this.submit()
+      await this.chart()
+    }
 
-    await this.chart()
-
+    console.log(this.anos.length);
+    
   }
 
   chart() {
@@ -100,11 +108,11 @@ export class PainelComponent implements OnInit {
             boxWidth: 50,
             fontColor: "black",
           }, position: 'top',
-          align: 'end',
-        },
+          align: 'end', 
+        }, maintainAspectRatio: false
       },
     });
-
+    
     this.anoNoChart = this.contactForm.get('anoSelecionado')?.value
   }
 
@@ -132,12 +140,6 @@ export class PainelComponent implements OnInit {
             this.lineChartValorReceita.push(this.painelReceita.find(x => x.dataReceita == i)?.valorTotalReceita!)
           }
         }
-
-        // if (this.contactForm.get('anoSelecionado')?.value != this.anoNoChart) {
-        //   this.myChart.destroy()
-        //   this.chart()
-        // }
-
       }
     ).catch(err => {
       console.log(err);
