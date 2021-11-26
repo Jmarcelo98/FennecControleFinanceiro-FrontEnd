@@ -6,6 +6,7 @@ import { PainelDespesa } from 'src/app/models/painelDespesa';
 import { PainelReceita } from 'src/app/models/painelReceita';
 import { PainelValoresFinaisAnuais } from 'src/app/models/painelValoresFinaisAnuais';
 import { PainelService } from 'src/app/services/painel.service';
+import { ToastrServiceClasse } from 'src/app/services/toastr.service';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 
 @Component({
@@ -42,7 +43,7 @@ export class PainelComponent implements OnInit {
 
   @ViewChild("painel", { static: false }) elemento: ElementRef 
 
-  constructor(private painelService: PainelService, private fb: FormBuilder) { }
+  constructor(private painelService: PainelService, private fb: FormBuilder, private toastr: ToastrServiceClasse) { }
 
   async ngOnInit() {
 
@@ -60,9 +61,9 @@ export class PainelComponent implements OnInit {
       })
       await this.submit()
       await this.chart()
+    } else {
+      this.toastr.infoToastr("Adicione uma receita ou despesa para visualizar o painel!")
     }
-
-    console.log(this.anos.length);
     
   }
 
