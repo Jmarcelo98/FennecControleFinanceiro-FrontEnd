@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutenticacaoService } from './services/autenticacao.service';
 import { ServerOnService } from './services/server-on.service';
@@ -10,7 +10,6 @@ import { ServerOnService } from './services/server-on.service';
 })
 
 
-
 export class AppComponent implements OnInit {
 
   constructor(public router: Router, private autenticacao: AutenticacaoService, private serverOnService: ServerOnService) { }
@@ -19,7 +18,17 @@ export class AppComponent implements OnInit {
 
   isLogado?: boolean = false
 
+  container = "container-fluid"
+
   serverOn: boolean
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    const a = event.target.innerWidth;
+    if (a == 991) {
+      this.container = "container-fluid"
+    }
+  }
 
   async ngOnInit() {
 
@@ -32,7 +41,7 @@ export class AppComponent implements OnInit {
     })
 
     if (!this.serverOn) {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload()
       }, 10000)
     }
