@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import * as Chart from 'chart.js';
 import { Painel } from 'src/app/models/painel';
@@ -14,13 +14,13 @@ import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 })
 export class PainelComponent implements OnInit {
 
+  carregou: boolean;
+
   anos: string[] = [];
 
   lineChartValorReceita: number[] = [];
 
   lineChartValorDespesa: number[] = [];
-
-  anoNoChart: number
 
   painelValoresBotoes: PainelValoresFinaisAnuais = new PainelValoresFinaisAnuais();
 
@@ -37,6 +37,8 @@ export class PainelComponent implements OnInit {
   @ViewChild("painel", { static: false }) elemento: ElementRef
 
   constructor(private painelService: PainelService, private fb: FormBuilder, private toastr: ToastrServiceClasse) { }
+
+
 
   async ngOnInit() {
 
@@ -58,6 +60,7 @@ export class PainelComponent implements OnInit {
   }
 
   async chart() {
+    
     this.myChart = new Chart(this.elemento.nativeElement, {
       type: "line",
       data: {
@@ -103,9 +106,6 @@ export class PainelComponent implements OnInit {
         }, maintainAspectRatio: false
       },
     });
-
-    this.anoNoChart = this.contactForm.get('anoSelecionado')?.value
-
   }
 
   async submit() {
@@ -115,7 +115,7 @@ export class PainelComponent implements OnInit {
 
     await this.painelService.painel(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
       painelResultados => {
-        this.painelValores = painelResultados  
+        this.painelValores = painelResultados
       }
     ).catch(err => {
       console.log(err);
@@ -141,8 +141,7 @@ export class PainelComponent implements OnInit {
     this.painelValoresBotoes.valorAnualReceita = this.painelValores.painelValoresAnuaisESaldo.valorAnualReceita
     this.painelValoresBotoes.valorAnualDespesa = this.painelValores.painelValoresAnuaisESaldo.valorAnualDespesa
 
-
-     await this.chart()
+    await this.chart()
   }
 
   novoChart() {

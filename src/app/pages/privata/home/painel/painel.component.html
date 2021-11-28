@@ -1,18 +1,15 @@
 <div *ngIf="anos.length > 0 then podeMostrar else naoPodeMostrar"></div>
 
 <ng-template #podeMostrar>
+
   <h2>Painel de Controle</h2>
-
   <div>
-
     <form [formGroup]="contactForm" (mouseup)="novoChart()">
       <p>
         <select formControlName="anoSelecionado" class="form-select" [value]="anos[0]">
-          <!-- <option [value]="pegarAnoMaisRecente()" disabled>Selecione o ano</option> -->
           <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
         </select>
       </p>
-
     </form>
 
   </div>
@@ -23,29 +20,36 @@
 
       <div class="row justify-content-center" id="espacamento">
 
-        <div class="col-md-4 col-12">
-          <button type="button" class="btn btn-outline-success" title="Receita"
-            id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualReceita)}}</button>
-        </div>
+          <div class="col-md-4 col-12">
+            <button type="button" class="btn btn-outline-success" title="Receita"
+              id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualReceita)}}</button>
+          </div>
 
-        <div class="col-md-4 col-12">
-          <button class="btn btn-outline-danger" title="Despesa"
-            id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualDespesa)}}</button>
-        </div>
+          <div class="col-md-4 col-12">
+            <button class="btn btn-outline-danger" title="Despesa"
+              id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualDespesa)}}</button>
+          </div>
 
-        <div class="col-md-4 col-12">
-          <button class="btn btn-outline-info" title="Saldo Final"
-            id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.saldoFinalAnual)}}</button>
-        </div>
+          <div class="col-md-4 col-12">
+            <button class="btn btn-outline-info" title="Saldo Final"
+              id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.saldoFinalAnual)}}</button>
+          </div>
+
+          <p class="card-text" id="espacamento">
+            <canvas #painel style="height: 400px;"></canvas>
+          </p>
+
+        <!-- <ng-template #nPode>
+          <div class="spinner-grow" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </ng-template> -->
 
       </div>
 
-      <p class="card-text" id="espacamento">
-        <canvas #painel style="height: 400px;"></canvas>
-      </p>
-
     </div>
   </div>
+
 </ng-template>
 
 <ng-template #naoPodeMostrar>
