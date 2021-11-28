@@ -79,6 +79,7 @@ export class PainelComponent implements OnInit {
             borderColor: "#00FF7F",
             pointHoverBorderColor: 'rgba(0, 255, 0, 0.7)',
             pointHoverBackgroundColor: '#fff',
+            cubicInterpolationMode: "monotone",
             pointBorderColor: '#fff',
             pointRadius: 5,
           },
@@ -87,15 +88,17 @@ export class PainelComponent implements OnInit {
             this.lineChartValorDespesa[3], this.lineChartValorDespesa[4], this.lineChartValorDespesa[5],
             this.lineChartValorDespesa[6], this.lineChartValorDespesa[7], this.lineChartValorDespesa[8],
             this.lineChartValorDespesa[9], this.lineChartValorDespesa[10], this.lineChartValorDespesa[11]],
-            label: "Despesas",
+            label: "Despesas", 
             backgroundColor: 'rgba(255, 0, 0, 0.15)',
             borderColor: 'rgba(255, 0, 0)',
             pointBackgroundColor: 'rgba(255, 0, 0)',
+            cubicInterpolationMode: "monotone",
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointRadius: 5,
             pointHoverBorderColor: 'rgba(255, 0, 0, 0.7)',
-          },   {
+          },   
+          {
             data: [this.linheChartSaldoFinal[0], this.linheChartSaldoFinal[1], this.linheChartSaldoFinal[2],
             this.linheChartSaldoFinal[3], this.linheChartSaldoFinal[4], this.linheChartSaldoFinal[5],
             this.linheChartSaldoFinal[6], this.linheChartSaldoFinal[7], this.linheChartSaldoFinal[8],
@@ -103,6 +106,7 @@ export class PainelComponent implements OnInit {
             label: "Saldo Final",
             backgroundColor: 'rgba(51, 153, 255, 0.3)',
             borderColor: 'rgba(51, 153, 255)',
+            cubicInterpolationMode: "monotone",
             pointBackgroundColor: 'rgba(51, 153, 255)',
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
@@ -115,10 +119,11 @@ export class PainelComponent implements OnInit {
           labels: {
             fontSize: 20,
             boxWidth: 50,
+            usePointStyle: true,
             fontColor: "black",
-          }, position: 'top',
-          align: 'end',
-        }, maintainAspectRatio: false
+          },  position: 'top',
+          align: 'center',
+        }, maintainAspectRatio: false, 
       },
     });
   }
@@ -127,6 +132,7 @@ export class PainelComponent implements OnInit {
 
     this.lineChartValorReceita = []
     this.lineChartValorDespesa = []
+    this.linheChartSaldoFinal = []
 
     await this.painelService.painel(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
       painelResultados => {
