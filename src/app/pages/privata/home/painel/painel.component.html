@@ -5,7 +5,7 @@
 
   <div>
 
-    <form [formGroup]="contactForm" (mouseup)="submit()">
+    <form [formGroup]="contactForm" (mouseup)="novoChart()">
       <p>
         <select formControlName="anoSelecionado" class="form-select" [value]="anos[0]">
           <!-- <option [value]="pegarAnoMaisRecente()" disabled>Selecione o ano</option> -->
@@ -25,17 +25,17 @@
 
         <div class="col-md-4 col-12">
           <button type="button" class="btn btn-outline-success" title="Receita"
-            id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualReceita)}}</button>
+            id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualReceita)}}</button>
         </div>
 
         <div class="col-md-4 col-12">
           <button class="btn btn-outline-danger" title="Despesa"
-            id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.valorAnualDespesa)}}</button>
+            id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualDespesa)}}</button>
         </div>
 
         <div class="col-md-4 col-12">
           <button class="btn btn-outline-info" title="Saldo Final"
-            id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresFinaisAnuais.saldoFinalAnual)}}</button>
+            id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.saldoFinalAnual)}}</button>
         </div>
 
       </div>

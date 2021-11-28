@@ -1,4 +1,4 @@
-export interface PainelDespesa {
+export interface painelGraficoDespesa {
     valorTotalDespesa: number;
     dataDespesa: number;
 }
