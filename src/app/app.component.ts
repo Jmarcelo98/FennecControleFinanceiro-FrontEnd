@@ -34,6 +34,12 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
 
+    if (window.screen.width == 991) {
+      this.container = "container-fluid"
+    } else {
+      this.container = "container"
+    }
+
     await this.serverOnService.verificarStatus().toPromise().then(
       responseServer => this.serverOn = responseServer
     ).catch(err => {
