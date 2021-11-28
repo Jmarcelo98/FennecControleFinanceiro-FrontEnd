@@ -18,15 +18,17 @@ export class AppComponent implements OnInit {
 
   isLogado?: boolean = false
 
-  container = "container-fluid"
+  container = "container"
 
   serverOn: boolean
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    const a = event.target.innerWidth;
+    const a = event.target.innerWidth;  
     if (a == 991) {
       this.container = "container-fluid"
+    } else {
+      this.container = "container"
     }
   }
 
