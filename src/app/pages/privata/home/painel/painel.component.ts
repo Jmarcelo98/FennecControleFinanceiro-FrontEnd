@@ -22,23 +22,25 @@ export class PainelComponent implements OnInit {
 
   lineChartValorDespesa: number[] = [];
 
+  linheChartSaldoFinal: number[] = [];
+
   painelValoresBotoes: PainelValoresFinaisAnuais = new PainelValoresFinaisAnuais();
 
   formatar: FormatarPrice = new FormatarPrice();
 
-  public myChart: Chart
+  public myChart: Chart;
+
+  painelValores: Painel;
+
 
   contactForm = this.fb.group({
     anoSelecionado: [null]
   })
 
-  painelValores: Painel
 
   @ViewChild("painel", { static: false }) elemento: ElementRef
 
   constructor(private painelService: PainelService, private fb: FormBuilder, private toastr: ToastrServiceClasse) { }
-
-
 
   async ngOnInit() {
 
@@ -60,7 +62,7 @@ export class PainelComponent implements OnInit {
   }
 
   async chart() {
-    
+
     this.myChart = new Chart(this.elemento.nativeElement, {
       type: "line",
       data: {
@@ -93,6 +95,19 @@ export class PainelComponent implements OnInit {
             pointHoverBackgroundColor: '#fff',
             pointRadius: 5,
             pointHoverBorderColor: 'rgba(255, 0, 0, 0.7)',
+          },   {
+            data: [this.linheChartSaldoFinal[0], this.linheChartSaldoFinal[1], this.linheChartSaldoFinal[2],
+            this.linheChartSaldoFinal[3], this.linheChartSaldoFinal[4], this.linheChartSaldoFinal[5],
+            this.linheChartSaldoFinal[6], this.linheChartSaldoFinal[7], this.linheChartSaldoFinal[8],
+            this.linheChartSaldoFinal[9], this.linheChartSaldoFinal[10], this.linheChartSaldoFinal[11]],
+            label: "Saldo Final",
+            backgroundColor: 'rgba(51, 153, 255, 0.3)',
+            borderColor: 'rgba(51, 153, 255)',
+            pointBackgroundColor: 'rgba(51, 153, 255)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointRadius: 5,
+            pointHoverBorderColor: 'rgba(51, 153, 255, 0.7)',
           }
         ],
       }, options: {
@@ -136,6 +151,19 @@ export class PainelComponent implements OnInit {
       }
 
     }
+
+    for (let j = 0; j < this.lineChartValorReceita.length; j++) {
+      
+      if (this.lineChartValorReceita[j] - this.lineChartValorDespesa[j] == 0 ) {
+        this.linheChartSaldoFinal.push(0)
+
+      } else {
+        console.log();
+        this.linheChartSaldoFinal.push(this.lineChartValorReceita[j] - this.lineChartValorDespesa[j])
+      }
+      
+    }
+
 
     this.painelValoresBotoes.saldoFinalAnual = this.painelValores.painelValoresAnuaisESaldo.saldoFinalAnual
     this.painelValoresBotoes.valorAnualReceita = this.painelValores.painelValoresAnuaisESaldo.valorAnualReceita
