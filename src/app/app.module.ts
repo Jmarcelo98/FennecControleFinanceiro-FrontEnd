@@ -18,9 +18,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
 import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
 import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
-import { NovaSenhaComponent } from './pages/privata/nova-senha/nova-senha.component';
 import { PainelComponent } from './pages/privata/home/painel/painel.component';
 import { SelecioneUmAnoComponent } from './pages/privata/home/selecione-um-ano/selecione-um-ano.component';
+import { EsqueceuSenhaComponent } from './pages/publica/esqueceu-senha/esqueceu-senha.component';
+import { DigitarEmailComponent } from './pages/publica/esqueceu-senha/digitar-email/digitar-email.component';
 
 
 export function tokenGetter() {
@@ -38,9 +39,10 @@ export function tokenGetter() {
     AdicionarReceitaComponent,
     AdicionarDespesaComponent,
     ListarDespesasComponent,
-    NovaSenhaComponent,
     PainelComponent,
     SelecioneUmAnoComponent,
+    EsqueceuSenhaComponent,
+    DigitarEmailComponent,
   ],
   imports: [
     AppRoutingModule,

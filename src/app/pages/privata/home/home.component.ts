@@ -6,7 +6,6 @@ import { DespesasService } from 'src/app/services/despesas.service';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PainelService } from 'src/app/services/painel.service';
-import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-home',

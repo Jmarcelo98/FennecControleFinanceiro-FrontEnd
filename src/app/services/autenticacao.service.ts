@@ -11,7 +11,7 @@ import { Usuario } from '../models/usuario';
 })
 export class AutenticacaoService {
 
-  private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth/login`
+  private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth`
   nameToken: string = "jwttoken"
   nome: string = "nome";
   sobrenome: string = "sobrenome";
@@ -24,8 +24,12 @@ export class AutenticacaoService {
     return !this.jwtHelper.isTokenExpired(token || undefined);
   }
 
+  esqueciASenha(email: string) {
+    return this.httpClient.post<string>(`${this.CAMINHO_API}/recuperar-senha`, {email})
+  }
+
   login(email: string, senha: string) {
-    return this.httpClient.post<Login>(this.CAMINHO_API, { email, senha })
+    return this.httpClient.post<Login>(`${this.CAMINHO_API}/login`, { email, senha })
   }
 
   setToken(token: string) {

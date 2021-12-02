@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NovaSenhaComponent } from './nova-senha.component';
+import { DigitarEmailComponent } from './digitar-email.component';
 
-describe('NovaSenhaComponent', () => {
-  let component: NovaSenhaComponent;
-  let fixture: ComponentFixture<NovaSenhaComponent>;
+describe('DigitarEmailComponent', () => {
+  let component: DigitarEmailComponent;
+  let fixture: ComponentFixture<DigitarEmailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NovaSenhaComponent ]
+      declarations: [ DigitarEmailComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NovaSenhaComponent);
+    fixture = TestBed.createComponent(DigitarEmailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
-import { ToastrServiceClasse } from 'src/app/services/toastr.service';
+import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { environment } from 'src/environments/environment';
 
 @Component({

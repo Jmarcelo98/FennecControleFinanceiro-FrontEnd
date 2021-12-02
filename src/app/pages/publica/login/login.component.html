@@ -17,7 +17,7 @@
                                 <div *ngIf="f.email.errors.required">O campo de email é obrigatório</div>
                                 <div *ngIf="f.email.errors.email">O campo de email digitado é inválido</div>
                             </div>
-                            
+
                         </div>
 
 
@@ -58,10 +58,33 @@
 
                 </div>
 
+
                 <div class="card-footer text-muted col-12 centralizar">
+
+                    <div class="row justify-content-between">
+
+                        <div class="col-12 col-md-6">
+                            <span class="fontFooter">Esqueceu sua senha? </span>
+                            <span>
+                                <a class="fontFooter" href="/recuperar-senha">Clique aqui</a>
+                            </span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <span class="fontFooter">Não tem cadastro? </span>
+                            <span>
+                                <a class="fontFooter" href="/cadastro">Cadastre-se aqui</a>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- <div class="card-footer text-muted col-12 centralizar">
                     <span class="fontFooter">Esqueceu sua senha? </span>
                     <span>
-                        <a class="fontFooter" href="/nova-senha">Clique aqui</a>
+                        <a class="fontFooter" href="/recuperar-senha">Clique aqui</a>
                     </span>
                 </div>
 
@@ -71,7 +94,7 @@
                     <span>
                         <a class="fontFooter" href="/cadastro">Cadastre-se aqui</a>
                     </span>
-                </div>
+                </div> -->
 
             </div>
         </div>

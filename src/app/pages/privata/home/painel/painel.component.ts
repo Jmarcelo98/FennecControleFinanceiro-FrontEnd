@@ -4,7 +4,7 @@ import * as Chart from 'chart.js';
 import { Painel } from 'src/app/models/painel';
 import { PainelValoresFinaisAnuais } from 'src/app/models/painelValoresFinaisAnuais';
 import { PainelService } from 'src/app/services/painel.service';
-import { ToastrServiceClasse } from 'src/app/services/toastr.service';
+import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 
 @Component({

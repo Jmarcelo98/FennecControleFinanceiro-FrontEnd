@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
 
-    if (window.screen.width == 991) {
+    if (window.screen.width <= 991) {
       this.container = "container-fluid"
     } else {
       this.container = "container"

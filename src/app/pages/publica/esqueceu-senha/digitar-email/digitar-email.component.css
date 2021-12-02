@@ -1,0 +1,15 @@
+button{
+    background-color: #4db98e;
+    color: white;
+     width: 50%; 
+}
+
+.voltar{
+    background-color: #4d9ab9;
+    color: white;
+     width: 50%; 
+}
+
+.alinharDireita {
+    text-align: right;
+}
