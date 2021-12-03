@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,15 +10,34 @@ export class RecuperarSenhaService {
 
   private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth`
 
+  emailFoiDigitado: boolean
+
+  codigoDigitado: boolean
+
   constructor(private httpClient: HttpClient) { }
+
+  public getEmailDigitado(): boolean {
+    return this.emailFoiDigitado;
+  }
+
+  setEmailDigitado(enviado: boolean) {
+    this.emailFoiDigitado = enviado
+  }
+
+  public getCodigoDigitado(): boolean {
+    return this.codigoDigitado;
+  }
+
+  setCodigoDigitado(): boolean {
+    return this.codigoDigitado;
+  }
 
   enviarCodigo(email: string, codigo: string) {
     return this.httpClient.get<boolean>(`${this.CAMINHO_API}/${email}/${codigo}`)
   }
 
   esqueciASenha(email: string): Observable<string> {
-    var headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-    return this.httpClient.post<string>(`${this.CAMINHO_API}/recuperar-senha`, {email})
+    return this.httpClient.post<string>(`${this.CAMINHO_API}/recuperar-senha`, { email })
   }
 
 }

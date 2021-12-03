@@ -44,6 +44,7 @@ export class DigitarEmailComponent implements OnInit {
     await this.recuperarSenhaService.esqueciASenha(this.digitarEmail.get('email')?.value).toPromise().then(result => {
       result = "Código enviado ao email informado";
       this.transferirEmailParaComponenet.setEmail(this.digitarEmail.get('email')?.value)
+      this.recuperarSenhaService.setEmailDigitado(true)
       this.toastrServiceClasse.sucessoToastr(result)
       this.router.navigate(['digitar-codigo'])
       this.carregou = false

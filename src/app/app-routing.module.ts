@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './guards/AuthGuardService';
+import { CodigoGuardService } from './guards/CodigoGuardService';
+import { EmailGuardService } from './guards/EmailGuardService';
 import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
 import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
 import { HomeComponent } from './pages/privata/home/home.component';
@@ -47,16 +49,18 @@ const routes: Routes = [
     component: AdicionarDespesaComponent
   },
   {
-    path: "recuperar-senha",
+    path: "digitar-email",
     component: EsqueceuSenhaComponent
   },
   {
     path: "digitar-codigo",
-    component: DigitarCodigoComponent
+    component: DigitarCodigoComponent,
+    canActivate: [EmailGuardService]
   },
   {
     path: 'nova-senha',
-    component: NovaSenhaComponent
+    component: NovaSenhaComponent,
+    canActivate: [CodigoGuardService]
   }
 ];
 
