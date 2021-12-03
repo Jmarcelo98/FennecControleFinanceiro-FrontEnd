@@ -7,7 +7,9 @@ import { HomeComponent } from './pages/privata/home/home.component';
 import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
 import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
 import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
+import { DigitarCodigoComponent } from './pages/publica/esqueceu-senha/digitar-codigo/digitar-codigo.component';
 import { EsqueceuSenhaComponent } from './pages/publica/esqueceu-senha/esqueceu-senha.component';
+import { NovaSenhaComponent } from './pages/publica/esqueceu-senha/nova-senha/nova-senha.component';
 import { LoginComponent } from './pages/publica/login/login.component';
 
 const routes: Routes = [
@@ -47,6 +49,14 @@ const routes: Routes = [
   {
     path: "recuperar-senha",
     component: EsqueceuSenhaComponent
+  },
+  {
+    path: "digitar-codigo",
+    component: DigitarCodigoComponent
+  },
+  {
+    path: 'nova-senha',
+    component: NovaSenhaComponent
   }
 ];
 

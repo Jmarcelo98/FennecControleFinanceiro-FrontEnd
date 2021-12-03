@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { RecuperarSenhaService } from 'src/app/services/recuperar-senha.service';
+import { TransferirEmailParaComponenet } from 'src/app/services/util/resgatarEmail';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 
 @Component({
@@ -11,12 +12,13 @@ import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 })
 export class DigitarEmailComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, 
-    private autenticacaoService: AutenticacaoService, 
+  constructor(private formBuilder: FormBuilder,
+    private recuperarSenhaService: RecuperarSenhaService,
     private toastrServiceClasse: ToastrServiceClasse,
-    private router: Router) { }
+    private router: Router, private transferirEmailParaComponenet: TransferirEmailParaComponenet) { }
 
   foiEnviado = false
+  carregou = false
 
   digitarEmail = this.formBuilder.group({
     email: [null, [Validators.required, Validators.email]],
@@ -30,7 +32,7 @@ export class DigitarEmailComponent implements OnInit {
     return this.digitarEmail?.controls;
   }
 
-  enviar() {
+  async enviar() {
 
     this.foiEnviado = true
 
@@ -38,16 +40,17 @@ export class DigitarEmailComponent implements OnInit {
       return;
     }
 
-    this.autenticacaoService.esqueciASenha(this.digitarEmail.get('email')?.value).subscribe(result => {
-      
+    this.carregou = true
+    await this.recuperarSenhaService.esqueciASenha(this.digitarEmail.get('email')?.value).toPromise().then(result => {
+      result = "Código enviado ao email informado";
+      this.transferirEmailParaComponenet.setEmail(this.digitarEmail.get('email')?.value)
       this.toastrServiceClasse.sucessoToastr(result)
+      this.router.navigate(['digitar-codigo'])
+      this.carregou = false
 
-      setTimeout(() => {
-        this.router.navigate(['confirmar-codigo']);
-      }, 200);
-
-    }, err => {
+    }).catch(err => {
       this.toastrServiceClasse.errorToastr(err.error);
+      this.carregou = false
     })
 
   }

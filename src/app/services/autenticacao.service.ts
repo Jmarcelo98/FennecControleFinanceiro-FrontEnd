@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login } from '../models/login';
 import { Usuario } from '../models/usuario';
@@ -24,8 +25,8 @@ export class AutenticacaoService {
     return !this.jwtHelper.isTokenExpired(token || undefined);
   }
 
-  esqueciASenha(email: string) {
-    return this.httpClient.post<string>(`${this.CAMINHO_API}/recuperar-senha`, {email})
+  atualizarSenha(email: string, senha: string): Observable<string> {
+    return this.httpClient.put<string>(`${this.CAMINHO_API}/atualizarSenha`, { email, senha });
   }
 
   login(email: string, senha: string) {

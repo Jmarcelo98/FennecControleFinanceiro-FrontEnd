@@ -22,6 +22,9 @@ import { PainelComponent } from './pages/privata/home/painel/painel.component';
 import { SelecioneUmAnoComponent } from './pages/privata/home/selecione-um-ano/selecione-um-ano.component';
 import { EsqueceuSenhaComponent } from './pages/publica/esqueceu-senha/esqueceu-senha.component';
 import { DigitarEmailComponent } from './pages/publica/esqueceu-senha/digitar-email/digitar-email.component';
+import { DigitarCodigoComponent } from './pages/publica/esqueceu-senha/digitar-codigo/digitar-codigo.component';
+import { NovaSenhaComponent } from './pages/publica/esqueceu-senha/nova-senha/nova-senha.component';
+import { CarregandoRequisicaoComponent } from './component/carregando-requisicao/carregando-requisicao.component';
 
 
 export function tokenGetter() {
@@ -43,6 +46,9 @@ export function tokenGetter() {
     SelecioneUmAnoComponent,
     EsqueceuSenhaComponent,
     DigitarEmailComponent,
+    DigitarCodigoComponent,
+    NovaSenhaComponent,
+    CarregandoRequisicaoComponent,
   ],
   imports: [
     AppRoutingModule,
