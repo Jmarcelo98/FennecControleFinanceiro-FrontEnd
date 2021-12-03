@@ -2,17 +2,17 @@
 
 <ng-template #podeMostrar>
 
-  <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-    aria-controls="offcanvasExample">
-    Button with data-bs-target
-  </button>
+  <h2>Painel de Controle</h2>
+  <div>
+    <form [formGroup]="contactForm" (mouseup)="novoChart()">
+      <p>
+        <select formControlName="anoSelecionado" class="form-select" [value]="anos[0]">
+          <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
+        </select>
+      </p>
+    </form>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-  </div> -->
+  </div>
 
   <div class="card centralizar">
     <div class="card-body">

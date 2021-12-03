@@ -69,6 +69,7 @@ export class DigitarCodigoComponent implements OnInit, AfterViewInit {
     await this.recuperarSenhaService.enviarCodigo(this.resgatarEmailDoComponenet.getEmail(), this.codigoFinal).subscribe(result => {
 
       this.toastrServiceClasse.sucessoToastr("Código aceito! Você será redirecionado para alterar sua senha!")
+      this.recuperarSenhaService.setCodigoDigitado(true);
       this.router.navigate(['nova-senha']);
       this.carregou = false
 

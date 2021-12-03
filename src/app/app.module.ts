@@ -25,6 +25,7 @@ import { DigitarEmailComponent } from './pages/publica/esqueceu-senha/digitar-em
 import { DigitarCodigoComponent } from './pages/publica/esqueceu-senha/digitar-codigo/digitar-codigo.component';
 import { NovaSenhaComponent } from './pages/publica/esqueceu-senha/nova-senha/nova-senha.component';
 import { CarregandoRequisicaoComponent } from './component/carregando-requisicao/carregando-requisicao.component';
+import { NavbarComponent } from './component/navbar/navbar.component';
 
 
 export function tokenGetter() {
@@ -49,6 +50,7 @@ export function tokenGetter() {
     DigitarCodigoComponent,
     NovaSenhaComponent,
     CarregandoRequisicaoComponent,
+    NavbarComponent,
   ],
   imports: [
     AppRoutingModule,

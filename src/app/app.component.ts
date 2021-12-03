@@ -22,23 +22,23 @@ export class AppComponent implements OnInit {
 
   serverOn: boolean
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    const a = event.target.innerWidth;  
-    if (a == 991) {
-      this.container = "container-fluid"
-    } else {
-      this.container = "container"
-    }
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any) {
+  //   const a = event.target.innerWidth;  
+  //   if (a == 991) {
+  //     this.container = "container-fluid"
+  //   } else {
+  //     this.container = "container"
+  //   }
+  // }
 
   async ngOnInit() {
 
-    if (window.screen.width <= 991) {
-      this.container = "container-fluid"
-    } else {
-      this.container = "container"
-    }
+    // if (window.screen.width <= 991) {
+    //   this.container = "container-fluid"
+    // } else {
+    //   this.container = "container"
+    // }
 
     await this.serverOnService.verificarStatus().toPromise().then(
       responseServer => this.serverOn = responseServer

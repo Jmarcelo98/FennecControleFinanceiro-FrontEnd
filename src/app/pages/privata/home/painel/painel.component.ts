@@ -45,7 +45,7 @@ export class PainelComponent implements OnInit {
   async ngOnInit() {
 
     await this.painelService.anosDashboard().toPromise().then(anosResultado => {
-      this.anos = anosResultado
+      this.anos = anosResultado  
     }).catch(err => {
       console.log(err);
     })

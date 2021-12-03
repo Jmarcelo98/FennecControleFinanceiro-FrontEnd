@@ -28,8 +28,8 @@ export class RecuperarSenhaService {
     return this.codigoDigitado;
   }
 
-  setCodigoDigitado(): boolean {
-    return this.codigoDigitado;
+  setCodigoDigitado(enviado: boolean) {
+    this.codigoDigitado = enviado
   }
 
   enviarCodigo(email: string, codigo: string) {

@@ -16,9 +16,9 @@
    color: rgb(233, 245, 179);
  } */
 
-  #espacamentoInicio{
+  /* #espacamentoInicio{
     margin-top: 8em;
-}
+} */
 
   h1,
   h2,
@@ -82,9 +82,9 @@
     width: 1.5em;
   }
 
-   .menuItens {
+   /* .menuItens {
    align-self: center;
-  } 
+  }  */
 
 @media screen and (max-width: 991px) {
 
