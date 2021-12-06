@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,13 +8,15 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private autenticacaoService: AutenticacaoService) { }
+
+  logado: boolean
 
   container = "container"
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    const a = event.target.innerWidth;  
+    const a = event.target.innerWidth;
     if (a >= 565) {
       this.container = "container-fluid"
     } else {
@@ -27,6 +30,17 @@ export class NavbarComponent implements OnInit {
     } else {
       this.container = "container"
     }
+
+    if (!this.autenticacaoService.estaAutenticado()) {
+      this.logado = false
+    } else {
+      this.logado = true
+    }
+
+  }
+
+  deslogar() {
+    this.autenticacaoService.logout()
   }
 
 }
