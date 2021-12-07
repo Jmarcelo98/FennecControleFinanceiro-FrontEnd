@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 
 @Component({
@@ -8,11 +9,15 @@ import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private autenticacaoService: AutenticacaoService) { }
+  constructor(private autenticacaoService: AutenticacaoService, private router: Router) { }
 
   logado: boolean
 
   container = "container"
+
+  activeIni = ""
+  activeRec = ""
+  activeDes = ""
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -25,6 +30,15 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if (this.router.url == "/") {
+      this.activeIni = "active"
+    } else if (this.router.url == "/nova-receita") {
+      this.activeRec = "active"
+    } else if (this.router.url == "/nova-despesa"){
+      this.activeDes = "active"
+    }
+
     if (window.screen.width >= 565) {
       this.container = "container-fluid"
     } else {
