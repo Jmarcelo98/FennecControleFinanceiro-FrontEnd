@@ -6,14 +6,36 @@
     text-align: center;
 }
 
-#bemVindo{
-    font-size: 3em;
+#botaoAddRec{
+    font-size: 1em;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.alinharEsquerda {
+    text-align: left;
+    flex: auto;
+}
+
+input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 0.5em;
+    font-family: system-ui;
+    font-size: 1.5em;
+    background-color: rgb(246, 246, 246);
+}
+
+
+input:hover {
+    border-color: black;
+    border-width: 0.1em;
 }
 
 .distanciarTitulo{
     margin-top: 2em;
 }
+
 
 @media screen and (max-width: 767px) {
 

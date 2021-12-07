@@ -6,11 +6,11 @@
       <h2>Escolhe uma data para visualizar suas receitas</h2>
     </div>
 
-    <div class=" col-12 col-md-3 aumentarDistanciamento">
+    <!-- <div class=" col-12 col-md-3 aumentarDistanciamento">
       <button class="btn btn-success" id="botaoValorReceitaMesPesquisado" disabled>
         <span>Total no mês: {{formatar.aplicarMascaraDinheiro(resultaReceitaMesPesquisado)}}</span>
       </button>
-    </div>
+    </div> -->
   </div>
 
   <div class="row aumentarDistanciamento">
@@ -34,10 +34,10 @@
 
   <ng-template #temValor>
     <div class="table-responsive-md">
-      <table class="table table-bordered  table-striped">
+      <table class="table table-bordered table-striped editarTabela">
         <thead id="cabecalhoTabela">
           <tr>
-            <th scope="col">NOME</th>
+            <th scope="col">DESCRIÇÃO</th>
             <th scope="col">VALOR</th>
             <th scope="col">DATA</th>
             <th scope="col">AÇÕES</th>

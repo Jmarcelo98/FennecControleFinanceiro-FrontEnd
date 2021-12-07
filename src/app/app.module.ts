@@ -13,7 +13,7 @@ import { LoginComponent } from './pages/publica/login/login.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ServerOffComponent } from './component/server-off/server-off.component';
-import { ListarReceitasComponent } from './pages/privata/receitas/adicionar-receita/listar-receitas/listar-receitas.component';
+import { ListarReceitasComponent } from './pages/privata/receitas/listar-receitas/listar-receitas.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AdicionarReceitaComponent } from './pages/privata/receitas/adicionar-receita/adicionar-receita.component';
 import { AdicionarDespesaComponent } from './pages/privata/despesas/adicionar-despesa/adicionar-despesa.component';

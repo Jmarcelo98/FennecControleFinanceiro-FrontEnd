@@ -7,7 +7,7 @@ import { AdicionarDespesaComponent } from './pages/privata/despesas/adicionar-de
 import { AdicionarReceitaComponent } from './pages/privata/receitas/adicionar-receita/adicionar-receita.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { ListarDespesasComponent } from './pages/privata/despesas/listar-despesas/listar-despesas.component';
-import { ListarReceitasComponent } from './pages/privata/receitas/adicionar-receita/listar-receitas/listar-receitas.component';
+import { ListarReceitasComponent } from './pages/privata/receitas/listar-receitas/listar-receitas.component';
 import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
 import { DigitarCodigoComponent } from './pages/publica/esqueceu-senha/digitar-codigo/digitar-codigo.component';
 import { EsqueceuSenhaComponent } from './pages/publica/esqueceu-senha/esqueceu-senha.component';

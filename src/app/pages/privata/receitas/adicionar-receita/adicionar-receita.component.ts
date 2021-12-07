@@ -16,6 +16,8 @@ export class AdicionarReceitaComponent implements OnInit {
   dataMax = new Date()
   foiEnviado: boolean
   receita: Receita
+
+  carregou: boolean
   
   dataString: any
   formatadoDate: Date
@@ -59,12 +61,16 @@ export class AdicionarReceitaComponent implements OnInit {
     }
      
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {
-    
-      this.toastr.sucessoToastr("Receita adicionada com sucesso!")
+      this.carregou = true
       this.foiEnviado = false
-      this.formNovaReceita.reset();
-      this.formNovaReceita.clearValidators()
-      this.formNovaReceita.get('valorReceita')?.setValue(0)
+      this.toastr.sucessoToastr("Receita adicionada com sucesso!")
+      setTimeout(() => {
+        window.location.reload()  
+      }, 1500);
+
+      //this.formNovaReceita.reset();
+      //this.formNovaReceita.clearValidators()
+      //this.formNovaReceita.get('valorReceita')?.setValue(0)
     }, err => {
       this.toastr.errorToastr("Erro ao adicionar a nova receita" + err);
     })
