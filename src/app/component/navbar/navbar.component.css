@@ -3,6 +3,26 @@
 } 
 
 .navCentralizar{
-    position: relative;
-    margin-left: 30%;
+    margin: auto;
+}
+
+.borda {
+    border-radius: 0.3em;
+    border: solid;
+    border-width: 0.1em;
+}
+
+.borda:hover {
+    background-color: rgba(184, 184, 184, 0.411);
+}
+
+li>a {
+   margin-right: 3em;
+   font-size: 1.5em; 
+   font-family: monospace;
+}
+
+
+@media screen and (max-width: 767px) {
+
 }

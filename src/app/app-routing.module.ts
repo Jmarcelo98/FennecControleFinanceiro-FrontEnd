@@ -54,11 +54,14 @@ const routes: Routes = [
   },
   {
     path: "digitar-codigo",
-    component: DigitarCodigoComponent
+    component: DigitarCodigoComponent,
+    canActivate: [EmailGuardService]
   },
   {
     path: 'nova-senha',
-    component: NovaSenhaComponent
+    component: NovaSenhaComponent,
+    canActivate: [CodigoGuardService]
+    
   }
 ];
 
