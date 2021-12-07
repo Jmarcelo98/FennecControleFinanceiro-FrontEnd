@@ -23,7 +23,7 @@ li>a {
 }
 
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 565px) {
   ul {
     list-style: none;
     display: inline-block;
@@ -36,6 +36,15 @@ li>a {
   .nav-link.active {
     padding: 0.5rem 1rem;
     }
+
+}
+
+@media screen and (max-width: 670px) {
+  li>a {
+    margin-right: 1em;
+    font-size: 1.2em; 
+    font-family: monospace;
+ }
 
 }
 
