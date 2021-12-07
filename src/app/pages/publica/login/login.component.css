@@ -32,6 +32,18 @@ button{
      width: 100%; 
 }
 
+input{
+    width: 65%;
+}
+
+.formCenter {
+    text-align: -webkit-center;
+}
+
+.input-group{
+    width: 65%;
+}
+
 label {
     margin-bottom: 0em;
     font-size: 1.3em;

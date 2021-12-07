@@ -3,3 +3,9 @@ button{
     color: white;
      width: 45%; 
 }
+
+
+.distanciamentoNavbar {
+    margin-top: 15em;
+    text-align: -webkit-center;
+}

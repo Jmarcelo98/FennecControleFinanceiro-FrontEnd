@@ -1,117 +1,121 @@
 <div class="distanciamentoNavbar">
 
-    <div class="row justify-content-center mb-2 flex-column-reverse flex-md-row">
+    <div class="container">
+        <div class="row justify-content-center mb-2 flex-column-reverse flex-md-row">
 
-        <div class="col-md-4 col-sm-12" id="ladoEsquerdoCadastro">
+            <div class="col-md-4 col-sm-12" id="ladoEsquerdoCadastro">
 
-            <div class="centralizar">
-                <h3 id="bemVindo" class="mb-4">Bem vindo</h3>
-                <p class="ladoEsquerdo">Caso você possua um cadastro em nosso sistema</p>
-                <p class="ladoEsquerdo">clique no botão abaixo para logar</p>
-                <button type="button" class="btn btn btn-outline-light buttonEsquerdo mt-5" routerLink="/login">LOGAR</button>
-            </div>
-
-        </div>
-
-        <div class="col-md-6 col-sm-12 espacamentoCelular">
-            <div class="card ">
-                <div class="card-body">
-                    <h3 class="card-title">Cadastro</h3>
-                    <hr>
-
-                    <form [formGroup]="cadastroForm" (ngSubmit)="cadastro()">
-
-                        <div class="row mb-4">
-
-                            <div class="col-md-6 col-sm-12">
-
-                                <label for="nome" class="form-label">Nome</label>
-
-                                <input type="text" formControlName="nome"
-                                    class="form-control semSombra tamanhoInputNome" placeholder="Ex: João Marcelo" id="nome"
-                                    [ngClass]="{'is-invalid': foiEnviado && f.nome.errors}"
-                                    onkeyup="$(this).val($(this).val().replace(/[0-9]/g, '')); $(this).val($(this).val().replace(/[&!@#$%*()^`;.,\|/~´[{]/, ''));" />
-                                <div *ngIf="foiEnviado && f.nome.errors" class="invalid-feedback">
-                                    <div *ngIf="f.nome.errors.required">O campo nome é obrigatório</div>
-                                    <div *ngIf="f.nome.errors.minlength">O campo de nome precisa ter no mínimo 3 digitos
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-
-
-                                <label for="nome" class="form-label sobreNomeEspacoCelular">Sobrenome</label>
-
-                                <input type="text" formControlName="sobrenome" class="form-control semSombra"
-                                    placeholder="Ex: Da Silva" id="sobrenome"
-                                    [ngClass]="{'is-invalid': foiEnviado && f.sobrenome.errors}"
-                                    onkeyup="$(this).val($(this).val().replace(/[0-9]/g, '')); $(this).val($(this).val().replace(/[&!@#$%*()^`;.,\|/~´[{]/, ''));" />
-                                <div *ngIf="foiEnviado && f.sobrenome.errors" class="invalid-feedback">
-                                    <div *ngIf="f.sobrenome.errors.required">O campo sobrenome é obrigatório</div>
-                                    <div *ngIf="f.sobrenome.errors.minlength">O campo de sobrenome precisa ter no mínimo 3 digitos</div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" formControlName="email" class="form-control semSombra"
-                                placeholder="Digite um email válido" id="email"
-                                [ngClass]="{'is-invalid': foiEnviado && f.email.errors || (jaExiste && foiEnviado)}" />
-                            <div *ngIf="foiEnviado && f.email.errors" class="invalid-feedback">
-                                <div *ngIf="f.email.errors.required">O campo de email é obrigatório</div>
-                                <div *ngIf="f.email.errors.email">Email digitado inválido</div>
-                            </div>
-                            <div *ngIf="foiEnviado && jaExiste" class="invalid-feedback errorMensagem">
-                                {{response}}
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="senha" class="form-label">Senha</label>
-                            <div class="input-group">
-
-                                <input [type]="visualizarSenha ? 'text':'password'" formControlName="senha"
-                                    class="form-control semSombra" placeholder="Digite sua senha" id="senha"
-                                    [ngClass]="{'is-invalid': foiEnviado && f.senha.errors}" />
-
-                                <span class="input-group-text" style="cursor: pointer;" (click)="mostrarSenha()">
-                                    <i class="bi bi-eye-slash"
-                                        [ngClass]="{'bi-eye-slash': !visualizarSenha, 'bi-eye': visualizarSenha}"></i>
-                                </span>
-
-                                <div *ngIf="foiEnviado && f.senha.errors" class="invalid-feedback">
-                                    <div *ngIf="f.senha.errors.required">O campo de senha é obrigatório</div>
-                                    <div *ngIf="f.senha.errors.minlength">O campo de senha precisa ter no mínimo 6
-                                        digitos</div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <div class="col-12" style="text-align: center;">
-                                <button type="submit" class="btn buttonDireito">CADASTRAR</button>
-                            </div>
-                        </div>
-
-                    </form>
-
+                <div class="centralizar">
+                    <h3 id="bemVindo" class="mb-4">Bem vindo</h3>
+                    <p class="ladoEsquerdo">Caso você possua um cadastro em nosso sistema</p>
+                    <p class="ladoEsquerdo">clique no botão abaixo para logar</p>
+                    <button type="button" class="btn btn btn-outline-light buttonEsquerdo mt-5"
+                        routerLink="/login">LOGAR</button>
                 </div>
 
-                <!-- <div class="mt-4 card-footer text-muted col-12 centralizar">
+            </div>
+
+            <div class="col-md-6 col-sm-12 espacamentoCelular">
+                <div class="card ">
+                    <div class="card-body">
+                        <h3 class="card-title">Cadastro</h3>
+                        <hr>
+
+                        <form [formGroup]="cadastroForm" (ngSubmit)="cadastro()">
+
+                            <div class="row mb-4">
+
+                                <div class="col-md-6 col-sm-12">
+
+                                    <label for="nome" class="form-label">Nome</label>
+
+                                    <input type="text" formControlName="nome"
+                                        class="form-control semSombra tamanhoInputNome" placeholder="Ex: João Marcelo"
+                                        id="nome" [ngClass]="{'is-invalid': foiEnviado && f.nome.errors}"
+                                        onkeyup="$(this).val($(this).val().replace(/[0-9]/g, '')); $(this).val($(this).val().replace(/[&!@#$%*()^`;.,\|/~´[{]/, ''));" />
+                                    <div *ngIf="foiEnviado && f.nome.errors" class="invalid-feedback">
+                                        <div *ngIf="f.nome.errors.required">O campo nome é obrigatório</div>
+                                        <div *ngIf="f.nome.errors.minlength">O campo de nome precisa ter no mínimo 3
+                                            digitos
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+
+
+                                    <label for="nome" class="form-label sobreNomeEspacoCelular">Sobrenome</label>
+
+                                    <input type="text" formControlName="sobrenome" class="form-control semSombra"
+                                        placeholder="Ex: Da Silva" id="sobrenome"
+                                        [ngClass]="{'is-invalid': foiEnviado && f.sobrenome.errors}"
+                                        onkeyup="$(this).val($(this).val().replace(/[0-9]/g, '')); $(this).val($(this).val().replace(/[&!@#$%*()^`;.,\|/~´[{]/, ''));" />
+                                    <div *ngIf="foiEnviado && f.sobrenome.errors" class="invalid-feedback">
+                                        <div *ngIf="f.sobrenome.errors.required">O campo sobrenome é obrigatório</div>
+                                        <div *ngIf="f.sobrenome.errors.minlength">O campo de sobrenome precisa ter no
+                                            mínimo 3 digitos</div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" formControlName="email" class="form-control semSombra"
+                                    placeholder="Digite um email válido" id="email"
+                                    [ngClass]="{'is-invalid': foiEnviado && f.email.errors || (jaExiste && foiEnviado)}" />
+                                <div *ngIf="foiEnviado && f.email.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors.required">O campo de email é obrigatório</div>
+                                    <div *ngIf="f.email.errors.email">Email digitado inválido</div>
+                                </div>
+                                <div *ngIf="foiEnviado && jaExiste" class="invalid-feedback errorMensagem">
+                                    {{response}}
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="senha" class="form-label">Senha</label>
+                                <div class="input-group">
+
+                                    <input [type]="visualizarSenha ? 'text':'password'" formControlName="senha"
+                                        class="form-control semSombra" placeholder="Digite sua senha" id="senha"
+                                        [ngClass]="{'is-invalid': foiEnviado && f.senha.errors}" />
+
+                                    <span class="input-group-text" style="cursor: pointer;" (click)="mostrarSenha()">
+                                        <i class="bi bi-eye-slash"
+                                            [ngClass]="{'bi-eye-slash': !visualizarSenha, 'bi-eye': visualizarSenha}"></i>
+                                    </span>
+
+                                    <div *ngIf="foiEnviado && f.senha.errors" class="invalid-feedback">
+                                        <div *ngIf="f.senha.errors.required">O campo de senha é obrigatório</div>
+                                        <div *ngIf="f.senha.errors.minlength">O campo de senha precisa ter no mínimo 6
+                                            digitos</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="submit" class="btn buttonDireito">CADASTRAR</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <!-- <div class="mt-4 card-footer text-muted col-12 centralizar">
                     <span>Ainda não é cadastrado: </span>
                     <span>
                         <a href="/cadastro">Cadastrar</a>
                     </span>
                 </div> -->
 
+                </div>
             </div>
         </div>
     </div>
-
 </div>

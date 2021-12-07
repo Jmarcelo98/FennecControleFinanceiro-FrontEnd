@@ -1,59 +1,61 @@
 <app-carregando-requisicao [showProgress]="carregou"></app-carregando-requisicao>
 
-<div class="row justify-content-center">
-    <div class="col-xl-6 col-md-12">
-        <div class="card border-success mb-3">
-            <div class="card-body">
-                <h3 class="card-title">Código de 6 dígitos enviado ao email</h3>
-                <hr>
+<div class="container">
+    <div class="distanciamentoNavbar ">
+        <div class="col-xl-6 col-md-12">
+            <div class="card border-success mb-3">
+                <div class="card-body">
+                    <h3 class="card-title">Código de 6 dígitos enviado ao email</h3>
+                    <hr>
 
-                <form [formGroup]="codigo" (ngSubmit)="enviar()">
+                    <form [formGroup]="codigo" (ngSubmit)="enviar()">
 
-                    <div class="mb-3 mt-4">
+                        <div class="mb-3 mt-4">
 
-                        <div class="row centralizar">
+                            <div class="row centralizar">
 
-                            <div class="col-2">
-                                <input type="text" maxlength="1" formControlName="codigo1" minlength="1" #codigo1
-                                    oninput="this.value = this.value.toUpperCase()">
-                            </div>
+                                <div class="col-2">
+                                    <input type="text" maxlength="1" formControlName="codigo1" minlength="1" #codigo1
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
 
-                            <div class="col-2">
-                                <input type="text" maxlength="1" formControlName="codigo2" minlength="1"
-                                    oninput="this.value = this.value.toUpperCase()">
-                            </div>
+                                <div class="col-2">
+                                    <input type="text" maxlength="1" formControlName="codigo2" minlength="1"
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
 
-                            <div class="col-2">
-                                <input type="text" maxlength="1" formControlName="codigo3" minlength="1"
-                                    oninput="this.value = this.value.toUpperCase()">
-                            </div>
+                                <div class="col-2">
+                                    <input type="text" maxlength="1" formControlName="codigo3" minlength="1"
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
 
-                            <div class="col-2">
-                                <input type="text" maxlength="1" formControlName="codigo4" minlength="1"
-                                    oninput="this.value = this.value.toUpperCase()">
-                            </div>
+                                <div class="col-2">
+                                    <input type="text" maxlength="1" formControlName="codigo4" minlength="1"
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
 
-                            <div class="col-2">
-                                <input type="text" maxlength="1" formControlName="codigo5" minlength="1"
-                                    oninput="this.value = this.value.toUpperCase()">
-                            </div>
+                                <div class="col-2">
+                                    <input type="text" maxlength="1" formControlName="codigo5" minlength="1"
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
 
-                            <div class="col-2">
-                                <input type="text" maxlength="1" formControlName="codigo6" minlength="1"
-                                    oninput="this.value = this.value.toUpperCase()">
+                                <div class="col-2">
+                                    <input type="text" maxlength="1" formControlName="codigo6" minlength="1"
+                                        oninput="this.value = this.value.toUpperCase()">
+                                </div>
+
                             </div>
 
                         </div>
 
-                    </div>
+                        <hr>
 
-                    <hr>
+                        <div>
+                            <button type="submit" class="btn">Enviar</button>
+                        </div>
+                    </form>
 
-                    <div>
-                        <button type="submit" class="btn">Enviar</button>
-                    </div>
-                </form>
-
+                </div>
             </div>
         </div>
     </div>

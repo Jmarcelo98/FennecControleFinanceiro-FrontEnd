@@ -16,6 +16,12 @@ button{
     width: 50%; 
 }
 
+.distanciamentoNavbar {
+    margin-top: 15em;
+    text-align: -webkit-center;
+}
+
+
 @media screen and (max-width: 515px) {
 
   input {

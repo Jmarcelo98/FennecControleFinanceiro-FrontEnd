@@ -13,3 +13,7 @@ button{
 .alinharDireita {
     text-align: right;
 }
+
+.distanciamentoNavbar {
+    margin-top: 15em;
+}
