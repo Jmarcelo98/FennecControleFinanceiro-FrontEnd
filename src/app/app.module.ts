@@ -13,11 +13,11 @@ import { LoginComponent } from './pages/publica/login/login.component';
 import { HomeComponent } from './pages/privata/home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ServerOffComponent } from './component/server-off/server-off.component';
-import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
+import { ListarReceitasComponent } from './pages/privata/receitas/adicionar-receita/listar-receitas/listar-receitas.component';
 import { ToastrModule } from 'ngx-toastr';
-import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
-import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
-import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
+import { AdicionarReceitaComponent } from './pages/privata/receitas/adicionar-receita/adicionar-receita.component';
+import { AdicionarDespesaComponent } from './pages/privata/despesas/adicionar-despesa/adicionar-despesa.component';
+import { ListarDespesasComponent } from './pages/privata/despesas/listar-despesas/listar-despesas.component';
 import { PainelComponent } from './pages/privata/home/painel/painel.component';
 import { SelecioneUmAnoComponent } from './pages/privata/home/selecione-um-ano/selecione-um-ano.component';
 import { EsqueceuSenhaComponent } from './pages/publica/esqueceu-senha/esqueceu-senha.component';
@@ -26,6 +26,8 @@ import { DigitarCodigoComponent } from './pages/publica/esqueceu-senha/digitar-c
 import { NovaSenhaComponent } from './pages/publica/esqueceu-senha/nova-senha/nova-senha.component';
 import { CarregandoRequisicaoComponent } from './component/carregando-requisicao/carregando-requisicao.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
+import { ReceitaComponent } from './pages/privata/receitas/receita.component';
+import { DespesaComponent } from './pages/privata/despesas/despesa.component';
 
 
 export function tokenGetter() {
@@ -51,6 +53,8 @@ export function tokenGetter() {
     NovaSenhaComponent,
     CarregandoRequisicaoComponent,
     NavbarComponent,
+    ReceitaComponent,
+    DespesaComponent,
   ],
   imports: [
     AppRoutingModule,

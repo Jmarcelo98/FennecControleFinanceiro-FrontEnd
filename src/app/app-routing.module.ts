@@ -3,16 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './guards/AuthGuardService';
 import { CodigoGuardService } from './guards/CodigoGuardService';
 import { EmailGuardService } from './guards/EmailGuardService';
-import { AdicionarDespesaComponent } from './pages/privata/adicionar-despesa/adicionar-despesa.component';
-import { AdicionarReceitaComponent } from './pages/privata/adicionar-receita/adicionar-receita.component';
+import { AdicionarDespesaComponent } from './pages/privata/despesas/adicionar-despesa/adicionar-despesa.component';
+import { AdicionarReceitaComponent } from './pages/privata/receitas/adicionar-receita/adicionar-receita.component';
 import { HomeComponent } from './pages/privata/home/home.component';
-import { ListarDespesasComponent } from './pages/privata/listar-despesas/listar-despesas.component';
-import { ListarReceitasComponent } from './pages/privata/listar-receitas/listar-receitas.component';
+import { ListarDespesasComponent } from './pages/privata/despesas/listar-despesas/listar-despesas.component';
+import { ListarReceitasComponent } from './pages/privata/receitas/adicionar-receita/listar-receitas/listar-receitas.component';
 import { CadastroComponent } from './pages/publica/cadastro/cadastro.component';
 import { DigitarCodigoComponent } from './pages/publica/esqueceu-senha/digitar-codigo/digitar-codigo.component';
 import { EsqueceuSenhaComponent } from './pages/publica/esqueceu-senha/esqueceu-senha.component';
 import { NovaSenhaComponent } from './pages/publica/esqueceu-senha/nova-senha/nova-senha.component';
 import { LoginComponent } from './pages/publica/login/login.component';
+import { ReceitaComponent } from './pages/privata/receitas/receita.component';
+import { DespesaComponent } from './pages/privata/despesas/despesa.component';
 
 const routes: Routes = [
   {
@@ -41,12 +43,12 @@ const routes: Routes = [
   {
     path: "nova-receita",
     canActivate: [AuthGuardService],
-    component: AdicionarReceitaComponent
+    component: ReceitaComponent
   },
   {
     path: "nova-despesa",
     canActivate: [AuthGuardService],
-    component: AdicionarDespesaComponent
+    component: DespesaComponent
   },
   {
     path: "digitar-email",

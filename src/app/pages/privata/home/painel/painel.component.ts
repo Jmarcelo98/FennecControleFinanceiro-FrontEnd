@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import * as Chart from 'chart.js';
 import { Painel } from 'src/app/models/painel';
@@ -44,8 +44,10 @@ export class PainelComponent implements OnInit {
 
   async ngOnInit() {
 
+    this.carregou = false
+
     await this.painelService.anosDashboard().toPromise().then(anosResultado => {
-      this.anos = anosResultado  
+      this.anos = anosResultado
     }).catch(err => {
       console.log(err);
     })
@@ -88,7 +90,7 @@ export class PainelComponent implements OnInit {
             this.lineChartValorDespesa[3], this.lineChartValorDespesa[4], this.lineChartValorDespesa[5],
             this.lineChartValorDespesa[6], this.lineChartValorDespesa[7], this.lineChartValorDespesa[8],
             this.lineChartValorDespesa[9], this.lineChartValorDespesa[10], this.lineChartValorDespesa[11]],
-            label: "Despesas", 
+            label: "Despesas",
             backgroundColor: 'rgba(255, 0, 0, 0.15)',
             borderColor: 'rgba(255, 0, 0)',
             pointBackgroundColor: 'rgba(255, 0, 0)',
@@ -97,7 +99,7 @@ export class PainelComponent implements OnInit {
             pointHoverBackgroundColor: '#fff',
             pointRadius: 5,
             pointHoverBorderColor: 'rgba(255, 0, 0, 0.7)',
-          },   
+          },
           {
             data: [this.linheChartSaldoFinal[0], this.linheChartSaldoFinal[1], this.linheChartSaldoFinal[2],
             this.linheChartSaldoFinal[3], this.linheChartSaldoFinal[4], this.linheChartSaldoFinal[5],
@@ -121,11 +123,14 @@ export class PainelComponent implements OnInit {
             boxWidth: 50,
             usePointStyle: true,
             fontColor: "black",
-          },  position: 'top',
+          }, position: 'top',
           align: 'center',
-        }, maintainAspectRatio: false, 
+        }, maintainAspectRatio: false,
       },
     });
+
+    this.carregou = true
+
   }
 
   async submit() {
@@ -159,15 +164,15 @@ export class PainelComponent implements OnInit {
     }
 
     for (let j = 0; j < this.lineChartValorReceita.length; j++) {
-      
-      if (this.lineChartValorReceita[j] - this.lineChartValorDespesa[j] == 0 ) {
+
+      if (this.lineChartValorReceita[j] - this.lineChartValorDespesa[j] == 0) {
         this.linheChartSaldoFinal.push(0)
 
       } else {
         console.log();
         this.linheChartSaldoFinal.push(this.lineChartValorReceita[j] - this.lineChartValorDespesa[j])
       }
-      
+
     }
 
 

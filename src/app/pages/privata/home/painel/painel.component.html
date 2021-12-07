@@ -14,6 +14,8 @@
 
   </div>
 
+  <!-- <app-carregando-requisicao [showProgress]="teste"></app-carregando-requisicao> -->
+
   <div class="card centralizar">
     <div class="card-body">
       <h2 class="card-title">Resultado do balanço anual</h2>
@@ -21,31 +23,53 @@
       <div class="row justify-content-center" id="espacamento">
 
         <div class="col-md-4 col-12">
-          <button type="button" class="btn btn-outline-success" title="Receita"
-            id="botaoReceita">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualReceita)}}</button>
+
+          <button type="button" class="btn btn-outline-success" title="Receita" id="botaoReceita">
+            <div *ngIf="carregou then carregouRec else nCarregou"></div>
+            <ng-template #carregouRec>
+              {{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualReceita)}}
+            </ng-template>
+            <ng-template #nCarregou>
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </ng-template>
+          </button>
         </div>
 
         <div class="col-md-4 col-12">
-          <button class="btn btn-outline-danger" title="Despesa"
-            id="botaoDespesa">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualDespesa)}}</button>
+          <button class="btn btn-outline-danger" title="Despesa" id="botaoDespesa">
+            <div *ngIf="carregou then carregouRec else nCarregou"></div>
+            <ng-template #carregouRec>
+              {{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualDespesa)}}
+            </ng-template>
+            <ng-template #nCarregou>
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </ng-template>
+          </button>
         </div>
 
         <div class="col-md-4 col-12">
-          <button class="btn btn-outline-info" title="Saldo Final"
-            id="botaoSaldoFinal">{{formatar.aplicarMascaraDinheiro(painelValoresBotoes.saldoFinalAnual)}}</button>
+          <button class="btn btn-outline-info" title="Saldo Final" id="botaoSaldoFinal">
+            <div *ngIf="carregou then carregouRec else nCarregou"></div>
+            <ng-template #carregouRec>
+              {{formatar.aplicarMascaraDinheiro(painelValoresBotoes.saldoFinalAnual)}}
+            </ng-template>
+            <ng-template #nCarregou>
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </ng-template>
+          </button>
         </div>
-
-        <p class="card-text" id="espacamentoBotaoParaLegenda">
-          <canvas #painel style="height: 400px;"></canvas>
-        </p>
-
-        <!-- <ng-template #nPode>
-          <div class="spinner-grow" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </ng-template> -->
 
       </div>
+
+      <p class="card-text" id="espacamentoBotaoParaLegenda">
+        <canvas #painel style="height: 400px;"></canvas>
+      </p>
 
     </div>
   </div>
