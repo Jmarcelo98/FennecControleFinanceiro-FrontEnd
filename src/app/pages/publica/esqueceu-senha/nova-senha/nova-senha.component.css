@@ -4,8 +4,24 @@ button{
      width: 45%; 
 }
 
+form {
+    width: 50%;
+}
+
+label {
+    font-family: monospace; 
+    font-size: 1.2em;
+}
+
 
 .distanciamentoNavbar {
     margin-top: 15em;
     text-align: -webkit-center;
+}
+
+@media screen and (max-width: 565px) {
+    form {
+        width: 100%;
+    }
+    
 }

@@ -10,10 +10,34 @@ button{
      width: 50%; 
 }
 
+form {
+    width: 50%;
+}
+
+label {
+    font-family: monospace; 
+    font-size: 1.5em;
+}
+
 .alinharDireita {
     text-align: right;
 }
 
+.alinharEsquerda {
+    text-align: left;
+}
+
 .distanciamentoNavbar {
     margin-top: 15em;
+}
+
+.card-body {
+   text-align: -webkit-center;
+}
+
+@media screen and (max-width: 565px) {
+    form {
+        width: 100%;
+    }
+    
 }
