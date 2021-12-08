@@ -5,6 +5,7 @@ import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { environment } from 'src/environments/environment';
+import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPaginaSalva';
 
 @Component({
   selector: 'app-listar-receitas',
@@ -13,12 +14,20 @@ import { environment } from 'src/environments/environment';
 })
 export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
+  displayedColumns = ['nomeReceita', 'valorReceita', 'dataReceita', 'acoes']; // here we say that we want to just display 1 column - firstName
+
+  requisicao: boolean
+
   pesquisarValor: Date
   ano: number
   mes: number
   resultaReceitaMesPesquisado: any
 
-  config: any
+  config = {
+    itemsPerPage: 5,
+    currentPage: this.paginaSalvaReceita.getPagina(),
+    totalItems: 0
+  }
 
   mesEAnoAtual: string
 
@@ -31,6 +40,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   responseError: any
 
   dataAtual: any
+
+  paginaAtual: any
 
   valorReceitaNoMesPesquisado: number
 
@@ -60,7 +71,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   })
 
   constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
-    private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef) { }
+    private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef, private paginaSalvaReceita: TransferirPaginaSalvaReceita) { }
 
   ngAfterViewChecked() {
     if (this.setarOutraData === false) {
@@ -71,13 +82,9 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     this.cdr.detectChanges();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this.config = {
-      itemsPerPage: 5,
-      currentPage: 1,
-      totalItems: 0
-    }
+    this.requisicao = false
 
     this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
 
@@ -91,10 +98,29 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       data: [this.dataAtual, [Validators.required]],
     })
 
+    // this.config = {
+    //   itemsPerPage: 5,
+    //   currentPage: this.paginaSalvaReceita.getPagina(),
+    //   totalItems: 0
+    // }
 
+    // if (this.paginaSalvaReceita.getPagina() != 1) {
+    //   this.config = {
+    //     itemsPerPage: 5,
+    //     currentPage: this.paginaSalvaReceita.getPagina(),
+    //     totalItems: 0
+    //   }
+
+    // } else {
+    //   this.config = {
+    //     itemsPerPage: 5,
+    //     currentPage: this.paginaSalvaReceita.getPagina(),
+    //     totalItems: 0
+    //   }
+
+    // }
 
     this.buscarPelaData()
-
   }
 
   buscarPelaData() {
@@ -103,6 +129,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       this.toastr.errorToastr("Adicione uma data para visualizar suas receitas");
 
     } else {
+
+      this.requisicao = true
 
       this.pesquisarValor = new Date(this.formData.get('data').value)
 
@@ -126,12 +154,13 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       })
 
 
-
       this.receitaService.valorReceitaMesAnoPesquisado(this.ano, this.mes).subscribe(result => {
         this.resultaReceitaMesPesquisado = result
       }, err => {
         this.resultaReceitaMesPesquisado = 0
       })
+
+      this.requisicao = false
 
     }
   }
@@ -160,30 +189,32 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     }
 
     this.receitaService.atualizarReceita(novosValores).subscribe(res => {
-
+      this.requisicao = true
       this.toastr.infoToastr("Sua receita está sendo atualizada")
       if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
         this.setarOutraData = true
       } else {
         this.setarOutraData = false
       }
+
+      this.paginaSalvaReceita.setPagina(this.config.currentPage)
+
       setTimeout(() => {
         this.toastr.sucessoToastr("Receita atualizada com sucesso!")
+        this.requisicao = false
         this.ngOnInit()
-      }, 2000);
+      }, 500);
 
     }, err => {
       this.toastr.errorToastr("Erro ao atualizar receita")
       console.log(err);
 
     })
-
   }
 
   pegarIdExclusao(id: number) {
     this.idReceitaModal = id
   }
-
 
   confirmado() {
     this.podeExcluir = true;
@@ -192,6 +223,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   excluir() {
     if (this.podeExcluir === true) {
+      this.requisicao = true
       this.receitaService.excluir(this.idReceitaModal).subscribe(res => {
         this.toastr.infoToastr("Sua receita está sendo excluida");
         if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
@@ -199,16 +231,19 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         } else {
           this.setarOutraData = false
         }
+
+        this.paginaSalvaReceita.setPagina(this.config.currentPage)
+
         setTimeout(() => {
           this.toastr.sucessoToastr("Receita removida com sucesso!");
+          this.requisicao = false
           this.ngOnInit();
-        }, 2000);
+        }, 500);
 
       }, err => {
         this.toastr.errorToastr("Erro ao excluir essa receita, tente mais tarde!")
       })
     }
-
   }
 
   pageChanged(event: any) {

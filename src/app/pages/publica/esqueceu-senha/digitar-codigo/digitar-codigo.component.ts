@@ -1,8 +1,6 @@
-import { Route } from '@angular/compiler/src/core';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AutenticacaoService } from 'src/app/services/autenticacao.service';
 import { RecuperarSenhaService } from 'src/app/services/recuperar-senha.service';
 import { TransferirEmailParaComponenet } from 'src/app/services/util/resgatarEmail';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';

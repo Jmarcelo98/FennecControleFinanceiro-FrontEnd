@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 
 import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +30,8 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { ReceitaComponent } from './pages/privata/receitas/receita.component';
 import { DespesaComponent } from './pages/privata/despesas/despesa.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function tokenGetter() {
   return localStorage.getItem('jwttoken');
@@ -61,10 +64,14 @@ export function tokenGetter() {
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatTableModule,
+    NgbPaginationModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
     CurrencyMaskModule,
     HttpClientModule,
     NgxPaginationModule,
+
     ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {
@@ -72,6 +79,7 @@ export function tokenGetter() {
       }
     }),
     BrowserAnimationsModule,
+    NgbModule,
   ],
   providers: [
   ],
