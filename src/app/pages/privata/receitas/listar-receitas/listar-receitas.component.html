@@ -31,10 +31,11 @@
 <div class="espacamento">
 
   <div *ngIf="receitaExiste then temValor else vazio"></div>
-
+  
   <ng-template #temValor>
     <div class="table-responsive-md">
       <table class="table table-bordered table-striped editarTabela">
+        
         <thead id="cabecalhoTabela">
           <tr>
             <th scope="col">DESCRIÇÃO</th>
@@ -44,7 +45,8 @@
           </tr>
         </thead>
         <tbody id="tbodyEstilo">
-          <tr *ngFor="let item of receitas" style="height: 4em;">
+          <tr *ngFor="let item of receitas | paginate: config"
+            style="height: 4em;">
             <td class="centralizarTd">{{item.nomeReceita}}</td>
             <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorReceita)}}</td>
             <td class="centralizarTd">{{item.dataReceita | date: 'dd/MM/yyyy'}}</td>
@@ -179,6 +181,7 @@
           </tr>
         </tbody>
       </table>
+      <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
     </div>
   </ng-template>
 

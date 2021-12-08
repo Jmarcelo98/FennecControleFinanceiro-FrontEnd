@@ -28,7 +28,7 @@ import { CarregandoRequisicaoComponent } from './component/carregando-requisicao
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { ReceitaComponent } from './pages/privata/receitas/receita.component';
 import { DespesaComponent } from './pages/privata/despesas/despesa.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 
 export function tokenGetter() {
   return localStorage.getItem('jwttoken');
@@ -64,6 +64,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     CurrencyMaskModule,
     HttpClientModule,
+    NgxPaginationModule,
     ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {

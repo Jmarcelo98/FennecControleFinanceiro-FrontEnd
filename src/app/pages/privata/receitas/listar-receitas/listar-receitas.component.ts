@@ -18,12 +18,13 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   mes: number
   resultaReceitaMesPesquisado: any
 
+  config: any
+
   mesEAnoAtual: string
 
   podeExcluir = false
   podeAlterar = false;
 
-  // fechar: any
   setarOutraData = false
 
   receitaExiste: boolean
@@ -32,8 +33,6 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   dataAtual: any
 
   valorReceitaNoMesPesquisado: number
-
-  // receitaAtt: Receita
 
   idReceitaModal: number
   nomeReceitaModal: string
@@ -72,12 +71,13 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     this.cdr.detectChanges();
   }
 
+  ngOnInit() {
 
-  ngOnInit(): void {
-
-    // if (!this.autenticacaoService.estaAutenticado()) {
-    //   this.router.navigate(['/login']);
-    // }
+    this.config = {
+      itemsPerPage: 5,
+      currentPage: 1,
+      totalItems: 0
+    }
 
     this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
 
@@ -91,6 +91,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       data: [this.dataAtual, [Validators.required]],
     })
 
+
+
     this.buscarPelaData()
 
   }
@@ -102,7 +104,20 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
     } else {
 
-      this.receitaService.valorReceitaData(this.formData.get('data')?.value)?.subscribe(res => {
+      this.pesquisarValor = new Date(this.formData.get('data').value)
+
+      this.ano = this.pesquisarValor.getFullYear()
+      this.mes = this.pesquisarValor.getUTCMonth() + 1
+
+      this.receitaService.quantidadeReceitas(this.ano, this.mes).subscribe(quanti => {
+
+        this.config.totalItems = quanti
+
+      }, err => {
+        console.log(err);
+      })
+
+      this.receitaService.valorReceitaData(this.formData.get('data')?.value, this.config.currentPage)?.subscribe(res => {
         this.receitas = res
         this.receitaExiste = true
       }, err => {
@@ -110,12 +125,9 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         this.receitaExiste = false
       })
 
-      this.pesquisarValor = new Date(this.formData.get('data').value)
- 
-      this.ano = this.pesquisarValor.getFullYear()
-      this.mes = this.pesquisarValor.getUTCMonth() + 1
 
-      this.receitaService.valorReceitaMesAnoPesquisado(this.ano, this.mes).subscribe( result => {
+
+      this.receitaService.valorReceitaMesAnoPesquisado(this.ano, this.mes).subscribe(result => {
         this.resultaReceitaMesPesquisado = result
       }, err => {
         this.resultaReceitaMesPesquisado = 0
@@ -197,6 +209,11 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       })
     }
 
+  }
+
+  pageChanged(event: any) {
+    this.config.currentPage = event;
+    this.buscarPelaData()
   }
 
 }

@@ -30,6 +30,11 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
+  quantidadeReceitas(ano: number, mes: number) {
+    return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade/${ano}/${mes}`,
+    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  }
+
   atualizarReceita(receita: Receita) {
     return this.httpClient.put(`${this.CAMINHO_API}`, receita,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
@@ -40,13 +45,13 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  valorReceitaData(data: string) {
+  valorReceitaData(data: string, paginacao: number) {
 
     if (data == null) {
       return null;
     } else {
       return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/${data.substring(0, 4)}/${data.substring(5, 7)}`,
-        { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+        { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: {pagina : paginacao - 1, linhasPorPagina: 5} });
     }
 
   }
