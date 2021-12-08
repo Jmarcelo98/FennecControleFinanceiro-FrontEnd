@@ -197,7 +197,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         this.setarOutraData = false
       }
 
-      this.paginaSalvaReceita.setPagina(this.config.currentPage)
+    this.paginaSalvaReceita.setPagina(this.config.currentPage)
 
       setTimeout(() => {
         this.toastr.sucessoToastr("Receita atualizada com sucesso!")
@@ -231,9 +231,6 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         } else {
           this.setarOutraData = false
         }
-
-        this.paginaSalvaReceita.setPagina(this.config.currentPage)
-
         setTimeout(() => {
           this.toastr.sucessoToastr("Receita removida com sucesso!");
           this.requisicao = false

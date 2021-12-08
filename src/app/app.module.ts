@@ -71,7 +71,6 @@ export function tokenGetter() {
     CurrencyMaskModule,
     HttpClientModule,
     NgxPaginationModule,
-
     ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {

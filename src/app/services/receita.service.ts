@@ -30,15 +30,16 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
+  atualizarReceita(receita: Receita) {
+    return this.httpClient.put(`${this.CAMINHO_API}`, receita,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+  }
+
   quantidadeReceitas(ano: number, mes: number) {
     return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade/${ano}/${mes}`,
     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
   }
 
-  atualizarReceita(receita: Receita) {
-    return this.httpClient.put(`${this.CAMINHO_API}`, receita,
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
-  }
 
   adicionarNovaReceita(receita: Receita) {
     return this.httpClient.post(`${this.CAMINHO_API}`, receita,
