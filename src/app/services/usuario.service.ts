@@ -6,9 +6,9 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class RecuperarSenhaService {
+export class UsuarioService {
 
-  private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth`
+  private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/usuario`
 
   emailFoiDigitado: boolean
 
@@ -18,6 +18,18 @@ export class RecuperarSenhaService {
 
   public getEmailDigitado(): boolean {
     return this.emailFoiDigitado;
+  }
+
+  atualizarSenha(email: string, senha: string): Observable<string> {
+    return this.httpClient.put<string>(`${this.CAMINHO_API}/nova-senha`, { email, senha });
+  }
+
+  verificarCodigoEnviado(email: string, codigo: string) {
+    return this.httpClient.get<boolean>(`${this.CAMINHO_API}/verificarCodigo`, {params: {email: email, codigo: codigo} } );
+  }
+
+  enviarCodigoEmail(email: string): Observable<string> {
+    return this.httpClient.post<string>(`${this.CAMINHO_API}/enviar-codigo-email`, { email })
   }
 
   setEmailDigitado(enviado: boolean) {
@@ -30,14 +42,6 @@ export class RecuperarSenhaService {
 
   setCodigoDigitado(enviado: boolean) {
     this.codigoDigitado = enviado
-  }
-
-  enviarCodigo(email: string, codigo: string) {
-    return this.httpClient.get<boolean>(`${this.CAMINHO_API}/${email}/${codigo}`)
-  }
-
-  esqueciASenha(email: string): Observable<string> {
-    return this.httpClient.post<string>(`${this.CAMINHO_API}/recuperar-senha`, { email })
   }
 
 }

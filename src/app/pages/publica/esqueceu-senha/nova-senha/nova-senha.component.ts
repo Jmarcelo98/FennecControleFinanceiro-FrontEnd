@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AutenticacaoService } from 'src/app/services/autenticacao.service';
+import { UsuarioService} from 'src/app/services/usuario.service';
 import { TransferirEmailParaComponenet } from 'src/app/services/util/resgatarEmail';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 
@@ -26,7 +27,9 @@ export class NovaSenhaComponent implements OnInit {
   carregou = false
 
   constructor(private formBuilder: FormBuilder, private resgatarEmailDoComponenet: TransferirEmailParaComponenet,
-    private autenticacaoService: AutenticacaoService, private toastrServiceClasse: ToastrServiceClasse, private router: Router) { }
+    private autenticacaoService: AutenticacaoService, 
+    private toastrServiceClasse: ToastrServiceClasse, private router: Router,
+    private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
   }
@@ -60,7 +63,7 @@ export class NovaSenhaComponent implements OnInit {
 
     this.carregou = true;
 
-   this.autenticacaoService.atualizarSenha(this.resgatarEmailDoComponenet.getEmail(), this.novaSenha.get('senha')?.value).subscribe(result => {
+   this.usuarioService.atualizarSenha(this.resgatarEmailDoComponenet.getEmail(), this.novaSenha.get('senha')?.value).subscribe(result => {
 
       this.toastrServiceClasse.sucessoToastr("Senha alterada com sucesso!")
       this.autenticacaoService.login(this.resgatarEmailDoComponenet.getEmail(), this.novaSenha.get('senha')?.value).subscribe(login => {

@@ -25,9 +25,13 @@ export class AutenticacaoService {
     return !this.jwtHelper.isTokenExpired(token || undefined);
   }
 
-  atualizarSenha(email: string, senha: string): Observable<string> {
-    return this.httpClient.put<string>(`${this.CAMINHO_API}/atualizarSenha`, { email, senha });
+  cadastrar(email: string, senha: string, nome: string, sobrenome: string) {
+    return this.httpClient.post<Login>(`${this.CAMINHO_API}/cadastrar`, {email, senha, nome, sobrenome})
   }
+
+  // atualizarSenha(email: string, senha: string): Observable<string> {
+  //   return this.httpClient.put<string>(`${this.CAMINHO_API}/nova-senha`, { email, senha });
+  // }
 
   login(email: string, senha: string) {
     return this.httpClient.post<Login>(`${this.CAMINHO_API}/login`, { email, senha })

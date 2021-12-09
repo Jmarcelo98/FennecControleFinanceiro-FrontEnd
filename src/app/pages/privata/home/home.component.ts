@@ -49,7 +49,7 @@ export class HomeComponent {
   //     this.valorDespesa = err.error;
   //   })
 
-  //   await this.receitaService.valorReceitaMesAtual().toPromise().then(
+  //   await this.receitaService.valorReceitaDataAtual().toPromise().then(
   //     responseReceita => this.valorReceita = responseReceita
   //   ).catch(err => {
   //     this.valorReceita = err.error;

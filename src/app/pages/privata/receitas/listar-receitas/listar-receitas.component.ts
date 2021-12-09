@@ -4,17 +4,28 @@ import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
-import { environment } from 'src/environments/environment';
 import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPaginaSalva';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
+
+const USER_SCHEMA = {
+  "nomeReceita": "text",
+  "valorReceita": "number",
+  "dataReceita": "date",
+  "isEdit": "isEdit"
+}
+
 
 @Component({
   selector: 'app-listar-receitas',
   templateUrl: './listar-receitas.component.html',
   styleUrls: ['./listar-receitas.component.css']
 })
+
+
 export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
-  displayedColumns = ['nomeReceita', 'valorReceita', 'dataReceita', 'acoes']; // here we say that we want to just display 1 column - firstName
+  dataLimiteInput = new Date()
 
   requisicao: boolean
 
@@ -31,8 +42,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   mesEAnoAtual: string
 
-  podeExcluir = false
-  podeAlterar = false;
+  // podeExcluir = false
+  // podeAlterar = false;
 
   setarOutraData = false
 
@@ -41,14 +52,14 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   dataAtual: any
 
-  paginaAtual: any
+  // paginaAtual: any
 
-  valorReceitaNoMesPesquisado: number
+  // valorReceitaNoMesPesquisado: number
 
-  idReceitaModal: number
-  nomeReceitaModal: string
-  valorReceitaModal: number
-  dataReceitaModal: Date
+  // idReceitaModal: number
+  // nomeReceitaModal: string
+  // valorReceitaModal: number
+  // dataReceitaModal: Date
 
   formatar: FormatarPrice = new FormatarPrice();
 
@@ -56,22 +67,27 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   formData: any
 
-  dataString: any
-  formatadoDate: Date
+  // dataString: any
 
-  atualizarValores = this.formBuilder.group({
-    id: [null],
-    nomeNovaReceita: [null, [Validators.required]],
-    valorNovaReceita: [null, [Validators.required]],
-    dataReceita: [null]
-  })
+  // atualizarValores = this.formBuilder.group({
+  //   id: [null],
+  //   nomeNovaReceita: [null, [Validators.required]],
+  //   valorNovaReceita: [, [Validators.required, Validators.min(0.01)]],
+  //   dataNovaReceita: [null, [Validators.required]]
+  // })
 
-  confirmar = this.formBuilder.group({
-    confirmacao: [null]
-  })
+  // confirmar = this.formBuilder.group({
+  //   confirmacao: [null]
+  // })
+
+
+  displayedColumns: string[] = ['nomeReceita', 'valorReceita', 'dataReceita', 'isEdit'];
+
+  dataSchema: any = USER_SCHEMA;
 
   constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
-    private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef, private paginaSalvaReceita: TransferirPaginaSalvaReceita) { }
+    private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef,
+    private paginaSalvaReceita: TransferirPaginaSalvaReceita, private dialog: MatDialog) { }
 
   ngAfterViewChecked() {
     if (this.setarOutraData === false) {
@@ -98,29 +114,42 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       data: [this.dataAtual, [Validators.required]],
     })
 
-    // this.config = {
-    //   itemsPerPage: 5,
-    //   currentPage: this.paginaSalvaReceita.getPagina(),
-    //   totalItems: 0
-    // }
-
-    // if (this.paginaSalvaReceita.getPagina() != 1) {
-    //   this.config = {
-    //     itemsPerPage: 5,
-    //     currentPage: this.paginaSalvaReceita.getPagina(),
-    //     totalItems: 0
-    //   }
-
-    // } else {
-    //   this.config = {
-    //     itemsPerPage: 5,
-    //     currentPage: this.paginaSalvaReceita.getPagina(),
-    //     totalItems: 0
-    //   }
-
-    // }
-
     this.buscarPelaData()
+  }
+
+  // get f() {
+  //   return this.atualizarValores.controls;
+  // }
+
+  editar(receitaAtt: Receita) {
+
+    console.log(receitaAtt.valorReceita);
+    
+    if (receitaAtt.valorReceita == null || receitaAtt.valorReceita == 0) {
+      
+      return ;
+    }
+
+    if (receitaAtt.dataReceita == null || receitaAtt.nomeReceita || receitaAtt.nomeReceita) {
+      
+    }
+
+    this.receitaService.atualizarReceita(receitaAtt).subscribe(res => {
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  remover(id: number) {
+    this.dialog.open(ConfirmacaoDialogComponent).afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.receitaService.deletarReceita(id).subscribe(res => {
+          console.log("excluiu");
+        }, err => {
+          console.log(err);
+        })
+      }
+    })
   }
 
   buscarPelaData() {
@@ -137,7 +166,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       this.ano = this.pesquisarValor.getFullYear()
       this.mes = this.pesquisarValor.getUTCMonth() + 1
 
-      this.receitaService.quantidadeReceitas(this.ano, this.mes).subscribe(quanti => {
+      this.receitaService.quantidadeReceitaMensal(this.ano, this.mes).subscribe(quanti => {
 
         this.config.totalItems = quanti
 
@@ -145,7 +174,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         console.log(err);
       })
 
-      this.receitaService.valorReceitaData(this.formData.get('data')?.value, this.config.currentPage)?.subscribe(res => {
+      this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(this.formData.get('data')?.value, this.config.currentPage)?.subscribe(res => {
         this.receitas = res
         this.receitaExiste = true
       }, err => {
@@ -154,7 +183,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
       })
 
 
-      this.receitaService.valorReceitaMesAnoPesquisado(this.ano, this.mes).subscribe(result => {
+      this.receitaService.valorTotalDaReceitaMesAnoPesquisado(this.ano, this.mes).subscribe(result => {
         this.resultaReceitaMesPesquisado = result
       }, err => {
         this.resultaReceitaMesPesquisado = 0
@@ -165,87 +194,92 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  editar(receita: Receita) {
-    this.dataReceitaModal = receita.dataReceita
+  // editar(receita: Receita) {
 
-    this.atualizarValores = this.formBuilder.group({
-      id: [receita.id],
-      nomeNovaReceita: [receita.nomeReceita, [Validators.required]],
-      valorNovaReceita: [receita.valorReceita, [Validators.required]],
-      dataReceita: [receita.dataReceita]
-    })
+  //   this.dataReceitaModal = receita.dataReceita
 
-  }
+  //   this.atualizarValores = this.formBuilder.group({
+  //     id: [receita.id],
+  //     nomeNovaReceita: [receita.nomeReceita, [Validators.required]],
+  //     valorNovaReceita: [receita.valorReceita, [Validators.required]],
+  //     dataReceita: [receita.dataReceita]
+  //   })
 
-  concluirAtualizarValorReceita() {
+  // }
 
-    this.dataString = this.atualizarValores.get('dataReceita')?.value + environment.FORMATAR_DATA;
+  // concluirAtualizarValorReceita() {
 
-    const novosValores: Receita = {
-      id: this.atualizarValores.get('id')?.value,
-      nomeReceita: this.atualizarValores.get('nomeNovaReceita')?.value,
-      valorReceita: this.atualizarValores.get('valorNovaReceita')?.value,
-      dataReceita: this.atualizarValores.get('dataReceita')?.value,
-    }
+  //   this.dataString = this.atualizarValores.get('dataReceita')?.value + environment.FORMATAR_DATA;
 
-    this.receitaService.atualizarReceita(novosValores).subscribe(res => {
-      this.requisicao = true
-      this.toastr.infoToastr("Sua receita está sendo atualizada")
-      if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
-        this.setarOutraData = true
-      } else {
-        this.setarOutraData = false
-      }
+  //   const novosValores: Receita = {
+  //     id: this.atualizarValores.get('id')?.value,
+  //     nomeReceita: this.atualizarValores.get('nomeNovaReceita')?.value,
+  //     valorReceita: this.atualizarValores.get('valorNovaReceita')?.value,
+  //     dataReceita: this.atualizarValores.get('dataReceita')?.value,
+  //   }
 
-    this.paginaSalvaReceita.setPagina(this.config.currentPage)
+  //   this.receitaService.atualizarReceita(novosValores).subscribe(res => {
+  //     this.requisicao = true
+  //     this.toastr.infoToastr("Sua receita está sendo atualizada")
+  //     if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
+  //       this.setarOutraData = true
+  //     } else {
+  //       this.setarOutraData = false
+  //     }
 
-      setTimeout(() => {
-        this.toastr.sucessoToastr("Receita atualizada com sucesso!")
-        this.requisicao = false
-        this.ngOnInit()
-      }, 500);
+  //     this.paginaSalvaReceita.setPagina(this.config.currentPage)
 
-    }, err => {
-      this.toastr.errorToastr("Erro ao atualizar receita")
-      console.log(err);
+  //     setTimeout(() => {
+  //       this.toastr.sucessoToastr("Receita atualizada com sucesso!")
+  //       this.requisicao = false
+  //       this.ngOnInit()
+  //     }, 500);
 
-    })
-  }
+  //   }, err => {
+  //     this.toastr.errorToastr("Erro ao atualizar receita")
+  //     console.log(err);
 
-  pegarIdExclusao(id: number) {
-    this.idReceitaModal = id
-  }
+  //   })
+  // }
 
-  confirmado() {
-    this.podeExcluir = true;
-    this.excluir()
-  }
+  // pegarIdExclusao(id: number) {
+  //   this.idReceitaModal = id
+  // }
 
-  excluir() {
-    if (this.podeExcluir === true) {
-      this.requisicao = true
-      this.receitaService.excluir(this.idReceitaModal).subscribe(res => {
-        this.toastr.infoToastr("Sua receita está sendo excluida");
-        if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
-          this.setarOutraData = true
-        } else {
-          this.setarOutraData = false
-        }
-        setTimeout(() => {
-          this.toastr.sucessoToastr("Receita removida com sucesso!");
-          this.requisicao = false
-          this.ngOnInit();
-        }, 500);
+  // confirmado() {
+  //   this.podeExcluir = true;
+  //   this.excluir()
+  // }
 
-      }, err => {
-        this.toastr.errorToastr("Erro ao excluir essa receita, tente mais tarde!")
-      })
-    }
-  }
+  // excluir() {
+  //   if (this.podeExcluir === true) {
+  //     this.requisicao = true
+  //     this.receitaService.deletarReceita(this.idReceitaModal).subscribe(res => {
+  //       this.toastr.infoToastr("Sua receita está sendo excluida");
+  //       if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
+  //         this.setarOutraData = true
+  //       } else {
+  //         this.setarOutraData = false
+  //       }
+  //       setTimeout(() => {
+  //         this.toastr.sucessoToastr("Receita removida com sucesso!");
+  //         this.requisicao = false
+  //         this.ngOnInit();
+  //       }, 500);
+
+  //     }, err => {
+  //       this.toastr.errorToastr("Erro ao excluir essa receita, tente mais tarde!")
+  //     })
+  //   }
+  // }
 
   pageChanged(event: any) {
     this.config.currentPage = event;
     this.buscarPelaData()
   }
 
+
 }
+
+
+

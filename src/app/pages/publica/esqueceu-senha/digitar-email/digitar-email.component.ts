@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RecuperarSenhaService } from 'src/app/services/recuperar-senha.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { TransferirEmailParaComponenet } from 'src/app/services/util/resgatarEmail';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 
@@ -13,9 +13,9 @@ import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 export class DigitarEmailComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-    private recuperarSenhaService: RecuperarSenhaService,
     private toastrServiceClasse: ToastrServiceClasse,
-    private router: Router, private transferirEmailParaComponenet: TransferirEmailParaComponenet) { }
+    private router: Router, private transferirEmailParaComponenet: TransferirEmailParaComponenet,
+    private usuarioService: UsuarioService) { }
 
   foiEnviado = false
   carregou = false
@@ -41,10 +41,10 @@ export class DigitarEmailComponent implements OnInit {
     }
 
     this.carregou = true
-    await this.recuperarSenhaService.esqueciASenha(this.digitarEmail.get('email')?.value).toPromise().then(result => {
+    await this.usuarioService.enviarCodigoEmail(this.digitarEmail.get('email')?.value).toPromise().then(result => {
       result = "Código enviado ao email informado";
       this.transferirEmailParaComponenet.setEmail(this.digitarEmail.get('email')?.value)
-      this.recuperarSenhaService.setEmailDigitado(true)
+      this.usuarioService.setEmailDigitado(true)
       this.toastrServiceClasse.sucessoToastr(result)
       this.router.navigate(['digitar-codigo'])
       this.carregou = false

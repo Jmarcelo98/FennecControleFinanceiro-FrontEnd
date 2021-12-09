@@ -13,10 +13,17 @@ label {
     font-size: 1.2em;
 }
 
+h3 {
+    font-family: sans-serif;
+    font-size: 2em;
+    margin-top: 0.3em;
+}
+
 
 .distanciamentoNavbar {
     margin-top: 15em;
     text-align: -webkit-center;
+    text-align: -moz-center;
 }
 
 @media screen and (max-width: 565px) {

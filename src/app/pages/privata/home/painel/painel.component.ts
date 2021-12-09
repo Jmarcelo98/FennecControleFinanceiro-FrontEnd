@@ -46,7 +46,7 @@ export class PainelComponent implements OnInit {
 
     this.carregou = false
 
-    await this.painelService.anosDashboard().toPromise().then(anosResultado => {
+    await this.painelService.anosEmQuePossuiReceitaOuDespesa().toPromise().then(anosResultado => {
       this.anos = anosResultado
     }).catch(err => {
       console.log(err);
@@ -139,7 +139,7 @@ export class PainelComponent implements OnInit {
     this.lineChartValorDespesa = []
     this.linheChartSaldoFinal = []
 
-    await this.painelService.painel(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
+    await this.painelService.painelDeAcordoComAno(this.contactForm.get('anoSelecionado')?.value).toPromise().then(
       painelResultados => {
         this.painelValores = painelResultados
       }

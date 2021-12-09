@@ -8,7 +8,7 @@ import { Login } from '../models/login';
 })
 export class CadastroService {
 
-  private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth/cadastro`
+  private readonly CAMINHO_API = `${environment.CAMINHO_RAIZ}/auth/cadastrar`
   constructor(private httpClient: HttpClient) { }
 
   cadastrar(email: string, senha: string, nome: string, sobrenome: string) {

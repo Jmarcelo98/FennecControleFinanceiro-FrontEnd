@@ -52,7 +52,7 @@ export class CadastroComponent implements OnInit {
       return;
     }
 
-    this.cadastroService.cadastrar(this.cadastroForm.get('email')?.value, this.cadastroForm.get('senha')?.value,
+    this.autenticacaoService.cadastrar(this.cadastroForm.get('email')?.value, this.cadastroForm.get('senha')?.value,
       this.cadastroForm.get('nome')?.value, this.cadastroForm.get('sobrenome')?.value).subscribe(
         (cadastro) => {
 

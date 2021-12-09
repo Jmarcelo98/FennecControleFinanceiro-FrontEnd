@@ -15,17 +15,17 @@ export class ReceitaService {
 
   constructor(private httpClient: HttpClient, public auth: AutenticacaoService) { }
 
-  valorReceitaMesAtual() {
-    return this.httpClient.get<number>(`${this.CAMINHO_API}/valorReceitaMes`,
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  // valorReceitaDataAtual() {
+  //   return this.httpClient.get<number>(`${this.CAMINHO_API}/valorReceitaMes`,
+  //     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  // }
+
+  valorTotalDaReceitaMesAnoPesquisado(ano: number, mes: number) {
+    return this.httpClient.get<number>(`${this.CAMINHO_API}/valor-total/mensal-anual`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { ano: ano, mes: mes } });
   }
 
-  valorReceitaMesAnoPesquisado(ano: number, mes: number){
-    return this.httpClient.get<number>(`${this.CAMINHO_API}/valorReceitaMes/${ano}/${mes}`,
-    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
-  }
-
-  excluir(id: number) {
+  deletarReceita(id: number) {
     return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
@@ -35,24 +35,26 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  quantidadeReceitas(ano: number, mes: number) {
-    return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade/${ano}/${mes}`,
-    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  quantidadeReceitaMensal(ano: number, mes: number) {
+    return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade-mensal`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { ano: ano, mes: mes } });
   }
-
 
   adicionarNovaReceita(receita: Receita) {
     return this.httpClient.post(`${this.CAMINHO_API}`, receita,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  valorReceitaData(data: string, paginacao: number) {
+  buscarTodasReceitasOuDeAcordoComOMesAno(data: string, paginacao: number) {
 
     if (data == null) {
       return null;
     } else {
-      return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/${data.substring(0, 4)}/${data.substring(5, 7)}`,
-        { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: {pagina : paginacao - 1, linhasPorPagina: 5} });
+      return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/data/mensal-anual`,
+        {
+          headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
+          params: { ano: data.substring(0, 4), mes: data.substring(5, 7), pagina: paginacao - 1, linhasPorPagina: 5 }
+        });
     }
 
   }

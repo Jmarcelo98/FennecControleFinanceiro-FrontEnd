@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RecuperarSenhaService } from 'src/app/services/recuperar-senha.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { TransferirEmailParaComponenet } from 'src/app/services/util/resgatarEmail';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 
@@ -29,8 +29,8 @@ export class DigitarCodigoComponent implements OnInit, AfterViewInit {
   })
 
   constructor(private formBuilder: FormBuilder, private resgatarEmailDoComponenet: TransferirEmailParaComponenet,
-    private recuperarSenhaService: RecuperarSenhaService, private toastrServiceClasse: ToastrServiceClasse,
-    private router: Router) {
+    private toastrServiceClasse: ToastrServiceClasse,
+    private router: Router, private usuarioService: UsuarioService) {
   }
 
   @ViewChild("codigo1") input: ElementRef
@@ -64,10 +64,10 @@ export class DigitarCodigoComponent implements OnInit, AfterViewInit {
       + this.codigo.get('codigo6')?.value
 
     this.carregou = true
-    await this.recuperarSenhaService.enviarCodigo(this.resgatarEmailDoComponenet.getEmail(), this.codigoFinal).subscribe(result => {
+    await this.usuarioService.verificarCodigoEnviado(this.resgatarEmailDoComponenet.getEmail(), this.codigoFinal).subscribe(result => {
 
       this.toastrServiceClasse.sucessoToastr("Código aceito! Você será redirecionado para alterar sua senha!")
-      this.recuperarSenhaService.setCodigoDigitado(true);
+      this.usuarioService.setCodigoDigitado(true);
       this.router.navigate(['nova-senha']);
       this.carregou = false
 

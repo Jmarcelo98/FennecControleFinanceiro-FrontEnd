@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
-import { RecuperarSenhaService } from "../services/recuperar-senha.service";
+import { UsuarioService } from "../services/usuario.service";
 
 @Injectable({
     providedIn: 'root',
@@ -8,7 +8,7 @@ import { RecuperarSenhaService } from "../services/recuperar-senha.service";
 
 export class EmailGuardService implements CanActivate {
 
-    constructor(public emailFoiDigitado: RecuperarSenhaService, public router: Router) { }
+    constructor(public emailFoiDigitado: UsuarioService, public router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
