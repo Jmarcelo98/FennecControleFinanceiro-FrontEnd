@@ -7,6 +7,8 @@ import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPaginaSalva';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
+import { environment } from 'src/environments/environment';
+import { DatePipe } from '@angular/common';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -42,9 +44,6 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   mesEAnoAtual: string
 
-  // podeExcluir = false
-  // podeAlterar = false;
-
   setarOutraData = false
 
   receitaExiste: boolean
@@ -52,54 +51,40 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   dataAtual: any
 
-  // paginaAtual: any
-
-  // valorReceitaNoMesPesquisado: number
-
-  // idReceitaModal: number
-  // nomeReceitaModal: string
-  // valorReceitaModal: number
-  // dataReceitaModal: Date
-
   formatar: FormatarPrice = new FormatarPrice();
 
   receitas: Array<Receita>
 
   formData: any
 
-  // dataString: any
-
-  // atualizarValores = this.formBuilder.group({
-  //   id: [null],
-  //   nomeNovaReceita: [null, [Validators.required]],
-  //   valorNovaReceita: [, [Validators.required, Validators.min(0.01)]],
-  //   dataNovaReceita: [null, [Validators.required]]
-  // })
-
-  // confirmar = this.formBuilder.group({
-  //   confirmacao: [null]
-  // })
-
-
   displayedColumns: string[] = ['nomeReceita', 'valorReceita', 'dataReceita', 'isEdit'];
 
   dataSchema: any = USER_SCHEMA;
+
+  editarInvalido = false
+
+  camposInvalidos = {
+    valor: {
+      valorNull: false,
+      valorZero: false
+    },
+    nome: false,
+    data: false
+  }
+
+  teste: any
+
+  foiEnviado: boolean
 
   constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
     private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef,
     private paginaSalvaReceita: TransferirPaginaSalvaReceita, private dialog: MatDialog) { }
 
-  ngAfterViewChecked() {
-    if (this.setarOutraData === false) {
-      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
-    } else {
-      this.dataAtual = (this.formData.get('data')?.value)
-    }
-    this.cdr.detectChanges();
-  }
+
 
   async ngOnInit() {
 
+    this.foiEnviado = false
     this.requisicao = false
 
     this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
@@ -117,22 +102,52 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     this.buscarPelaData()
   }
 
-  // get f() {
-  //   return this.atualizarValores.controls;
-  // }
+  ngAfterViewChecked() {
+    if (this.setarOutraData === false) {
+      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+    } else {
+      this.dataAtual = (this.formData.get('data')?.value)
+    }
+    this.cdr.detectChanges();
+  }
 
   editar(receitaAtt: Receita) {
 
-    console.log(receitaAtt.valorReceita);
-    
-    if (receitaAtt.valorReceita == null || receitaAtt.valorReceita == 0) {
-      
-      return ;
+    this.foiEnviado = true
+
+    if (receitaAtt.dataReceita == null) {
+      this.camposInvalidos.data = true
+    } else {
+      this.camposInvalidos.data = false
     }
 
-    if (receitaAtt.dataReceita == null || receitaAtt.nomeReceita || receitaAtt.nomeReceita) {
-      
+    if (receitaAtt.nomeReceita.length == 0) {
+      this.camposInvalidos.nome = true
+    } else {
+      this.camposInvalidos.nome = false
     }
+
+    if (receitaAtt.valorReceita == null) {
+      this.camposInvalidos.valor.valorNull = true
+    } else {
+      this.camposInvalidos.valor.valorNull = false
+    }
+
+    if (receitaAtt.valorReceita == 0) {
+      this.camposInvalidos.valor.valorZero = true
+    } else {
+      this.camposInvalidos.valor.valorZero = false
+    }
+
+    if (this.camposInvalidos.nome == true || this.camposInvalidos.data == true ||
+      this.camposInvalidos.valor.valorNull == true || this.camposInvalidos.valor.valorZero) {
+      return;
+    }
+
+    console.log(receitaAtt.dataReceita);
+
+
+    return;
 
     this.receitaService.atualizarReceita(receitaAtt).subscribe(res => {
     }, err => {
@@ -176,6 +191,8 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
       this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(this.formData.get('data')?.value, this.config.currentPage)?.subscribe(res => {
         this.receitas = res
+        console.log(this.receitas);
+                
         this.receitaExiste = true
       }, err => {
         this.responseError = err.error.msg

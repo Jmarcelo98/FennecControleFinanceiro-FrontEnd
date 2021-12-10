@@ -142,6 +142,11 @@ table {
     color: red;
 }
 
+.errorInput {
+    position: absolute;
+    margin-top: 1em;
+}
+
 
 
 
