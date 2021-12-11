@@ -9,6 +9,8 @@ export class ReceitaComponent implements OnInit {
 
   constructor() { }
 
+  processandoRequisicao: boolean
+
   ngOnInit(): void {
   }
 

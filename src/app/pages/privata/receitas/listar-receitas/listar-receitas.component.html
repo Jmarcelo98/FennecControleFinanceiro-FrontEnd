@@ -1,4 +1,4 @@
-<app-carregando-requisicao [showProgress]="requisicao"></app-carregando-requisicao>
+<!-- <app-carregando-requisicao [showProgress]="requisicao"></app-carregando-requisicao> -->
 
 <div class="centralizarQuandoCelular">
 
@@ -35,182 +35,6 @@
   <div *ngIf="receitaExiste then temValor else vazio"></div>
 
   <ng-template #temValor>
-
-    <!-- <mat-table class="lessons-table mat-elevation-z8" [dataSource]="receitas">
-  
-      <ng-container matColumnDef="Descrição">
-          <div *matHeaderCellDef>DESCRIÇÃO</div>
-          <div *matCellDef="let lesson">{{lesson.nomeReceita}}</div>
-      </ng-container>
-    
-      <ng-container matColumnDef="valor">
-          <div *matHeaderCellDef>VALOR</div>
-          <div class="description-cell"
-                    *matCellDef="let lesson">{{lesson.valorReceita}}</div>
-      </ng-container>
-
-      <ng-container matColumnDef="data">
-        <div *matHeaderCellDef>DATA</div>
-        <div class="description-cell"
-                  *matCellDef="let lesson">{{lesson.dataReceita}}</div>
-    </ng-container>
-    
-      <ng-container matColumnDef="acoes">
-          <div *matHeaderCellDef>AÇÕES</div>
-          <div class="duration-cell"
-                    *matCellDef="let lesson">{{lesson.duration}}</div>
-      </ng-container>
-      
-       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row> 
-      
-  </mat-table> -->
-
-    <!-- <table mat-table [dataSource]="receitas | paginate: config" class="mat-elevation-z8 demo-table">
-
-      <ng-container matColumnDef="nomeReceita">
-        <th mat-header-cell *matHeaderCellDef>Descrição</th>
-        <td mat-cell *matCellDef="let element">{{element.nomeReceita}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="valorReceita">
-        <th mat-header-cell *matHeaderCellDef>Valor</th>
-        <td mat-cell *matCellDef="let element">{{formatar.aplicarMascaraDinheiro(element.valorReceita)}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="dataReceita">
-        <th mat-header-cell *matHeaderCellDef>Data</th>
-        <td mat-cell *matCellDef="let element">{{element.dataReceita | date: 'dd/MM/yyyy'}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef>Valor</th>
-        <td mat-cell *matCellDef="let element">
-          <div class="row">
-            <div class="col-6">
-              <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela espacar "
-                (click)="editar(element)">
-                <img src="../../../../assets/img/icones/editar.png" style="width: 24px;" alt="Editar" title="Editar">
-              </a>
-            </div>
-
-            <div class="col-6">
-              <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
-                <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir" title="Excluir"
-                  (click)="pegarIdExclusao(element.id)">
-              </a>
-            </div>
-          </div>
-          <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-
-
-              <div class="modal-content">
-
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">EDITAR RECEITA</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-
-
-                <div class="modal-body">
-
-                  <form [formGroup]="atualizarValores" (ngSubmit)="concluirAtualizarValorReceita()">
-
-                    <div class="row">
-
-                      <div class="col-6">
-                        <label for="nome">Nome da receita</label>
-                        <input class="form-control" type="text" formControlName="nomeNovaReceita" name="nome" id="nome"
-                          ngModel="{{element.id}}">
-                      </div>
-
-                      <div class="col-6">
-                        <label for="nome">Valor da receita</label>
-                        <input class="form-control" type="text" formControlName="valorNovaReceita"
-                          ngModel="{{element.valorReceita}}" currencyMask name="nome" id="nome"
-                          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
-                      </div>
-
-                    </div>
-
-                    <div class="row">
-
-                      <div class="col-4">
-                        <label for="nome">Data da receita</label>
-                        <input class="form-control" type="text" disabled
-                          value="{{dataReceitaModal | date: 'dd/MM/yyyy'}}" name="nome" id="nome">
-                      </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                      <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                      <button type="button" (click)="concluirAtualizarValorReceita()" data-dismiss="modal"
-                        class="btn btn-primary">Salvar
-                        alteração</button>
-                    </div>
-
-                  </form>
-
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-          <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog  modal-dialog-centered" role="document">
-
-              <div class="modal-content">
-
-                <div class="modal-body">
-
-                  <form [formGroup]="confirmar">
-
-                    <div class="row ">
-
-                      <span class="permanente">CONFIRME A EXCLUSÃO PERMANENTE DESSA RECEITA</span>
-
-                    </div>
-
-                    <hr>
-
-                    <div class="row" style="margin-top: 4%;">
-
-                      <div class="col-6">
-                        <button class="btn btn-secondary btn-sm" data-dismiss="modal">Não</button>
-                      </div>
-
-                      <div class="col-6">
-                        <button class="btn btn-primary btn-sm" (click)="confirmado()" data-dismiss="modal" type="button"
-                          id="teste" style="float: right;">Sim</button>
-                      </div>
-
-                    </div>
-
-                  </form>
-
-                </div>
-
-
-              </div>
-
-            </div>
-          </div>
-
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    </table> -->
 
     <article class="table-header">
       <table mat-table [dataSource]="receitas">
@@ -258,7 +82,8 @@
                 <div class="row">
                   <div class="col-6">
                     <!-- (click)="element.isEdit = !element.isEdit" -->
-                    <button (click)="editar(element)" class="btn btn-outline-primary">Salvar</button>
+                    <button (click)="editar(element) == true && element.isEdit = !element.isEdit"
+                      class="btn btn-outline-primary">Salvar</button>
                   </div>
                   <div class="col-6">
                     <button (click)="element.isEdit = !element.isEdit" class="btn btn-outline-danger">Cancelar</button>
@@ -268,7 +93,7 @@
               <mat-form-field *ngSwitchCase="'date'">
                 <mat-label>Data</mat-label>
                 <input matInput [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.data}" [matDatepicker]="picker"
-                  [max]="dataLimiteInput" [(ngModel)]="element[col]">
+                  [max]="dataLimiteInput"[(ngModel)]="element[col]">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.data">

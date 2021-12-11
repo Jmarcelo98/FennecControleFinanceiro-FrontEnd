@@ -52,9 +52,6 @@ export class PainelComponent implements OnInit {
       console.log(err);
     })
 
-    console.log(this.anos);
-    
-
     if (this.anos.length > 0) {
       this.contactForm = this.fb.group({
         anoSelecionado: [this.anos[0]]
