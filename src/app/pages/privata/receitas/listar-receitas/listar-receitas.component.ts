@@ -1,5 +1,5 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
@@ -8,7 +8,9 @@ import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPagi
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
 import { ReceitaComponent } from '../receita.component';
-import { isThisTypeNode } from 'typescript';
+import { Moment } from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
+import * as moment from 'moment';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -30,10 +32,11 @@ const INVALIDOS_INPUT_EDITAR = {
 @Component({
   selector: 'app-listar-receitas',
   templateUrl: './listar-receitas.component.html',
-  styleUrls: ['./listar-receitas.component.css']
+  styleUrls: ['./listar-receitas.component.css'],
 })
 
-export class ListarReceitasComponent implements OnInit, AfterViewChecked {
+
+export class ListarReceitasComponent implements OnInit {
 
   // utilizado para editar valores na tabela
   dataSchema: any = USER_SCHEMA;
@@ -43,9 +46,6 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   // utilizado pra limitar o input date
   dataLimiteInput = new Date()
-
-  // // utilizado para ativar GIF de loadig
-  // requisicao: boolean
 
   // utilizado para a configuração da paginação
   config = {
@@ -66,53 +66,73 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
   // utilizado para verificao de quando for enviado o input editar
   foiEnviado: boolean
 
-  pesquisarValor: Date
-  ano: number
-  mes: number
+  // usado para input de escolher um mes
+  date = new FormControl(moment());
+
+  // serve para verificar se existe alguma receita cadastrada
+  existeAoMenosUmaReceitaCadastrada: boolean
+
+  // serve para mostrar o valor no botao
   resultaReceitaMesPesquisado: any
 
-  mesEAnoAtual: string
+  // serve para pegar data de receita mais recente
+  dataReceitaMaisRecente: Date
 
-  setarOutraData = false
-
+  // serve para verificar se existe alguma receita
   receitaExiste: boolean
+
+  // mensagens de errors vindo do backend
   responseError: any
 
-  dataAtual: any
 
-  formData: any
-
-  constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
-    private toastrServiceClasse: ToastrServiceClasse, private cdr: ChangeDetectorRef,
-    private paginaSalvaReceita: TransferirPaginaSalvaReceita, private dialog: MatDialog,
+  constructor(private receitaService: ReceitaService,
+    private toastrServiceClasse: ToastrServiceClasse, private paginaSalvaReceita: TransferirPaginaSalvaReceita,
+    private dialog: MatDialog,
     private receitaComponentPai: ReceitaComponent) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this.foiEnviado = false
+    await this.verificarSeExisteReceitaCadastrada()
 
-    this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
+    if (this.existeAoMenosUmaReceitaCadastrada == false) {
 
-    if (this.setarOutraData === false) {
-      this.dataAtual = this.mesEAnoAtual;
+      this.date = new FormControl({ value: new Date(), disabled: true })
+      this.resultaReceitaMesPesquisado = 0
+
     } else {
-      this.dataAtual = (this.formData.get('data')?.value)
+
+      this.foiEnviado = false
+
+      var m = moment();
+      var s = moment(this.dataReceitaMaisRecente);
+      m.set(s.toObject())
+      this.date.setValue(m)
+
+      await this.buscarPelaData()
     }
 
-    this.formData = this.formBuilder.group({
-      data: [this.dataAtual, [Validators.required]],
-    })
-
-    this.buscarPelaData()
   }
 
-  ngAfterViewChecked() {
-    if (this.setarOutraData === false) {
-      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
+  desativarInputData(): boolean {
+
+    if (this.existeAoMenosUmaReceitaCadastrada == false) {
+      return true
     } else {
-      this.dataAtual = (this.formData.get('data')?.value)
+      return false
     }
-    this.cdr.detectChanges();
+  }
+
+  async verificarSeExisteReceitaCadastrada() {
+
+    await this.receitaService.buscarDataMaisRecenteDaReceita().toPromise().then(data => {
+      this.existeAoMenosUmaReceitaCadastrada = true
+      this.dataReceitaMaisRecente = data
+      this.date.disabled
+    }).catch(err => {
+      this.existeAoMenosUmaReceitaCadastrada = false
+      this.toastrServiceClasse.errorToastr(err.error.msg)
+    })
+
   }
 
   editar(receitaAtt: Receita): boolean {
@@ -180,38 +200,31 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
 
   buscarPelaData() {
 
-    if (this.formData.get('data').value == "") {
-      this.toastrServiceClasse.errorToastr("Adicione uma data para visualizar suas receitas");
-    } else {
+    // if (this.formData.get('data').value == "") {
+    //   this.toastrServiceClasse.errorToastr("Adicione uma data para visualizar suas receitas");
+    // } else {
 
-      this.pesquisarValor = new Date(this.formData.get('data').value)
+    this.receitaService.quantidadeReceitaMensal(String(this.date.value)).subscribe(quanti => {
+      this.config.totalItems = quanti
 
-      this.ano = this.pesquisarValor.getFullYear()
-      this.mes = this.pesquisarValor.getUTCMonth() + 1
+    }, err => {
+      console.log(err);
+    })
 
-      this.receitaService.quantidadeReceitaMensal(this.ano, this.mes).subscribe(quanti => {
+    this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(String(this.date.value), this.config.currentPage)?.subscribe(res => {
+      this.receitas = res
+      this.receitaExiste = true
+    }, err => {
+      this.responseError = err.error.msg
+      this.receitaExiste = false
+    })
 
-        this.config.totalItems = quanti
+    this.receitaService.valorTotalDaReceitaMesAnoPesquisado(String(this.date.value)).subscribe(result => {
+      this.resultaReceitaMesPesquisado = result
+    }, err => {
+      this.resultaReceitaMesPesquisado = 0
+    })
 
-      }, err => {
-        console.log(err);
-      })
-
-      this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(this.formData.get('data')?.value, this.config.currentPage)?.subscribe(res => {
-        this.receitas = res
-        this.receitaExiste = true
-      }, err => {
-        this.responseError = err.error.msg
-        this.receitaExiste = false
-      })
-
-
-      this.receitaService.valorTotalDaReceitaMesAnoPesquisado(this.ano, this.mes).subscribe(result => {
-        this.resultaReceitaMesPesquisado = result
-      }, err => {
-        this.resultaReceitaMesPesquisado = 0
-      })
-    }
   }
 
   pageChanged(event: any) {
@@ -219,6 +232,19 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     this.buscarPelaData()
   }
 
+  chosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.date.value;
+    ctrlValue.year(normalizedYear.year());
+    this.date.setValue(ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+    this.buscarPelaData()
+  }
 
 }
 

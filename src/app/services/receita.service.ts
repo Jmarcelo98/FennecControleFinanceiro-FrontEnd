@@ -20,9 +20,14 @@ export class ReceitaService {
   //     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
   // }
 
-  valorTotalDaReceitaMesAnoPesquisado(ano: number, mes: number) {
+  buscarDataMaisRecenteDaReceita() {
+    return this.httpClient.get<Date>(`${this.CAMINHO_API}/dataMaisRecente`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+  }
+
+  valorTotalDaReceitaMesAnoPesquisado(dataRecebida: string) {
     return this.httpClient.get<number>(`${this.CAMINHO_API}/valor-total/mensal-anual`,
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { ano: ano, mes: mes } });
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { data: dataRecebida } });
   }
 
   deletarReceita(id: number) {
@@ -35,9 +40,9 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  quantidadeReceitaMensal(ano: number, mes: number) {
+  quantidadeReceitaMensal(dataRecebida: string) {
     return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade-mensal`,
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { ano: ano, mes: mes } });
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { data: dataRecebida } });
   }
 
   adicionarNovaReceita(receita: Receita) {
@@ -45,18 +50,12 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  buscarTodasReceitasOuDeAcordoComOMesAno(data: string, paginacao: number) {
-
-    if (data == null) {
-      return null;
-    } else {
-      return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/data/mensal-anual`,
-        {
-          headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
-          params: { ano: data.substring(0, 4), mes: data.substring(5, 7), pagina: paginacao - 1, linhasPorPagina: 5 }
-        });
-    }
-
+  buscarTodasReceitasOuDeAcordoComOMesAno(dataRecebida: string, paginacao: number) {
+    return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/data/mensal-anual`,
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
+        params: { data: dataRecebida, pagina: paginacao - 1, linhasPorPagina: 5 }
+      });
   }
 
 }

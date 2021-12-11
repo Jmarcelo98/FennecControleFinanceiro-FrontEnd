@@ -1,36 +1,38 @@
-<!-- <app-carregando-requisicao [showProgress]="requisicao"></app-carregando-requisicao> -->
-
-<div class="centralizarQuandoCelular">
+<div class="espacamento">
 
   <div class="row">
 
-    <div class=" col-12 col-md-9">
-      <h2>Escolhe uma data para visualizar suas receitas</h2>
+    <div class=" col-8 col-md-9">
+
+      <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
+        <mat-label>Escolha um mês</mat-label>
+        <input matInput [matDatepicker]="dp" [value]="dataReceitaMaisRecente" [max]="dataReceitaMaisRecente"
+          [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+          (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+
+      <!-- <form [formGroup]="formData">
+        <input class="textbox-n inputData" type="month" formControlName="data" id="date"
+          (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
+      </form> -->
     </div>
 
-    <!-- <div class=" col-12 col-md-3 aumentarDistanciamento">
+    <div class=" col-4 col-md-3">
       <button class="btn btn-success" id="botaoValorReceitaMesPesquisado" disabled>
         <span>Total no mês: {{formatar.aplicarMascaraDinheiro(resultaReceitaMesPesquisado)}}</span>
       </button>
-    </div> -->
-  </div>
-
-  <div class="row aumentarDistanciamento">
-
-    <div class=" col-12 col-md-6">
-
-      <form [formGroup]="formData">
-        <input class="textbox-n inputData" type="month" formControlName="data" id="date"
-          (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
-      </form>
-
     </div>
 
   </div>
 
 </div>
 
-<div class="espacamento">
+<app-adicionar-receita></app-adicionar-receita>
+
+<div id="espacamentoNovaReceitaETabela">
 
   <div *ngIf="receitaExiste then temValor else vazio"></div>
 
@@ -40,18 +42,19 @@
       <table mat-table [dataSource]="receitas">
         <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
           <th mat-header-cell *matHeaderCellDef>
-            <span *ngIf="col !== 'isEdit'">
 
-              <span *ngIf="col == 'nomeReceita'">
-                Descrição
-              </span>
-              <span *ngIf="col == 'valorReceita'">
-                Valor
-              </span>
-              <span *ngIf="col == 'dataReceita'">
-                Data
-              </span>
-              <!-- {{col}} -->
+            <span *ngIf="col == 'nomeReceita'">
+              Descrição
+            </span>
+            <span *ngIf="col == 'valorReceita'">
+              Valor
+            </span>
+            <span *ngIf="col == 'dataReceita'">
+              Data
+            </span>
+
+            <span *ngIf="col == 'isEdit'">
+              Ações
             </span>
 
           </th>
@@ -93,7 +96,7 @@
               <mat-form-field *ngSwitchCase="'date'">
                 <mat-label>Data</mat-label>
                 <input matInput [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.data}" [matDatepicker]="picker"
-                  [max]="dataLimiteInput"[(ngModel)]="element[col]">
+                  [max]="dataLimiteInput" [(ngModel)]="element[col]">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.data">

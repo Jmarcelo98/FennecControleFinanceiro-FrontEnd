@@ -42,7 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmacaoDialogComponent } from './component/confirmacao-dialog/confirmacao-dialog.component';
-
+import { DateFormatCostomDirective } from './directive/date-format-costom.directive';
 
 export const MY_FORMATS = {
   parse: {
@@ -82,6 +82,7 @@ export function tokenGetter() {
     ReceitaComponent,
     DespesaComponent,
     ConfirmacaoDialogComponent,
+    DateFormatCostomDirective,
   ],
   imports: [
     AppRoutingModule,
