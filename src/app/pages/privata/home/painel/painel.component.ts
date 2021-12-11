@@ -24,14 +24,11 @@ export class PainelComponent implements OnInit {
 
   linheChartSaldoFinal: number[] = [];
 
-  painelValoresBotoes: PainelValoresFinaisAnuais = new PainelValoresFinaisAnuais();
-
   formatar: FormatarPrice = new FormatarPrice();
 
   public myChart: Chart;
 
   painelValores: Painel;
-
 
   contactForm = this.fb.group({
     anoSelecionado: [null]
@@ -174,11 +171,6 @@ export class PainelComponent implements OnInit {
       }
 
     }
-
-
-    this.painelValoresBotoes.saldoFinalAnual = this.painelValores.painelValoresAnuaisESaldo.saldoFinalAnual
-    this.painelValoresBotoes.valorAnualReceita = this.painelValores.painelValoresAnuaisESaldo.valorAnualReceita
-    this.painelValoresBotoes.valorAnualDespesa = this.painelValores.painelValoresAnuaisESaldo.valorAnualDespesa
 
     await this.chart()
   }

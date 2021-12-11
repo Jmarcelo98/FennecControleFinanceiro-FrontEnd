@@ -25,25 +25,26 @@
         <div class="col-md-4 col-12">
 
           <button type="button" class="btn btn-outline-success" title="Receita" id="botaoReceita">
-            <div *ngIf="carregou then carregouRec else nCarregou"></div>
-            <ng-template #carregouRec>
-              {{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualReceita)}}
+            <div *ngIf="carregou then carregouReceita else nCarregouReceita"></div>
+            <ng-template #carregouReceita>
+              {{formatar.aplicarMascaraDinheiro(painelValores.painelValoresAnuaisESaldo.valorAnualReceita)}}
             </ng-template>
-            <ng-template #nCarregou>
+            <ng-template #nCarregouReceita>
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
             </ng-template>
           </button>
+
         </div>
 
         <div class="col-md-4 col-12">
           <button class="btn btn-outline-danger" title="Despesa" id="botaoDespesa">
-            <div *ngIf="carregou then carregouRec else nCarregou"></div>
-            <ng-template #carregouRec>
-              {{formatar.aplicarMascaraDinheiro(painelValoresBotoes.valorAnualDespesa)}}
+            <div *ngIf="carregou then carregouDespesa else nCarregouDespesa"></div>
+            <ng-template #carregouDespesa>
+              {{formatar.aplicarMascaraDinheiro(painelValores.painelValoresAnuaisESaldo.valorAnualDespesa)}}
             </ng-template>
-            <ng-template #nCarregou>
+            <ng-template #nCarregouDespesa>
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
@@ -53,11 +54,11 @@
 
         <div class="col-md-4 col-12">
           <button class="btn btn-outline-info" title="Saldo Final" id="botaoSaldoFinal">
-            <div *ngIf="carregou then carregouRec else nCarregou"></div>
-            <ng-template #carregouRec>
-              {{formatar.aplicarMascaraDinheiro(painelValoresBotoes.saldoFinalAnual)}}
+            <div *ngIf="carregou then carregouSaldo else nCarregouSaldo"></div>
+            <ng-template #carregouSaldo>
+              {{formatar.aplicarMascaraDinheiro(painelValores.painelValoresAnuaisESaldo.saldoFinalAnual)}}
             </ng-template>
-            <ng-template #nCarregou>
+            <ng-template #nCarregouSaldo>
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
               </div>

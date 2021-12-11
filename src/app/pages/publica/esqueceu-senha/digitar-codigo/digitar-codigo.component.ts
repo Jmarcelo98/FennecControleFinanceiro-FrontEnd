@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -11,7 +11,7 @@ import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
   styleUrls: ['./digitar-codigo.component.css']
 })
 
-export class DigitarCodigoComponent implements OnInit, AfterViewInit {
+export class DigitarCodigoComponent implements OnInit {
 
   foiEnviado = false
 
@@ -33,16 +33,10 @@ export class DigitarCodigoComponent implements OnInit, AfterViewInit {
     private router: Router, private usuarioService: UsuarioService) {
   }
 
-  @ViewChild("codigo1") input: ElementRef
-
   email: string
 
   ngOnInit(): void {
     this.email = this.resgatarEmailDoComponenet.getEmail()
-  }
-
-  ngAfterViewInit() {
-    this.input.nativeElement.focus()
   }
 
   get f() {
@@ -72,7 +66,11 @@ export class DigitarCodigoComponent implements OnInit, AfterViewInit {
       this.carregou = false
 
     }, err => {
-      this.toastrServiceClasse.errorToastr(err.error)
+      if (err.status == 500) {
+        this.toastrServiceClasse.errorToastr("Erro ao confirmar código. Tente novamente mais tarde")
+      } else {
+        this.toastrServiceClasse.errorToastr(err.error)
+      }
       this.carregou = false
     })
 
