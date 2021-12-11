@@ -8,6 +8,7 @@ import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPagi
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
 import { ReceitaComponent } from '../receita.component';
+import { isThisTypeNode } from 'typescript';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -152,6 +153,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
     this.receitaService.atualizarReceita(receitaAtt).subscribe(res => {
       this.receitaComponentPai.processandoRequisicao = false
       this.toastrServiceClasse.sucessoToastr("Receita atualizada com sucesso");
+      this.buscarPelaData()
     }, err => {
       this.receitaComponentPai.processandoRequisicao = false
       this.toastrServiceClasse.errorToastr("Erro ao atualizar a receita");
@@ -166,6 +168,7 @@ export class ListarReceitasComponent implements OnInit, AfterViewChecked {
         this.receitaService.deletarReceita(id).subscribe(res => {
           this.receitaComponentPai.processandoRequisicao = false
           this.toastrServiceClasse.sucessoToastr("Receita deletada com sucesso!");
+          this.buscarPelaData()
         }, err => {
           this.receitaComponentPai.processandoRequisicao = false
           this.toastrServiceClasse.errorToastr("Erro ao deletar a receita");
