@@ -1,17 +1,19 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
-import { environment } from 'src/environments/environment';
+import { ListarReceitasComponent } from '../listar-receitas/listar-receitas.component';
+import { ReceitaComponent } from '../receita.component';
 
 @Component({
   selector: 'app-adicionar-receita',
   templateUrl: './adicionar-receita.component.html',
   styleUrls: ['./adicionar-receita.component.css']
 })
+
 export class AdicionarReceitaComponent implements OnInit {
 
   // input do mat picker
@@ -29,18 +31,23 @@ export class AdicionarReceitaComponent implements OnInit {
   // nova receita
   receita: Receita
 
-  carregou: boolean
+  // fechar modal apos adicionar receita
+  fecharModal = false;
 
-  dataString: any
-  formatadoDate: Date
+  // fechar modal
+  @ViewChild('closebutton') closebutton;
+
 
   formNovaReceita = this.formBuilder.group({
     nomeReceita: [null, [Validators.required]],
     valorReceita: [0, [Validators.required, Validators.min(0.01)]]
   })
 
+
+
   constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
-    private toastr: ToastrServiceClasse) { }
+    private toastr: ToastrServiceClasse, private receitaComponentPai: ReceitaComponent,
+    private listar: ListarReceitasComponent) { }
 
   ngOnInit(): void {
   }
@@ -58,9 +65,6 @@ export class AdicionarReceitaComponent implements OnInit {
 
     this.foiEnviado = true;
 
-    console.log(this.date);
-
-
     if (this.date.value == null) {
       this.dataInvalida = true
     } else {
@@ -71,6 +75,8 @@ export class AdicionarReceitaComponent implements OnInit {
       return;
     }
 
+    this.receitaComponentPai.processandoRequisicao = true
+
     const novaReceita: Receita = {
       id: 0,
       nomeReceita: this.formNovaReceita.get('nomeReceita')?.value,
@@ -79,18 +85,15 @@ export class AdicionarReceitaComponent implements OnInit {
     }
 
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {
-      this.carregou = true
+      // this.carregou = true
       this.foiEnviado = false
       this.toastr.sucessoToastr("Receita adicionada com sucesso!")
-      setTimeout(() => {
-        window.location.reload()
-      }, 1500);
-
-      //this.formNovaReceita.reset();
-      //this.formNovaReceita.clearValidators()
-      //this.formNovaReceita.get('valorReceita')?.setValue(0)
+      this.receitaComponentPai.processandoRequisicao = false
+      this.closebutton.nativeElement.click()
+      this.listar.buscarPelaData()
     }, err => {
       this.toastr.errorToastr("Erro ao adicionar a nova receita" + err);
+      this.receitaComponentPai.processandoRequisicao = false
     })
 
   }

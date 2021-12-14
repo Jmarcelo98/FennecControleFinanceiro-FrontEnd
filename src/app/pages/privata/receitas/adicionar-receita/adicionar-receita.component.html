@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
 
-                <form [formGroup]="formNovaReceita" (ngSubmit)="salvarReceita()">
+                <form [formGroup]="formNovaReceita">
 
                     <div class="row">
 
@@ -66,7 +66,7 @@
 
                             <div class="col-6">
                                 <div class="alinharEsquerda">
-                                    <button type="button" class="btn btn-danger "
+                                    <button type="button" #closebutton class="btn btn-danger "
                                         data-bs-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
@@ -74,7 +74,8 @@
                             <div class="col-6">
 
                                 <div>
-                                    <button type="submit" class="btn btn-success">Criar receita</button>
+                                    <button type="button" (click)="salvarReceita()" class="btn btn-success"
+                                        id="closeModal">Criar receita</button>
                                 </div>
                             </div>
 
