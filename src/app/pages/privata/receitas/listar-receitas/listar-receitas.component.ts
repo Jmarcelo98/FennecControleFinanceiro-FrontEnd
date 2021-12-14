@@ -200,10 +200,6 @@ export class ListarReceitasComponent implements OnInit {
 
   buscarPelaData() {
 
-    // if (this.formData.get('data').value == "") {
-    //   this.toastrServiceClasse.errorToastr("Adicione uma data para visualizar suas receitas");
-    // } else {
-
     this.receitaService.quantidadeReceitaMensal(String(this.date.value)).subscribe(quanti => {
       this.config.totalItems = quanti
 

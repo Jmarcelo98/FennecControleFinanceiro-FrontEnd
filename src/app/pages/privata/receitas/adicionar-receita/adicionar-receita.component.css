@@ -1,3 +1,4 @@
+
 .espacamento {
     margin-top: 1em;
 }
@@ -16,7 +17,7 @@
     flex: auto;
 }
 
-input{
+.inputFormatar{
     border-top: none;
     border-left: none;
     border-right: none;
@@ -26,6 +27,14 @@ input{
     background-color: rgb(246, 246, 246);
 }
 
+.inputData{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: system-ui;
+    font-size: 1.2em;
+    background-color: rgb(246, 246, 246);
+}
 
 input:hover {
     border-color: black;
@@ -37,10 +46,26 @@ input:hover {
 }
 
 
+.errorInput {
+    position: absolute;
+    margin-top: 1em;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid.valor{
+    background-position: right calc(0.375em + 20.1875rem) center;
+}
+
+::ng-deep .cdk-overlay-container{
+    z-index: 1200 !important;
+}
+
 @media screen and (max-width: 767px) {
 
     #celular {
         margin-top: 1em;
+    }
+    .modal {
+        height: 50%;
     }
     
 }

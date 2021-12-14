@@ -3,7 +3,8 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="novaReceita"  data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div style="padding-right: 0;" class="modal fade" id="novaReceita" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,75 +12,78 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
                 <form [formGroup]="formNovaReceita" (ngSubmit)="salvarReceita()">
 
                     <div class="row">
-                
+
                         <div class="col-12">
-                            <!-- <label for="nome">Nome da receita</label> -->
-                
-                            <input type="text" formControlName="nomeReceita" name="nome" placeholder="Descrição" class="form-control"
+
+                            <input type="text" formControlName="nomeReceita" name="nome" placeholder="Descrição"
+                                class="form-control inputFormatar"
                                 [ngClass]="{'is-invalid': foiEnviado && f.nomeReceita.errors}">
                             <div *ngIf="foiEnviado && f.nomeReceita.errors" class="invalid-feedback">
                                 <div *ngIf="f.nomeReceita.errors.required">O campo nome é obrigatório</div>
                             </div>
                         </div>
-                
+
                     </div>
-                
-                    <div class="row">
-                
-                        <div class="col-6 mt-4">
-                            <!-- <label for="data">Data da receita</label> -->
-                            <input type="date" name="data" formControlName="dataReceita" max="{{dataMax | date: 'yyyy-MM-dd'}}"
-                                class="form-control" [ngClass]="{'is-invalid': foiEnviado && f.dataReceita.errors}">
-                            <div *ngIf="foiEnviado && f.dataReceita.errors" class="invalid-feedback">
-                                <div *ngIf="f.dataReceita.errors.required">O campo data é obrigatório</div>
-                            </div>
+
+                    <div class="row ">
+
+                        <div class="col-12 col-md-6  mt-4">
+                            <mat-form-field appearance="fill">
+                                <!-- <mat-label>Escolha uma data</mat-label> -->
+                                <input class="inputData" matInput [matDatepicker]="dp" [value]="dataMax" [max]="dataMax"
+                                    [formControl]="date" [value]="0.0"
+                                    [ngClass]="{'is-invalid': foiEnviado && dataInvalida}" placeholder="Data">
+                                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                <mat-datepicker #dp></mat-datepicker>
+                                <div class="errorInput invalid-feedback" *ngIf="foiEnviado && dataInvalida">
+                                    Selecione uma data
+                                </div>
+                            </mat-form-field>
+
                         </div>
-                
-                        <div class="col-6 mt-4">
-                            <!-- <label for="valor">Valor da receita</label> -->
+
+                        <div class="col-12 col-md-6 mt-4 order-first order-md-last">
+
                             <input type="text" currencyMask value="0" formControlName="valorReceita"
-                                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" class="form-control"
+                                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                                class="form-control inputFormatar valor" placeholder="Valor"
                                 [ngClass]="{'is-invalid': foiEnviado && f.valorReceita.errors}">
-                            <div *ngIf="foiEnviado && f.valorReceita.errors" class="invalid-feedback">
+                            <div *ngIf="foiEnviado && f.valorReceita.errors" class="invalid-feedback valor">
                                 <div *ngIf="f.valorReceita.errors.required">O campo valor é obrigatório</div>
                                 <div *ngIf="f.valorReceita.errors.min">Digite um número maior ou igual a 0,01 (um
                                     centavo)</div>
                             </div>
                         </div>
                     </div>
-                
-                
-                    <!-- <div class="row mt-3">
-                        <div class="col-12 col-md-3">
-                            <label for="valor">Valor da receita</label>
-                            <input type="text" currencyMask value="0" formControlName="valorReceita"
-                                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" class="form-control"
-                                [ngClass]="{'is-invalid': foiEnviado && f.valorReceita.errors}">
-                            <div *ngIf="foiEnviado && f.valorReceita.errors" class="invalid-feedback">
-                                <div *ngIf="f.valorReceita.errors.required">O campo valor é obrigatório</div>
-                                <div *ngIf="f.valorReceita.errors.min">Digite um número maior ou igual a 0,01 (um
-                                    centavo)</div>
-                            </div>
-                        </div>
-                    </div> -->
-                
-                
-                
+
                     <div class="modal-footer mt-4">
-                        <div class="alinharEsquerda">
-                            <button type="button" class="btn btn-danger " data-bs-dismiss="modal">Cancelar</button>
+
+                        <div class="row justify-content-between">
+
+                            <div class="col-6">
+                                <div class="alinharEsquerda">
+                                    <button type="button" class="btn btn-danger "
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+
+                                <div>
+                                    <button type="submit" class="btn btn-success">Criar receita</button>
+                                </div>
+                            </div>
+
                         </div>
-                
-                        <div>
-                            <button type="submit" class="btn btn-success">Adicionar nova receita</button>
-                        </div>
-                
+
                     </div>
-                
+
                 </form>
+
             </div>
         </div>
     </div>
