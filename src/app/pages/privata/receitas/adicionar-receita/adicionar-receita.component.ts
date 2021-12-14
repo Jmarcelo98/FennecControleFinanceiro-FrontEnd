@@ -31,9 +31,6 @@ export class AdicionarReceitaComponent implements OnInit {
   // nova receita
   receita: Receita
 
-  // fechar modal apos adicionar receita
-  fecharModal = false;
-
   // fechar modal
   @ViewChild('closebutton') closebutton;
 
@@ -43,11 +40,9 @@ export class AdicionarReceitaComponent implements OnInit {
     valorReceita: [0, [Validators.required, Validators.min(0.01)]]
   })
 
-
-
   constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
     private toastr: ToastrServiceClasse, private receitaComponentPai: ReceitaComponent,
-    private listar: ListarReceitasComponent) { }
+    private listarReceita: ListarReceitasComponent) { }
 
   ngOnInit(): void {
   }
@@ -90,7 +85,7 @@ export class AdicionarReceitaComponent implements OnInit {
       this.toastr.sucessoToastr("Receita adicionada com sucesso!")
       this.receitaComponentPai.processandoRequisicao = false
       this.closebutton.nativeElement.click()
-      this.listar.buscarPelaData()
+      this.listarReceita.buscarPelaData()
     }, err => {
       this.toastr.errorToastr("Erro ao adicionar a nova receita" + err);
       this.receitaComponentPai.processandoRequisicao = false

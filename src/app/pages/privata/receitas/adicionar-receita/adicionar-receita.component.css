@@ -12,10 +12,10 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.alinharEsquerda {
+/* .alinharEsquerda {
     text-align: left;
     flex: auto;
-}
+} */
 
 .inputFormatar{
     border-top: none;

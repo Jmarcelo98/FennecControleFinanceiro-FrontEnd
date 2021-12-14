@@ -9,6 +9,8 @@ export class DespesaComponent implements OnInit {
 
   constructor() { }
 
+  processandoRequisicao: boolean
+
   ngOnInit(): void {
   }
 

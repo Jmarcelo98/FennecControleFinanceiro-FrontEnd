@@ -3,9 +3,9 @@ label {
     font: 1rem 'Fira Sans', sans-serif;
 }
 
-input, label {
+/* input, label {
     margin: .4rem 0;
-}
+} */
 
 
 th {
@@ -76,10 +76,7 @@ table {
     width: 14em;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-    background-color: white;
-    border-radius: 5px;
-  }
+
 
 .paginacao {
     font-size: 1.2em;
@@ -136,6 +133,11 @@ table {
 .espacamento {
     margin-bottom: 5em;
 }
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white;
+    border-radius: 5px;
+  }
 
 @media screen and (max-width: 767px) {
 

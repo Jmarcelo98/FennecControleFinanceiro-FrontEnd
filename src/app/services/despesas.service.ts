@@ -15,8 +15,24 @@ export class DespesasService {
 
   constructor(private httpClient: HttpClient, public auth: AutenticacaoService) { }
 
-  adicionarNovaReceita(despesa: Despesa) {
-    return this.httpClient.post(`${this.CAMINHO_API}`, despesa,
+
+  // valorDespesaMesAtual() {
+  //   return this.httpClient.get<number>(`${this.CAMINHO_API}/valorDespesaMes`,
+  //     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+  // }
+
+  buscarDataMaisRecenteDaDespesa() {
+    return this.httpClient.get<Date>(`${this.CAMINHO_API}/dataMaisRecente`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+  }
+
+  valorTotalDaDespesaMesAnoPesquisado(dataRecebida: string) {
+    return this.httpClient.get<number>(`${this.CAMINHO_API}/valor-total/mensal-anual`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { data: dataRecebida } });
+  }
+
+  deletarDespesa(id: number) {
+    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
@@ -25,29 +41,25 @@ export class DespesasService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  excluir(id: number) {
-    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,
+
+  quantidadeDespesaMensal(dataRecebida: string) {
+    return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade-mensal`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { data: dataRecebida } });
+  }
+
+  adicionarNovaDespesa(despesa: Despesa) {
+    return this.httpClient.post(`${this.CAMINHO_API}`, despesa,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  valorDespesaMesAnoPesquisado(ano: number, mes: number){
-    return this.httpClient.get<number>(`${this.CAMINHO_API}/valorDespesaMes/${ano}/${mes}`,
-    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
+
+  buscarTodasDespesasOuDeAcordoComOMesAno(dataRecebida: string, paginacao: number) {
+    return this.httpClient.get<Despesa[]>(`${this.CAMINHO_API}/data/mensal-anual`,
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
+        params: { data: dataRecebida, pagina: paginacao - 1, linhasPorPagina: 5 }
+      });
   }
 
-  valorDespesaMesAtual() {
-    return this.httpClient.get<number>(`${this.CAMINHO_API}/valorDespesaMes`, 
-    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
-  }
-
-  valorDespesaData(data: string) {
-    if (data == null) {
-      return null;
-    } else {
-      return this.httpClient.get<Despesa[]>(`${this.CAMINHO_API}/${data.substring(0, 4)}/${data.substring(5, 7)}`,
-        { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) });
-    }
-
-  }
 
 }

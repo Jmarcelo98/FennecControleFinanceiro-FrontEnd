@@ -1,204 +1,240 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
 import { Despesa } from 'src/app/models/despesa';
 import { DespesasService } from 'src/app/services/despesas.service';
 import { FormatarPrice } from 'src/app/services/util/formatarPrice';
+import { TransferirPaginaSalvaDespesa } from 'src/app/services/util/resgatarPaginaSalvaDespesa';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
-import { environment } from 'src/environments/environment';
+import { DespesaComponent } from '../despesa.component';
+
+const USER_SCHEMA = {
+  "nomeDespesa": "text",
+  "valorDespesa": "number",
+  "dataDespesa": "date",
+  "isEdit": "isEdit"
+}
+
+const INVALIDOS_INPUT_EDITAR = {
+  valor: {
+    valorNull: false,
+    valorZero: false
+  },
+  nome: false,
+  data: false
+}
 
 @Component({
   selector: 'app-listar-despesas',
   templateUrl: './listar-despesas.component.html',
   styleUrls: ['./listar-despesas.component.css']
 })
-export class ListarDespesasComponent implements OnInit, AfterViewChecked {
+export class ListarDespesasComponent implements OnInit {
 
-  pesquisarValor: Date
-  ano: number
-  mes: number
+  // serve para pegar data de despesa mais recente
+  dataDespesaMaisRecente: Date
 
-  mesEAnoAtual: string
-  resultadoDespesaMesPesquisado: number
+  // usado para input de escolher um mes
+  date = new FormControl(moment());
 
-  podeExcluir = false
-  podeAlterar = false;
-
-  // fechar: any
-  setarOutraData = false
-
+  // serve para verificar se existe alguma despesa
   despesaExiste: boolean
-  responseError: any
 
-  dataAtual: any
+  // serve para verificar se existe alguma despesa cadastrada
+  existeAoMenosUmaDespesaCadastrada: boolean
 
-  // despesaAtt: Despesa
+  // utilizado para reconhecer colunas no html
+  displayedColumns: string[] = ['nomeDespesa', 'valorDespesa', 'dataDespesa', 'isEdit'];
 
-  idDespesaModal: number
-  nomeDespesaModal: string
-  valorDespesaModal: number
-  dataDespesaModal: Date
+  // utilizado para editar valores na tabela
+  dataSchema: any = USER_SCHEMA;
 
-  formatar: FormatarPrice = new FormatarPrice();
+  // utilizado para verificao de quando for enviado o input editar
+  foiEnviado: boolean
 
-  despesas: Array<Despesa>
+  // utilizado para determinar campos invalidos ne editar
+  camposInvalidos = INVALIDOS_INPUT_EDITAR;
 
-  formData: any
+  // utilizado pra limitar o input date
+  dataLimiteInput = new Date()
 
-  dataString: any
-  formatadoDate: Date
-
-  atualizarValores = this.formBuilder.group({
-    id: [null],
-    nomeNovaDespesa: [null, [Validators.required]],
-    valorNovaDespesa: [null, [Validators.required]],
-    dataDespesa: [null]
-  })
-
-  confirmar = this.formBuilder.group({
-    confirmacao: [null]
-  })
-
-  constructor(private formBuilder: FormBuilder, private despesaService: DespesasService,
-    private toastr: ToastrServiceClasse, private cdr: ChangeDetectorRef) { }
-
-  ngAfterViewChecked() {
-    if (this.setarOutraData === false) {
-      this.dataAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString())
-    } else {
-      this.dataAtual = (this.formData.get('data')?.value)
-    }
-    this.cdr.detectChanges();
+  // utilizado para a configuração da paginação
+  config = {
+    itemsPerPage: 5,
+    currentPage: this.paginaSalvaDespesa.getPagina(),
+    totalItems: 0
   }
 
+  // serve para mostrar o valor no botao
+  resultaDespesaMesPesquisado: any
 
-  ngOnInit(): void {
+  // utilizado para formatar moeda
+  formatar: FormatarPrice = new FormatarPrice();
 
-    // if (!this.autenticacaoService.estaAutenticado()) {
-    //   this.router.navigate(['/login']);
-    // }
+  // mensagens de errors vindo do backend
+  responseError: any
 
-    this.mesEAnoAtual = (new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString());
+  // utilizado para armazenar lista de despesa 
+  despesas: Array<Despesa>
 
-    if (this.setarOutraData === false) {
-      this.dataAtual = this.mesEAnoAtual;
+  constructor(private despesaService: DespesasService,
+    private toastrServiceClasse: ToastrServiceClasse, private dialog: MatDialog,
+    private despesaComponentPai: DespesaComponent, private paginaSalvaDespesa: TransferirPaginaSalvaDespesa) { }
+
+  async ngOnInit() {
+
+    await this.verificarSeExisteDespesaCadastrada()
+
+    if (this.existeAoMenosUmaDespesaCadastrada == false) {
+
+      this.date = new FormControl({ value: new Date(), disabled: true })
+      this.resultaDespesaMesPesquisado = 0
+
     } else {
-      this.dataAtual = (this.formData.get('data')?.value)
+
+      this.foiEnviado = false
+
+      var m = moment();
+      var s = moment(this.dataDespesaMaisRecente);
+      m.set(s.toObject())
+      this.date.setValue(m)
+
+      await this.buscarPelaData()
     }
 
-    this.formData = this.formBuilder.group({
-      data: [this.dataAtual, [Validators.required]],
+  }
+
+  async verificarSeExisteDespesaCadastrada() {
+
+    await this.despesaService.buscarDataMaisRecenteDaDespesa().toPromise().then(data => {
+      this.existeAoMenosUmaDespesaCadastrada = true
+      this.dataDespesaMaisRecente = data
+      this.date.disabled
+    }).catch(err => {
+      this.existeAoMenosUmaDespesaCadastrada = false
+      this.toastrServiceClasse.errorToastr(err.error.msg)
     })
-
-
-    this.buscarPelaData()
 
   }
 
   buscarPelaData() {
 
-    if (this.formData.get('data').value == "") {
-      this.toastr.errorToastr("Adicione uma data para visualizar suas despesas");
-    } else {
-      this.despesaService.valorDespesaData(this.formData.get('data')?.value)?.subscribe(res => {
-        this.despesas = res
-        this.despesaExiste = true
-
-      }, err => {
-        this.responseError = err.error.msg
-        this.despesaExiste = false
-      })
-
-      this.pesquisarValor = new Date(this.formData.get('data').value)
-
-      this.ano = this.pesquisarValor.getFullYear()
-      this.mes = this.pesquisarValor.getUTCMonth() + 1
-
-      this.despesaService.valorDespesaMesAnoPesquisado(this.ano, this.mes).subscribe (result => {
-        this.resultadoDespesaMesPesquisado = result
-      }, err => {
-        this.resultadoDespesaMesPesquisado = 0
-      })
-
-    }
-  }
-
-  editar(despesa: Despesa) {
-
-    this.dataDespesaModal = despesa.dataDespesa
-
-    this.atualizarValores = this.formBuilder.group({
-      id: [despesa.id],
-      nomeNovaDespesa: [despesa.nomeDespesa, [Validators.required]],
-      valorNovaDespesa: [despesa.valorDespesa, [Validators.required]],
-      dataDespesa: [despesa.dataDespesa]
-    })
-
-  }
-
-  concluirAtualizarValorDespesa() {
-
-    this.dataString = this.atualizarValores.get('dataDespesa')?.value + environment.FORMATAR_DATA;
-
-    const novosValores: Despesa = {
-      id: this.atualizarValores.get('id')?.value,
-      nomeDespesa: this.atualizarValores.get('nomeNovaDespesa')?.value,
-      valorDespesa: this.atualizarValores.get('valorNovaDespesa')?.value,
-      dataDespesa: this.formatadoDate = new Date(this.dataString),
-    }
-
-    this.despesaService.atualizarDespesa(novosValores).subscribe(res => {
-
-      this.toastr.infoToastr("Sua despesa está sendo atualizada")
-
-      if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
-        this.setarOutraData = true
-      } else {
-        this.setarOutraData = false
-      }
-
-
-      setTimeout(() => {
-        this.toastr.sucessoToastr("Despesa atualizada com sucesso!")
-        this.ngOnInit()
-      }, 2000);
+    this.despesaService.quantidadeDespesaMensal(String(this.date.value)).subscribe(quanti => {
+      this.config.totalItems = quanti
 
     }, err => {
-      this.toastr.errorToastr("Erro ao atualizar despesa")
       console.log(err);
+    })
 
+    this.despesaService.buscarTodasDespesasOuDeAcordoComOMesAno(String(this.date.value), this.config.currentPage)?.subscribe(res => {
+      this.despesas = res
+      this.despesaExiste = true
+    }, err => {
+      this.responseError = err.error.msg
+      this.despesaExiste = false
+    })
+
+    this.despesaService.valorTotalDaDespesaMesAnoPesquisado(String(this.date.value)).subscribe(result => {
+      this.resultaDespesaMesPesquisado = result
+    }, err => {
+      this.resultaDespesaMesPesquisado = 0
     })
 
   }
 
-  confirmado() {
-    this.podeExcluir = true;
-    this.excluir()
+  desativarInputData(): boolean {
+
+    if (this.existeAoMenosUmaDespesaCadastrada == false) {
+      return true
+    } else {
+      return false
+    }
   }
 
-  pegarIdExclusao(id: number) {
-    this.idDespesaModal = id
+  remover(id: number) {
+    this.dialog.open(ConfirmacaoDialogComponent).afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.despesaComponentPai.processandoRequisicao = true
+        this.despesaService.deletarDespesa(id).subscribe(res => {
+          this.despesaComponentPai.processandoRequisicao = false
+          this.toastrServiceClasse.sucessoToastr("Despesa deletada com sucesso!");
+          this.buscarPelaData()
+        }, err => {
+          this.despesaComponentPai.processandoRequisicao = false
+          this.toastrServiceClasse.errorToastr("Erro ao deletar a despesa");
+          console.log(err);
+        })
+      }
+    })
   }
 
+  editar(despesaAtt: Despesa): boolean {
 
-  excluir() {
-    if (this.podeExcluir === true) {
-      this.despesaService.excluir(this.idDespesaModal).subscribe(res => {
-        this.toastr.infoToastr("Sua despesa está sendo excluida");
-        if (this.formData.get('data')?.value !== new Date().getFullYear().toString() + "-" + (new Date().getMonth() + 1).toString()) {
-          this.setarOutraData = true
-        } else {
-          this.setarOutraData = false
-        }
-        setTimeout(() => {
-          this.toastr.sucessoToastr("Despesa removida com sucesso!");
-          this.ngOnInit();
-        }, 2000);
+    this.foiEnviado = true
 
-      }, err => {
-        this.toastr.errorToastr("Erro ao excluir essa despesa, tente mais tarde!")
-      })
+    if (despesaAtt.dataDespesa == null) {
+      this.camposInvalidos.data = true
+    } else {
+      this.camposInvalidos.data = false
     }
 
+    if (despesaAtt.nomeDespesa.length == 0) {
+      this.camposInvalidos.nome = true
+    } else {
+      this.camposInvalidos.nome = false
+    }
+
+    if (despesaAtt.valorDespesa == null) {
+      this.camposInvalidos.valor.valorNull = true
+    } else {
+      this.camposInvalidos.valor.valorNull = false
+    }
+
+    if (despesaAtt.valorDespesa == 0) {
+      this.camposInvalidos.valor.valorZero = true
+    } else {
+      this.camposInvalidos.valor.valorZero = false
+    }
+
+    if (this.camposInvalidos.nome == true || this.camposInvalidos.data == true ||
+      this.camposInvalidos.valor.valorNull == true || this.camposInvalidos.valor.valorZero) {
+      return false;
+    }
+
+    this.despesaComponentPai.processandoRequisicao = true
+
+    this.despesaService.atualizarDespesa(despesaAtt).subscribe(res => {
+      this.despesaComponentPai.processandoRequisicao = false
+      this.toastrServiceClasse.sucessoToastr("Despesa atualizada com sucesso");
+      this.buscarPelaData()
+    }, err => {
+      this.despesaComponentPai.processandoRequisicao = false
+      this.toastrServiceClasse.errorToastr("Erro ao atualizar a despesa");
+    })
+    return true
+  }
+
+  pageChanged(event: any) {
+    this.config.currentPage = event;
+    this.buscarPelaData()
+  }
+
+  chosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.date.value;
+    ctrlValue.year(normalizedYear.year());
+    this.date.setValue(ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+    this.buscarPelaData()
   }
 
 }

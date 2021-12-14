@@ -1,49 +1,146 @@
-<div class="centralizarQuandoCelular">
+<div class="espacamento">
 
-  <div class="row aumentarDistanciamento">
-    <div class="col-12 col-md-9">
-      <h2>Escolhe uma data para visualizar suas despesas</h2>
-    </div>
+  <div class="row">
 
-    <div class=" col-12 col-md-3 aumentarDistanciamento">
-      <button class="btn btn-danger" id="botaoValorDespesaMesPesquisado" disabled>
-        <span>Total no mês: {{formatar.aplicarMascaraDinheiro(resultadoDespesaMesPesquisado)}}</span>
-      </button>
-    </div>
+    <div class=" col-8 col-md-9">
 
-  </div>
-
-  <div class="row aumentarDistanciamento">
-
-    <div class="col-12">
-
-      <form [formGroup]="formData">
-        <input class="textbox-n inputData" type="month" formControlName="data" id="date"
-          (ngModelChange)="buscarPelaData()" [max]="mesEAnoAtual" />
-      </form>
+      <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
+        <mat-label>Escolha um mês</mat-label>
+        <input matInput [matDatepicker]="dp" [value]="dataDespesaMaisRecente" [max]="dataDespesaMaisRecente"
+          [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+          (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
 
     </div>
 
   </div>
 
 </div>
-<div class="espacamento">
+
+<app-adicionar-despesa></app-adicionar-despesa>
+
+<div id="espacamentoNovaDespesaETabela">
 
   <div *ngIf="despesaExiste then temValor else vazio"></div>
 
   <ng-template #temValor>
-    <div class="table-responsive-md">
-      <table class="table table-bordered  table-striped">
+
+    <article class="table-header">
+      <table mat-table [dataSource]="despesas">
+        <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
+          <th mat-header-cell *matHeaderCellDef>
+
+            <span *ngIf="col == 'nomeDespesa'">
+              Descrição
+            </span>
+            <span *ngIf="col == 'valorDespesa'">
+              Valor
+            </span>
+            <span *ngIf="col == 'dataDespesa'">
+              Data
+            </span>
+
+            <span *ngIf="col == 'isEdit'">
+              Ações
+            </span>
+
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
+              <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
+
+                <button class="btn button-editar" (click)="element.isEdit = !element.isEdit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="btn button-remove" (click)="remover(element.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+              </div>
+              <span *ngSwitchCase="'date'">
+                {{element[col] | date: 'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchCase="'number'">
+                {{formatar.aplicarMascaraDinheiro(element[col])}}
+              </span>
+              <span *ngSwitchDefault>
+                {{element[col]}}
+              </span>
+            </div>
+            <div [ngSwitch]="dataSchema[col]" *ngIf="element.isEdit">
+              <div class="btn-edit" *ngSwitchCase="'isEdit'">
+                <div class="row">
+                  <div class="col-6">
+                    <!-- (click)="element.isEdit = !element.isEdit" -->
+                    <button (click)="editar(element) == true && element.isEdit = !element.isEdit"
+                      class="btn btn-outline-primary">Salvar</button>
+                  </div>
+                  <div class="col-6">
+                    <button (click)="element.isEdit = !element.isEdit" class="btn btn-outline-danger">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+              <mat-form-field *ngSwitchCase="'date'">
+                <mat-label>Data</mat-label>
+                <input matInput [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.data}" [matDatepicker]="picker"
+                  [max]="dataLimiteInput" [(ngModel)]="element[col]">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.data">
+                  Selecione uma data
+                </div>
+              </mat-form-field>
+              <mat-form-field *ngSwitchCase="'number'">
+                <mat-label>Valor</mat-label>
+                <input [type]="'text'" matInput currencyMask
+                  [ngClass]="{'is-invalid': foiEnviado && (camposInvalidos.valor.valorNull || camposInvalidos.valor.valorZero)}"
+                  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" [(ngModel)]="element[col]">
+                <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.valor.valorZero">
+                  Digite um valor superior a R$ 0,0
+                </div>
+                <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.valor.valorNull">
+                  Campo em branco inválido
+                </div>
+
+              </mat-form-field>
+              <mat-form-field *ngSwitchDefault>
+                <mat-label>Descrição</mat-label>
+                <input [type]="dataSchema[col]" matInput [(ngModel)]="element[col]"
+                  [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.nome}">
+                <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.nome">
+                  Campo em branco inválido
+                </div>
+              </mat-form-field>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </article>
+
+    <div class="paginacao mt-3">
+      <ngb-pagination [collectionSize]="config.totalItems" [pageSize]="config.itemsPerPage"
+        [(page)]="config.currentPage" (pageChange)="pageChanged($event)" aria-label="Default pagination">
+      </ngb-pagination>
+    </div>
+
+    <!-- <div class="table-responsive-md">
+      <table class="table table-bordered table-striped editarTabela">
+
         <thead id="cabecalhoTabela">
           <tr>
-            <th scope="col">NOME</th>
+            <th scope="col">DESCRIÇÃO</th>
             <th scope="col">VALOR</th>
             <th scope="col">DATA</th>
             <th scope="col">AÇÕES</th>
           </tr>
         </thead>
         <tbody id="tbodyEstilo">
-          <tr *ngFor="let item of despesas" style="height: 4em;">
+          <tr *ngFor="let item of Despesas | paginate: config" style="height: 4em;">
             <td class="centralizarTd">{{item.nomeDespesa}}</td>
             <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorDespesa)}}</td>
             <td class="centralizarTd">{{item.dataDespesa | date: 'dd/MM/yyyy'}}</td>
@@ -58,68 +155,7 @@
                   </a>
                 </div>
 
-                <!-- MODAL EDITAR-->
-                <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog"
-                  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg" role="document">
 
-
-                    <div class="modal-content">
-
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">EDITAR DESPESA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-
-
-                      <div class="modal-body">
-
-                        <form [formGroup]="atualizarValores" (ngSubmit)="concluirAtualizarValorDespesa()">
-
-                          <div class="row">
-
-                            <div class="col-6">
-                              <label for="nome">Nome da despesa</label>
-                              <input class="form-control" type="text" formControlName="nomeNovaDespesa" name="nome"
-                                id="nome" ngModel="{{item.nomeDespesa}}">
-                            </div>
-
-                            <div class="col-6">
-                              <label for="nome">Valor da despesa</label>
-                              <input class="form-control" type="text" formControlName="valorNovaDespesa"
-                                ngModel="{{item.valorDespesa}}" currencyMask name="nome" id="nome"
-                                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
-                            </div>
-
-                          </div>
-
-                          <div class="row">
-
-                            <div class="col-4">
-                              <label for="nome">Data da despesa</label>
-                              <input class="form-control" type="text" disabled
-                                value="{{dataDespesaModal| date: 'dd/MM/yyyy'}}" name="nome" id="nome">
-                            </div>
-
-                          </div>
-
-                          <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" (click)="concluirAtualizarValorDespesa()" data-dismiss="modal"
-                              class="btn btn-primary">Salvar
-                              alteração</button>
-                          </div>
-
-                        </form>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
 
 
                 <div class="col-5 grudarNaDireita">
@@ -129,47 +165,7 @@
                   </a>
 
 
-                  <!-- MODAL EXCLUIR -->
-                  <div class="modal fade " id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog  modal-dialog-centered" role="document">
 
-                      <div class="modal-content">
-
-                        <div class="modal-body">
-
-                          <form [formGroup]="confirmar">
-
-                            <div class="row ">
-
-                              <span class="permanente">CONFIRME A EXCLUSÃO PERMANENTE DESSA RECEITA</span>
-
-                            </div>
-
-                            <hr>
-
-                            <div class="row" style="margin-top: 4%;">
-
-                              <div class="col-6">
-                                <button class="btn btn-secondary btn-sm" data-dismiss="modal">Não</button>
-                              </div>
-
-                              <div class="col-6">
-                                <button class="btn btn-primary btn-sm" (click)="confirmado()" data-dismiss="modal"
-                                  type="button" id="teste" style="float: right;">Sim</button>
-                              </div>
-
-                            </div>
-
-                          </form>
-
-                        </div>
-
-
-                      </div>
-
-                    </div>
-                  </div>
 
                 </div>
 
@@ -178,13 +174,12 @@
           </tr>
         </tbody>
       </table>
-    </div>
+      <pagination-controls (pageChange)="pageChanged($event)" class="paginacao"></pagination-controls>
+      <hr>
+    </div> -->
   </ng-template>
-
 
   <ng-template #vazio>
-    <span id="mensagemSemReceita">{{responseError}}</span>
+    <span id="mensagemSemDespesa">{{responseError}}</span>
   </ng-template>
-
-
 </div>

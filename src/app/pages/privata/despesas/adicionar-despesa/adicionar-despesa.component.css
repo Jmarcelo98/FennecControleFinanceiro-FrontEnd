@@ -1,24 +1,64 @@
-.espacamento {
-    margin-top: 20em;
+#botaoAddDes{
+    font-size: 1em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.espacamento {
+    margin-top: 1em;
+}
 .centralizar {
     text-align: center;
 }
 
-#bemVindo{
-    font-size: 3em;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+.inputFormatar{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 0.5em;
+    font-family: system-ui;
+    font-size: 1.5em;
+    background-color: rgb(246, 246, 246);
+}
+
+.inputData{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: system-ui;
+    font-size: 1.2em;
+    background-color: rgb(246, 246, 246);
+}
+
+input:hover {
+    border-color: black;
+    border-width: 0.1em;
 }
 
 .distanciarTitulo{
     margin-top: 2em;
 }
 
+.errorInput {
+    position: absolute;
+    margin-top: 1em;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid.valor{
+    background-position: right calc(0.375em + 20.1875rem) center;
+}
+
+::ng-deep .cdk-overlay-container{
+    z-index: 1200 !important;
+}
+
 @media screen and (max-width: 767px) {
 
     #celular {
         margin-top: 1em;
+    }
+    .modal {
+        height: 50%;
     }
     
 }
