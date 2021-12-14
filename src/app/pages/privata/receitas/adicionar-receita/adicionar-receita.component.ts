@@ -80,11 +80,11 @@ export class AdicionarReceitaComponent implements OnInit {
     }
 
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {
-      // this.carregou = true
       this.foiEnviado = false
       this.toastr.sucessoToastr("Receita adicionada com sucesso!")
       this.receitaComponentPai.processandoRequisicao = false
       this.closebutton.nativeElement.click()
+      this.formNovaReceita.reset()
       this.listarReceita.buscarPelaData()
     }, err => {
       this.toastr.errorToastr("Erro ao adicionar a nova receita" + err);

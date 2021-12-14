@@ -123,7 +123,7 @@ export class PainelComponent implements OnInit {
           }, position: 'top',
           align: 'center',
         }, maintainAspectRatio: false,
-      },
+      } , 
     });
 
     this.carregou = true

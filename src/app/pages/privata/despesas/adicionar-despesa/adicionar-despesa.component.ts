@@ -72,11 +72,11 @@ export class AdicionarDespesaComponent implements OnInit {
     }
 
     this.despesaService.adicionarNovaDespesa(novaDespesa).subscribe(sucesso => {
-      // this.carregou = true
       this.foiEnviado = false
       this.toastr.sucessoToastr("Receita adicionada com sucesso!")
       this.despesaComponentPai.processandoRequisicao = false
       this.closebutton.nativeElement.click()
+      this.formNovaDespesa.reset();
       this.listarDespesa.buscarPelaData()
     }, err => {
       this.toastr.errorToastr("Erro ao adicionar a nova receita" + err);
@@ -84,34 +84,5 @@ export class AdicionarDespesaComponent implements OnInit {
     })
 
   }
-
-  // salvarDespesa() {
-
-  //   this.foiEnviado = true;
-
-  //   if (this.formNovaDespesa.invalid) {
-  //     return;
-  //   }
-
-  //   this.dataString = this.formNovaDespesa.get('dataDespesa')?.value + environment.FORMATAR_DATA;
-
-  //   const novaDespesa: Despesa = {
-  //     id: 0,
-  //     nomeDespesa: this.formNovaDespesa.get('nomeDespesa')?.value,
-  //     valorDespesa: this.formNovaDespesa.get('valorDespesa')?.value,
-  //     dataDespesa: this.formatadoDate = new Date(this.dataString),
-  //   }
-
-  //   this.despesaService.adicionarNovaReceita(novaDespesa).subscribe(sucesso => {
-  //     this.toastr.sucessoToastr("Despesa adicionada com sucesso!")
-  //     this.foiEnviado = false
-  //     this.formNovaDespesa.reset();
-  //     this.formNovaDespesa.clearValidators()
-  //     this.formNovaDespesa.get('valorDespesa')?.setValue(0)
-  //   }, err => {
-  //     this.toastr.errorToastr("Erro ao adicionar a nova despesa" + err);
-  //   })
-
-  // }
 
 }
