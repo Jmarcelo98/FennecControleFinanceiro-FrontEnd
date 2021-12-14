@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       responseServer => this.serverOn = responseServer
     ).catch(err => {
       if (err.status == 0) {
-        this.serverOn = true;
+        this.serverOn = false;
       }
     })
 
