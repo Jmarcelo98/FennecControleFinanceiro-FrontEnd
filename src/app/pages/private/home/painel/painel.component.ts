@@ -2,10 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import * as Chart from 'chart.js';
 import { Painel } from 'src/app/models/painel';
-import { PainelValoresFinaisAnuais } from 'src/app/models/painelValoresFinaisAnuais';
 import { PainelService } from 'src/app/services/painel.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
-import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 
 @Component({
   selector: 'app-painel',
@@ -23,8 +21,6 @@ export class PainelComponent implements OnInit {
   lineChartValorDespesa: number[] = [];
 
   linheChartSaldoFinal: number[] = [];
-
-  formatar: FormatarPrice = new FormatarPrice();
 
   public myChart: Chart;
 
@@ -164,9 +160,7 @@ export class PainelComponent implements OnInit {
 
       if (this.lineChartValorReceita[j] - this.lineChartValorDespesa[j] == 0) {
         this.linheChartSaldoFinal.push(0)
-
       } else {
-        console.log();
         this.linheChartSaldoFinal.push(this.lineChartValorReceita[j] - this.lineChartValorDespesa[j])
       }
 

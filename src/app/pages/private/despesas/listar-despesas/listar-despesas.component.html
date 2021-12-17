@@ -64,7 +64,7 @@
                 {{element[col] | date: 'dd/MM/yyyy'}}
               </span>
               <span *ngSwitchCase="'number'">
-                {{formatar.aplicarMascaraDinheiro(element[col])}}
+                {{element[col] | currency: 'BRL'}}
               </span>
               <span *ngSwitchDefault>
                 {{element[col]}}
@@ -128,55 +128,6 @@
       </ngb-pagination>
     </div>
 
-    <!-- <div class="table-responsive-md">
-      <table class="table table-bordered table-striped editarTabela">
-
-        <thead id="cabecalhoTabela">
-          <tr>
-            <th scope="col">DESCRIÇÃO</th>
-            <th scope="col">VALOR</th>
-            <th scope="col">DATA</th>
-            <th scope="col">AÇÕES</th>
-          </tr>
-        </thead>
-        <tbody id="tbodyEstilo">
-          <tr *ngFor="let item of Despesas | paginate: config" style="height: 4em;">
-            <td class="centralizarTd">{{item.nomeDespesa}}</td>
-            <td class="centralizarTd">{{formatar.aplicarMascaraDinheiro(item.valorDespesa)}}</td>
-            <td class="centralizarTd">{{item.dataDespesa | date: 'dd/MM/yyyy'}}</td>
-            <td class="centralizarTd">
-              <div class="row  justify-content-md-center">
-
-                <div class=" col-5">
-                  <a type="button" data-toggle="modal" data-target="#exampleModal" class="acoesTabela espacar"
-                    (click)="editar(item)">
-                    <img src="../../../../assets/img/icones/editar.png" style="width: 24px;" alt="Editar"
-                      title="Editar">
-                  </a>
-                </div>
-
-
-
-
-                <div class="col-5 grudarNaDireita">
-                  <a type="button" data-toggle="modal" data-target="#excluir" class="acoesTabela ">
-                    <img src="../../../../assets/img/icones/deletar.png" style="width: 24px;" alt="Excluir"
-                      title="Excluir" (click)="pegarIdExclusao(item.id)">
-                  </a>
-
-
-
-
-                </div>
-
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls (pageChange)="pageChanged($event)" class="paginacao"></pagination-controls>
-      <hr>
-    </div> -->
   </ng-template>
 
   <ng-template #vazio>

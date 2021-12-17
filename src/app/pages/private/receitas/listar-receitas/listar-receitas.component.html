@@ -64,7 +64,7 @@
                 {{element[col] | date: 'dd/MM/yyyy'}}
               </span>
               <span *ngSwitchCase="'number'">
-                {{formatar.aplicarMascaraDinheiro(element[col])}}
+                {{element[col] | currency: 'BRL'}}
               </span>
               <span *ngSwitchDefault>
                 {{element[col]}}

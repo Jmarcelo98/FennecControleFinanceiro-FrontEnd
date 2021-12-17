@@ -14,8 +14,6 @@
 
   </div>
 
-  <!-- <app-carregando-requisicao [showProgress]="teste"></app-carregando-requisicao> -->
-
   <div class="card centralizar">
     <div class="card-body">
       <h2 class="card-title">Resultado do balanço anual</h2>
@@ -27,7 +25,7 @@
           <button type="button" class="btn btn-outline-success" title="Receita" id="botaoReceita">
             <div *ngIf="carregou then carregouReceita else nCarregouReceita"></div>
             <ng-template #carregouReceita>
-              {{formatar.aplicarMascaraDinheiro(painelValores.painelValoresAnuaisESaldo.valorAnualReceita)}}
+              {{painelValores.painelValoresAnuaisESaldo.valorAnualReceita | currency:'BRL'}}
             </ng-template>
             <ng-template #nCarregouReceita>
               <div class="spinner-border" role="status">
@@ -42,7 +40,7 @@
           <button class="btn btn-outline-danger" title="Despesa" id="botaoDespesa">
             <div *ngIf="carregou then carregouDespesa else nCarregouDespesa"></div>
             <ng-template #carregouDespesa>
-              {{formatar.aplicarMascaraDinheiro(painelValores.painelValoresAnuaisESaldo.valorAnualDespesa)}}
+              {{painelValores.painelValoresAnuaisESaldo.valorAnualDespesa | currency:'BRL'}}
             </ng-template>
             <ng-template #nCarregouDespesa>
               <div class="spinner-border" role="status">
@@ -56,7 +54,7 @@
           <button class="btn btn-outline-info" title="Saldo Final" id="botaoSaldoFinal">
             <div *ngIf="carregou then carregouSaldo else nCarregouSaldo"></div>
             <ng-template #carregouSaldo>
-              {{formatar.aplicarMascaraDinheiro(painelValores.painelValoresAnuaisESaldo.saldoFinalAnual)}}
+              {{painelValores.painelValoresAnuaisESaldo.saldoFinalAnual | currency:'BRL'}}
             </ng-template>
             <ng-template #nCarregouSaldo>
               <div class="spinner-border" role="status">

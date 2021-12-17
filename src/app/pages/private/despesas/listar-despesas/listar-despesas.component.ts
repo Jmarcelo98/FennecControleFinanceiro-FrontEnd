@@ -7,7 +7,6 @@ import { Moment } from 'moment';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
 import { Despesa } from 'src/app/models/despesa';
 import { DespesasService } from 'src/app/services/despesas.service';
-import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { TransferirPaginaSalvaDespesa } from 'src/app/services/util/resgatarPaginaSalvaDespesa';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { DespesaComponent } from '../despesa.component';
@@ -71,9 +70,6 @@ export class ListarDespesasComponent implements OnInit {
 
   // serve para mostrar o valor no botao
   resultaDespesaMesPesquisado: any
-
-  // utilizado para formatar moeda
-  formatar: FormatarPrice = new FormatarPrice();
 
   // mensagens de errors vindo do backend
   responseError: any

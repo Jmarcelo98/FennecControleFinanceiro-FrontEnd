@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FormatarPrice } from 'src/app/services/util/formatarPrice';
 import { Receita } from 'src/app/models/receita';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
@@ -53,10 +52,7 @@ export class ListarReceitasComponent implements OnInit {
     currentPage: this.paginaSalvaReceita.getPagina(),
     totalItems: 0
   }
-
-  // utilizado para formatar moeda
-  formatar: FormatarPrice = new FormatarPrice();
-
+  
   // utilizado para armazenar lista de receitas 
   receitas: Array<Receita>
 

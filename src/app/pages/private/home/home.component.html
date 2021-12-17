@@ -46,7 +46,7 @@
                                             <p id="resultadoBalanco">{{resultado}}</p>
                                         </ng-template>
                                         <ng-template #NotNaN>
-                                            <p id="resultadoBalanco">{{formatar.aplicarMascaraDinheiro(resultado)}}</p>
+                                            <p id="resultadoBalanco">{{resultado | currency: 'BRL'}}</p>
                                         </ng-template>
 
                                     </ng-template>
@@ -79,7 +79,7 @@
 
                                                 <ng-template #numeroReceita>
                                                     <span
-                                                        class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorReceita)}}</span>
+                                                        class="fonteBtnResumo">{{valorReceita | currency: 'BRL'}}</span>
                                                 </ng-template>
 
                                                 <ng-template #errorReceita>
@@ -108,7 +108,7 @@
 
                                                 <ng-template #numeroDespesa>
                                                     <span
-                                                        class="fonteBtnResumo">{{formatar.aplicarMascaraDinheiro(valorDespesa)}}</span>
+                                                        class="fonteBtnResumo">{{valorDespesa | currency: 'BRL'}}</span>
                                                 </ng-template>
 
                                                 <ng-template #errorDespesa>
