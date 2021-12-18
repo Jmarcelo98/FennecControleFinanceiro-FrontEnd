@@ -6,8 +6,8 @@
 
       <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
         <mat-label>Escolha um mês</mat-label>
-        <input matInput [matDatepicker]="dp" [value]="dataDespesaMaisRecente" [max]="dataDespesaMaisRecente"
-          [formControl]="date">
+        <input matInput [matDatepicker]="dp" [value]="dataDespesaMaisRecente" [min]="limiteDeDatas.dataMaisAntiga"
+          [max]="limiteDeDatas.dataMaisRecente" [formControl]="date">
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
           (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">

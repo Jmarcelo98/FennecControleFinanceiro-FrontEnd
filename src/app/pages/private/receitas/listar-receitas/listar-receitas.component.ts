@@ -11,6 +11,7 @@ import { Moment } from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as moment from 'moment';
 import { ReceitasEQuantidadeMensal } from 'src/app/models/receitasEQuantidadeMensal';
+import { ControlesDeDatas } from 'src/app/models/limiteDeDatas';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -46,6 +47,9 @@ export class ListarReceitasComponent implements OnInit {
 
   // utilizado pra limitar o input date
   dataLimiteInput = new Date()
+
+  // limitar inputs datas
+  limiteDatas: ControlesDeDatas
 
   // utilizado para a configuração da paginação
   config = {
@@ -84,7 +88,7 @@ export class ListarReceitasComponent implements OnInit {
   responseError: any
 
   constructor(private receitaService: ReceitaService,
-    private toastrServiceClasse: ToastrServiceClasse, 
+    private toastrServiceClasse: ToastrServiceClasse,
     private paginaSalvaReceita: TransferirPaginaSalvaReceita,
     private dialog: MatDialog,
     private receitaComponentPai: ReceitaComponent) { }
@@ -125,7 +129,8 @@ export class ListarReceitasComponent implements OnInit {
 
     await this.receitaService.buscarDataMaisRecenteDaReceita().toPromise().then(data => {
       this.existeAoMenosUmaReceitaCadastrada = true
-      this.dataReceitaMaisRecente = data
+      this.limiteDatas = data
+      // this.dataReceitaMaisRecente = data
       this.date.disabled
     }).catch(err => {
       this.existeAoMenosUmaReceitaCadastrada = false

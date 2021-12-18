@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { ControlesDeDatas } from '../models/limiteDeDatas';
 import { Receita } from '../models/receita';
 import { ReceitasEQuantidadeMensal } from '../models/receitasEQuantidadeMensal';
 import { AutenticacaoService } from './autenticacao.service';
@@ -22,7 +23,7 @@ export class ReceitaService {
   // }
 
   buscarDataMaisRecenteDaReceita() {
-    return this.httpClient.get<Date>(`${this.CAMINHO_API}/dataMaisRecente`,
+    return this.httpClient.get<ControlesDeDatas>(`${this.CAMINHO_API}/dataMaisRecente`,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 

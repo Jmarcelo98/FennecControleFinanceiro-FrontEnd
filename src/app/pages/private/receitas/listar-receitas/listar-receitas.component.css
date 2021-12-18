@@ -131,7 +131,7 @@ table {
 }
 
 .espacamento {
-    margin-bottom: 5em;
+    margin-bottom: 2em;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Despesa } from '../models/despesa';
 import { DespesasEQuantidadeMensal } from '../models/despesasEQuantidadeMensal';
+import { ControlesDeDatas } from '../models/limiteDeDatas';
 import { AutenticacaoService } from './autenticacao.service';
 
 @Injectable({
@@ -23,7 +24,7 @@ export class DespesasService {
   // }
 
   buscarDataMaisRecenteDaDespesa() {
-    return this.httpClient.get<Date>(`${this.CAMINHO_API}/dataMaisRecente`,
+    return this.httpClient.get<ControlesDeDatas>(`${this.CAMINHO_API}/dataMaisRecente`,
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 

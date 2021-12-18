@@ -8,16 +8,16 @@
       </select>
     </p> -->
     <div class=" col-8 col-md-9">
-   
-       <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
+
+      <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
         <mat-label>Escolha um mês</mat-label>
-        <input matInput [matDatepicker]="dp" [value]="dataReceitaMaisRecente" [max]="dataReceitaMaisRecente"
-          [formControl]="date">
+        <input matInput [matDatepicker]="dp" [value]="dataReceitaMaisRecente" [min]="limiteDatas.dataMaisAntiga"
+          [max]="limiteDatas.dataMaisRecente" [formControl]="date">
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
           (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
         </mat-datepicker>
-      </mat-form-field> 
+      </mat-form-field>
 
     </div>
 

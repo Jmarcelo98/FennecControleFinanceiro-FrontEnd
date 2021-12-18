@@ -7,6 +7,7 @@ import { Moment } from 'moment';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
 import { Despesa } from 'src/app/models/despesa';
 import { DespesasEQuantidadeMensal } from 'src/app/models/despesasEQuantidadeMensal';
+import { ControlesDeDatas } from 'src/app/models/limiteDeDatas';
 import { DespesasService } from 'src/app/services/despesas.service';
 import { TransferirPaginaSalvaDespesa } from 'src/app/services/util/resgatarPaginaSalvaDespesa';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
@@ -37,6 +38,9 @@ export class ListarDespesasComponent implements OnInit {
 
   // serve para pegar data de despesa mais recente
   dataDespesaMaisRecente: Date
+
+  // serve para limitar datas no input
+  limiteDeDatas: ControlesDeDatas
 
   // usado para input de escolher um mes
   date = new FormControl(moment());
@@ -109,7 +113,8 @@ export class ListarDespesasComponent implements OnInit {
 
     await this.despesaService.buscarDataMaisRecenteDaDespesa().toPromise().then(data => {
       this.existeAoMenosUmaDespesaCadastrada = true
-      this.dataDespesaMaisRecente = data
+      this.limiteDeDatas = data
+      // this.dataDespesaMaisRecente = data
       this.date.disabled
     }).catch(err => {
       this.existeAoMenosUmaDespesaCadastrada = false
