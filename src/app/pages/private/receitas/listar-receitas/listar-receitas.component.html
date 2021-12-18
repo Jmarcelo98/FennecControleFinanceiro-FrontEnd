@@ -2,9 +2,14 @@
 
   <div class="row">
 
+    <!-- <p style="width: 10%;">
+      <select formControlName="anoSelecionado" class="form-select" [value]="anos[0]">
+        <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
+      </select>
+    </p> -->
     <div class=" col-8 col-md-9">
-
-      <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
+   
+       <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
         <mat-label>Escolha um mês</mat-label>
         <input matInput [matDatepicker]="dp" [value]="dataReceitaMaisRecente" [max]="dataReceitaMaisRecente"
           [formControl]="date">
@@ -12,7 +17,7 @@
         <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
           (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
         </mat-datepicker>
-      </mat-form-field>
+      </mat-form-field> 
 
     </div>
 
@@ -29,7 +34,7 @@
   <ng-template #temValor>
 
     <article class="table-header">
-      <table mat-table [dataSource]="receitas">
+      <table mat-table [dataSource]="receitas.receitaDTO">
         <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
           <th mat-header-cell *matHeaderCellDef>
 

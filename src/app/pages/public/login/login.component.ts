@@ -32,8 +32,8 @@ export class LoginComponent implements OnInit {
     senha: [null, [Validators.required, Validators.minLength(6)]]
   })
 
-  constructor(private formBuilder: FormBuilder, private autenticacaoService: AutenticacaoService, private router: Router,
-    private server: ServerOnService) { }
+  constructor(private formBuilder: FormBuilder, private autenticacaoService: AutenticacaoService, 
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-
     this.foiEnviado = true;
 
     if (this.loginForm.invalid) {

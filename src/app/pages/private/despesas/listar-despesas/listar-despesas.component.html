@@ -29,7 +29,7 @@
   <ng-template #temValor>
 
     <article class="table-header">
-      <table mat-table [dataSource]="despesas">
+      <table mat-table [dataSource]="despesas.despesaDTO">
         <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
           <th mat-header-cell *matHeaderCellDef>
 
@@ -64,7 +64,7 @@
                 {{element[col] | date: 'dd/MM/yyyy'}}
               </span>
               <span *ngSwitchCase="'number'">
-                {{element[col] | currency: 'BRL'}}
+                {{ element[col] | currency:'BRL' }}
               </span>
               <span *ngSwitchDefault>
                 {{element[col]}}

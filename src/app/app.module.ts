@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,6 +43,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmacaoDialogComponent } from './component/confirmacao-dialog/confirmacao-dialog.component';
 import { DateFormatCostomDirective } from './directive/date-format-costom.directive';
+import { registerLocaleData } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+
+registerLocaleData(ptBr);
 
 export const MY_FORMATS = {
   parse: {
@@ -115,7 +119,7 @@ export function tokenGetter() {
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    //  {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
+    { provide: LOCALE_ID, useValue: 'pt' }
   ],
   bootstrap: [AppComponent]
 })

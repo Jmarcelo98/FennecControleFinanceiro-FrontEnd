@@ -30,7 +30,6 @@ export class PainelComponent implements OnInit {
     anoSelecionado: [null]
   })
 
-
   @ViewChild("painel", { static: false }) elemento: ElementRef
 
   constructor(private painelService: PainelService, private fb: FormBuilder, private toastr: ToastrServiceClasse) { }
@@ -119,7 +118,7 @@ export class PainelComponent implements OnInit {
           }, position: 'top',
           align: 'center',
         }, maintainAspectRatio: false,
-      } , 
+      },
     });
 
     this.carregou = true

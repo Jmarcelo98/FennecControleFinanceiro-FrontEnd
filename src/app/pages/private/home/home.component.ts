@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario';
 import { FormGroup } from '@angular/forms';
 
@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   contactForm:FormGroup;
  
@@ -25,5 +25,14 @@ export class HomeComponent {
   colorBorder = "green";
 
   constructor() { }
+
+  ngOnInit() {
+  }
+
+  teste() {
+    
+    console.log("teste");
+    
+  }
 
 }

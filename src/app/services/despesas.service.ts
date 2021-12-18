@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Despesa } from '../models/despesa';
+import { DespesasEQuantidadeMensal } from '../models/despesasEQuantidadeMensal';
 import { AutenticacaoService } from './autenticacao.service';
 
 @Injectable({
@@ -54,7 +55,7 @@ export class DespesasService {
 
 
   buscarTodasDespesasOuDeAcordoComOMesAno(dataRecebida: string, paginacao: number) {
-    return this.httpClient.get<Despesa[]>(`${this.CAMINHO_API}/data/mensal-anual`,
+    return this.httpClient.get<DespesasEQuantidadeMensal>(`${this.CAMINHO_API}/data/mensal-anual`,
       {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
         params: { data: dataRecebida, pagina: paginacao - 1, linhasPorPagina: 5 }

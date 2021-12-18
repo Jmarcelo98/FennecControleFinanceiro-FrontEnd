@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Receita } from '../models/receita';
+import { ReceitasEQuantidadeMensal } from '../models/receitasEQuantidadeMensal';
 import { AutenticacaoService } from './autenticacao.service';
 
 @Injectable({
@@ -40,10 +41,10 @@ export class ReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
-  quantidadeReceitaMensal(dataRecebida: string) {
-    return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade-mensal`,
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { data: dataRecebida } });
-  }
+  // quantidadeReceitaMensal(dataRecebida: string) {
+  //   return this.httpClient.get<number>(`${this.CAMINHO_API}/quantidade-mensal`,
+  //     { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }), params: { data: dataRecebida } });
+  // }
 
   adicionarNovaReceita(receita: Receita) {
     return this.httpClient.post(`${this.CAMINHO_API}`, receita,
@@ -51,7 +52,7 @@ export class ReceitaService {
   }
 
   buscarTodasReceitasOuDeAcordoComOMesAno(dataRecebida: string, paginacao: number) {
-    return this.httpClient.get<Receita[]>(`${this.CAMINHO_API}/data/mensal-anual`,
+    return this.httpClient.get<ReceitasEQuantidadeMensal>(`${this.CAMINHO_API}/data/mensal-anual`,
       {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
         params: { data: dataRecebida, pagina: paginacao - 1, linhasPorPagina: 5 }

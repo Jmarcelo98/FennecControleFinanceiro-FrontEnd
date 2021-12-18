@@ -10,6 +10,7 @@ import { ReceitaComponent } from '../receita.component';
 import { Moment } from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as moment from 'moment';
+import { ReceitasEQuantidadeMensal } from 'src/app/models/receitasEQuantidadeMensal';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -52,9 +53,11 @@ export class ListarReceitasComponent implements OnInit {
     currentPage: this.paginaSalvaReceita.getPagina(),
     totalItems: 0
   }
-  
+
+  // receitas: Array<Receita>
+
   // utilizado para armazenar lista de receitas 
-  receitas: Array<Receita>
+  receitas: ReceitasEQuantidadeMensal
 
   // utilizado para reconhecer colunas no html
   displayedColumns: string[] = ['nomeReceita', 'valorReceita', 'dataReceita', 'isEdit'];
@@ -80,9 +83,9 @@ export class ListarReceitasComponent implements OnInit {
   // mensagens de errors vindo do backend
   responseError: any
 
-
   constructor(private receitaService: ReceitaService,
-    private toastrServiceClasse: ToastrServiceClasse, private paginaSalvaReceita: TransferirPaginaSalvaReceita,
+    private toastrServiceClasse: ToastrServiceClasse, 
+    private paginaSalvaReceita: TransferirPaginaSalvaReceita,
     private dialog: MatDialog,
     private receitaComponentPai: ReceitaComponent) { }
 
@@ -196,26 +199,20 @@ export class ListarReceitasComponent implements OnInit {
 
   buscarPelaData() {
 
-    this.receitaService.quantidadeReceitaMensal(String(this.date.value)).subscribe(quanti => {
-      this.config.totalItems = quanti
-
-    }, err => {
-      console.log(err);
-    })
-
     this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(String(this.date.value), this.config.currentPage)?.subscribe(res => {
       this.receitas = res
+      this.config.totalItems = this.receitas.qtd.quantidadeMensal!
       this.receitaExiste = true
     }, err => {
       this.responseError = err.error.msg
       this.receitaExiste = false
     })
 
-    this.receitaService.valorTotalDaReceitaMesAnoPesquisado(String(this.date.value)).subscribe(result => {
-      this.resultaReceitaMesPesquisado = result
-    }, err => {
-      this.resultaReceitaMesPesquisado = 0
-    })
+    // this.receitaService.valorTotalDaReceitaMesAnoPesquisado(String(this.date.value)).subscribe(result => {
+    //   this.resultaReceitaMesPesquisado = result
+    // }, err => {
+    //   this.resultaReceitaMesPesquisado = 0
+    // })
 
   }
 

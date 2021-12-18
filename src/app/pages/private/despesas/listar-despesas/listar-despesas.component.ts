@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Moment } from 'moment';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
 import { Despesa } from 'src/app/models/despesa';
+import { DespesasEQuantidadeMensal } from 'src/app/models/despesasEQuantidadeMensal';
 import { DespesasService } from 'src/app/services/despesas.service';
 import { TransferirPaginaSalvaDespesa } from 'src/app/services/util/resgatarPaginaSalvaDespesa';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
@@ -75,7 +76,7 @@ export class ListarDespesasComponent implements OnInit {
   responseError: any
 
   // utilizado para armazenar lista de despesa 
-  despesas: Array<Despesa>
+  despesas: DespesasEQuantidadeMensal
 
   constructor(private despesaService: DespesasService,
     private toastrServiceClasse: ToastrServiceClasse, private dialog: MatDialog,
@@ -119,26 +120,20 @@ export class ListarDespesasComponent implements OnInit {
 
   buscarPelaData() {
 
-    this.despesaService.quantidadeDespesaMensal(String(this.date.value)).subscribe(quanti => {
-      this.config.totalItems = quanti
-
-    }, err => {
-      console.log(err);
-    })
-
     this.despesaService.buscarTodasDespesasOuDeAcordoComOMesAno(String(this.date.value), this.config.currentPage)?.subscribe(res => {
       this.despesas = res
+      this.config.totalItems = this.despesas.qtd.quantidadeMensal!
       this.despesaExiste = true
     }, err => {
       this.responseError = err.error.msg
       this.despesaExiste = false
     })
 
-    this.despesaService.valorTotalDaDespesaMesAnoPesquisado(String(this.date.value)).subscribe(result => {
-      this.resultaDespesaMesPesquisado = result
-    }, err => {
-      this.resultaDespesaMesPesquisado = 0
-    })
+    // this.despesaService.valorTotalDaDespesaMesAnoPesquisado(String(this.date.value)).subscribe(result => {
+    //   this.resultaDespesaMesPesquisado = result
+    // }, err => {
+    //   this.resultaDespesaMesPesquisado = 0
+    // })
 
   }
 
