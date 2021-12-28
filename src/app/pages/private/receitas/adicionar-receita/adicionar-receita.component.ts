@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Receita } from 'src/app/models/receita';
+import { TipoReceita } from 'src/app/models/tipoReceita';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { ListarReceitasComponent } from '../listar-receitas/listar-receitas.component';
@@ -72,11 +73,17 @@ export class AdicionarReceitaComponent implements OnInit {
 
     this.receitaComponentPai.processandoRequisicao = true
 
+    const teste: TipoReceita = {
+      id: 0,
+      descricao: "teste"
+    }
+
     const novaReceita: Receita = {
       id: 0,
       nomeReceita: this.formNovaReceita.get('nomeReceita')?.value,
       valorReceita: this.formNovaReceita.get('valorReceita')?.value,
-      dataReceita: this.date.value._d
+      dataReceita: this.date.value._d,
+      tipoReceita: teste
     }
 
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {

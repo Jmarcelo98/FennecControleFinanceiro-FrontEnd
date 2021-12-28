@@ -30,23 +30,23 @@ const routes: Routes = [
     path: "cadastro",
     component: CadastroComponent
   },
+  // {
+  //   path: "receitas",
+  //   canActivate: [AuthGuardService],
+  //   component: ListarReceitasComponent
+  // },
+  // {
+  //   path: "despesas",
+  //   canActivate: [AuthGuardService],
+  //   component: ListarDespesasComponent
+  // },
   {
     path: "receitas",
-    canActivate: [AuthGuardService],
-    component: ListarReceitasComponent
-  },
-  {
-    path: "despesas",
-    canActivate: [AuthGuardService],
-    component: ListarDespesasComponent
-  },
-  {
-    path: "nova-receita",
     canActivate: [AuthGuardService],
     component: ReceitaComponent
   },
   {
-    path: "nova-despesa",
+    path: "despesas",
     canActivate: [AuthGuardService],
     component: DespesaComponent
   },

@@ -1,5 +1,16 @@
 <div class="espacamento">
 
+  <form action="/action_page.php">
+    <label for="cars">Choose a car:</label>
+    <select id="cars" name="cars">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="fiat">Fiat</option>
+      <option value="audi">Audi</option>
+    </select>
+    <input type="submit">
+  </form>
+
   <div class="row">
 
     <!-- <p style="width: 10%;">
@@ -41,6 +52,11 @@
             <span *ngIf="col == 'nomeReceita'">
               Descrição
             </span>
+
+            <span *ngIf="col == 'tipoReceitaDTO.descricao'">
+              Categoria
+            </span>
+
             <span *ngIf="col == 'valorReceita'">
               Valor
             </span>
@@ -67,6 +83,9 @@
               </div>
               <span *ngSwitchCase="'date'">
                 {{element[col] | date: 'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchCase="'submit'">
+                {{element.tipoReceitaDTO.descricao}}
               </span>
               <span *ngSwitchCase="'number'">
                 {{element[col] | currency: 'BRL'}}

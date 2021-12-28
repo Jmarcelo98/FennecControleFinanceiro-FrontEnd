@@ -15,6 +15,7 @@ import { ControlesDeDatas } from 'src/app/models/limiteDeDatas';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
+  "tipoReceitaDTO.descricao" : "submit",
   "valorReceita": "number",
   "dataReceita": "date",
   "isEdit": "isEdit"
@@ -29,7 +30,6 @@ const INVALIDOS_INPUT_EDITAR = {
   data: false
 }
 
-
 @Component({
   selector: 'app-listar-receitas',
   templateUrl: './listar-receitas.component.html',
@@ -38,6 +38,9 @@ const INVALIDOS_INPUT_EDITAR = {
 
 
 export class ListarReceitasComponent implements OnInit {
+
+  // utilizado para reconhecer colunas no html
+  displayedColumns: string[] = ['nomeReceita', 'tipoReceitaDTO.descricao', 'valorReceita', 'dataReceita',  'isEdit'];
 
   // utilizado para editar valores na tabela
   dataSchema: any = USER_SCHEMA;
@@ -62,9 +65,6 @@ export class ListarReceitasComponent implements OnInit {
 
   // utilizado para armazenar lista de receitas 
   receitas: ReceitasEQuantidadeMensal
-
-  // utilizado para reconhecer colunas no html
-  displayedColumns: string[] = ['nomeReceita', 'valorReceita', 'dataReceita', 'isEdit'];
 
   // utilizado para verificao de quando for enviado o input editar
   foiEnviado: boolean
@@ -128,8 +128,8 @@ export class ListarReceitasComponent implements OnInit {
   async verificarSeExisteReceitaCadastrada() {
 
     await this.receitaService.buscarDataMaisRecenteDaReceita().toPromise().then(data => {
-      this.existeAoMenosUmaReceitaCadastrada = true
       this.limiteDatas = data
+      this.existeAoMenosUmaReceitaCadastrada = true
       // this.dataReceitaMaisRecente = data
       this.date.disabled
     }).catch(err => {
@@ -206,6 +206,7 @@ export class ListarReceitasComponent implements OnInit {
 
     this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(String(this.date.value), this.config.currentPage)?.subscribe(res => {
       this.receitas = res
+      console.log(this.receitas);
       this.config.totalItems = this.receitas.qtd.quantidadeMensal!
       this.receitaExiste = true
     }, err => {
