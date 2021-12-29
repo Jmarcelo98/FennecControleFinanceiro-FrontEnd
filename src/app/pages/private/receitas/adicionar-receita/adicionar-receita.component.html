@@ -64,12 +64,18 @@
 
                         <div class="col-5">
 
-                            <div class="form-control inputSelect">
-                                <mat-select disableOptionCentering formControlName="tipoReceitaDTO">
+                            <div class="form-control inputSelect" 
+                            [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.tipoReceita}">
+                                <mat-select  [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.tipoReceita}"
+                                    disableOptionCentering formControlName="tipoReceitaDTO">
                                     <mat-option *ngFor="let tipoCategoria of tipoReceita" [value]="tipoCategoria">
                                         {{tipoCategoria.descricao}}
                                     </mat-option>
                                 </mat-select>
+                                <div class="errorInput invalid-feedback categoria"
+                                    *ngIf="foiEnviado && camposInvalidos.tipoReceita">
+                                    Selecione uma categoria
+                                </div>
                             </div>
                         </div>
                     </div>

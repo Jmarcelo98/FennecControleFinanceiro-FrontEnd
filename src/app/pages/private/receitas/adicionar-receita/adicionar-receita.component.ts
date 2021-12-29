@@ -10,6 +10,10 @@ import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { ListarReceitasComponent } from '../listar-receitas/listar-receitas.component';
 import { ReceitaComponent } from '../receita.component';
 
+const INVALIDOS_INPUT_ADICIONAR = {
+  tipoReceita: false
+}
+
 @Component({
   selector: 'app-adicionar-receita',
   templateUrl: './adicionar-receita.component.html',
@@ -26,6 +30,9 @@ export class AdicionarReceitaComponent implements OnInit {
 
   //verificando se a data do input é igual a null
   dataInvalida = false
+
+  // utilizado para determinar campos invalidos ne editar
+  camposInvalidos = INVALIDOS_INPUT_ADICIONAR;
 
   // clicado em salvar receita
   foiEnviado: boolean
@@ -44,8 +51,8 @@ export class AdicionarReceitaComponent implements OnInit {
     nomeReceita: [null, [Validators.required]],
     valorReceita: [0, [Validators.required, Validators.min(0.01)]],
     tipoReceitaDTO: {
-      id: [null],
-      descricao: [null]
+      id: null,
+      descricao: null
     }
     
   })
@@ -77,38 +84,44 @@ export class AdicionarReceitaComponent implements OnInit {
 
     this.foiEnviado = true;
 
+    let novaReceita: Receita = {
+      id: 0,
+      nomeReceita: null!,
+      valorReceita: null!,
+      dataReceita: null!,
+      tipoReceitaDTO: this.formNovaReceita.get('tipoReceitaDTO')?.value
+    }
+    
+    if (novaReceita.tipoReceitaDTO.descricao == null && novaReceita.tipoReceitaDTO.id == null) {
+      this.camposInvalidos.tipoReceita = true;
+    } else {
+      this.camposInvalidos.tipoReceita = false;
+    }
+
     if (this.date.value == null) {
       this.dataInvalida = true
     } else {
       this.dataInvalida = false
     }
 
-    if (this.formNovaReceita.invalid || this.date.value._id) {
+    if (this.formNovaReceita.invalid || this.date.value._id || this.camposInvalidos.tipoReceita) {
       return;
     }
 
-    // this.receitaComponentPai.processandoRequisicao = true
+    novaReceita.id = 0
+    novaReceita.dataReceita = this.date.value._d
+    novaReceita.valorReceita = this.formNovaReceita.get('valorReceita')?.value,
+    novaReceita.nomeReceita = this.formNovaReceita.get('nomeReceita')?.value,
 
-    const teste: TipoReceita = {
-      id: 0,
-      descricao: "teste"
-    }
+    // const novaReceita: Receita = {
+    //   id: 0,
+    //   nomeReceita: this.formNovaReceita.get('nomeReceita')?.value,
+    //   valorReceita: this.formNovaReceita.get('valorReceita')?.value,
+    //   dataReceita: this.date.value._d,
+    //   tipoReceitaDTO: this.formNovaReceita.get('tipoReceitaDTO')?.value
+    // }
 
-    const novaReceita: Receita = {
-      id: 0,
-      nomeReceita: this.formNovaReceita.get('nomeReceita')?.value,
-      valorReceita: this.formNovaReceita.get('valorReceita')?.value,
-      dataReceita: this.date.value._d,
-      tipoReceitaDTO: this.formNovaReceita.get('tipoReceitaDTO')?.value
-    }
-
-    // console.log(novaReceita);
-    
-
-    // return
-
-    console.log(novaReceita);
-    
+    this.receitaComponentPai.processandoRequisicao = true
 
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {
       this.foiEnviado = false
