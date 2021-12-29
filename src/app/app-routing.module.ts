@@ -15,6 +15,7 @@ import { NovaSenhaComponent } from './pages/public/esqueceu-senha/nova-senha/nov
 import { LoginComponent } from './pages/public/login/login.component';
 import { ReceitaComponent } from './pages/private/receitas/receita.component';
 import { DespesaComponent } from './pages/private/despesas/despesa.component';
+import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 const routes: Routes = [
   {
@@ -62,8 +63,11 @@ const routes: Routes = [
   {
     path: 'nova-senha',
     component: NovaSenhaComponent,
-    canActivate: [CodigoGuardService]
-    
+    canActivate: [CodigoGuardService]  
+  },
+  {
+    path: '**',
+    component: PaginaNaoEncontradaComponent
   }
 ];
 

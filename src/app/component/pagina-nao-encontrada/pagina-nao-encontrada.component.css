@@ -1,0 +1,16 @@
+p {
+    text-align: center;
+}
+
+#mensagem404 {
+    color: orange;
+    font-size: 25em;
+    margin-top: 18%;
+    font-family: fangsong;
+}
+
+#mensagemPaginaNEncontrada {
+    margin-top: 13%;
+    font-size: 5em;
+    font-family: system-ui;
+}

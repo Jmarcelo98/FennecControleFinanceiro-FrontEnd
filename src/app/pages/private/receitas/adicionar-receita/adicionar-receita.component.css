@@ -1,4 +1,14 @@
 
+input:hover {
+    border-color: black;
+    border-width: 0.05em;
+}
+
+#botaoAddRec{
+    font-size: 1em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .espacamento {
     margin-top: 1em;
 }
@@ -7,10 +17,6 @@
     text-align: center;
 }
 
-#botaoAddRec{
-    font-size: 1em;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
 
 /* .alinharEsquerda {
     text-align: left;
@@ -36,15 +42,25 @@
     background-color: rgb(246, 246, 246);
 }
 
-input:hover {
-    border-color: black;
-    border-width: 0.1em;
+.inputSelect {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 0.8em;
+    font-family: system-ui;
+    font-size: 1.2em;
+    background-color: rgb(246, 246, 246);
 }
+
+.inputSelect:hover {
+    border-color: black;
+    /* border-width: 0.15em; */
+}
+
 
 .distanciarTitulo{
     margin-top: 2em;
 }
-
 
 .errorInput {
     position: absolute;

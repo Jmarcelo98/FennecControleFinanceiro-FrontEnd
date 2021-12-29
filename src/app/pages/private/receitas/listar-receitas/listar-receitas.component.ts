@@ -55,6 +55,9 @@ export class ListarReceitasComponent implements OnInit {
   // utilizado pra limitar o input date
   dataLimiteInput = new Date()
 
+  // 
+  tipoReceitaAA: TipoReceita
+
   // limitar inputs datas
   limiteDatas: ControlesDeDatas = new ControlesDeDatas()
 

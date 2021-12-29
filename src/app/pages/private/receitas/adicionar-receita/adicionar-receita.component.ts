@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Receita } from 'src/app/models/receita';
 import { TipoReceita } from 'src/app/models/tipoReceita';
 import { ReceitaService } from 'src/app/services/receita.service';
+import { TipoReceitaService } from 'src/app/services/tipo-receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { ListarReceitasComponent } from '../listar-receitas/listar-receitas.component';
 import { ReceitaComponent } from '../receita.component';
@@ -32,20 +33,35 @@ export class AdicionarReceitaComponent implements OnInit {
   // nova receita
   receita: Receita
 
+  // tipo receita
+  tipoReceita: TipoReceita[]
+
   // fechar modal
   @ViewChild('closebutton') closebutton;
 
 
   formNovaReceita = this.formBuilder.group({
     nomeReceita: [null, [Validators.required]],
-    valorReceita: [0, [Validators.required, Validators.min(0.01)]]
+    valorReceita: [0, [Validators.required, Validators.min(0.01)]],
+    tipoReceitaDTO: {
+      id: [null],
+      descricao: [null]
+    }
+    
   })
 
   constructor(private formBuilder: FormBuilder, private receitaService: ReceitaService,
     private toastr: ToastrServiceClasse, private receitaComponentPai: ReceitaComponent,
-    private listarReceita: ListarReceitasComponent) { }
+    private listarReceita: ListarReceitasComponent, private tipoReceitaService: TipoReceitaService) { }
 
   ngOnInit(): void {
+
+    this.tipoReceitaService.buscarTiposDeReceitas().subscribe( res=> {
+      this.tipoReceita = res
+    }, err => {
+      console.log(err);
+    })
+
   }
 
   get f() {
@@ -71,7 +87,7 @@ export class AdicionarReceitaComponent implements OnInit {
       return;
     }
 
-    this.receitaComponentPai.processandoRequisicao = true
+    // this.receitaComponentPai.processandoRequisicao = true
 
     const teste: TipoReceita = {
       id: 0,
@@ -83,8 +99,16 @@ export class AdicionarReceitaComponent implements OnInit {
       nomeReceita: this.formNovaReceita.get('nomeReceita')?.value,
       valorReceita: this.formNovaReceita.get('valorReceita')?.value,
       dataReceita: this.date.value._d,
-      tipoReceita: teste
+      tipoReceitaDTO: this.formNovaReceita.get('tipoReceitaDTO')?.value
     }
+
+    // console.log(novaReceita);
+    
+
+    // return
+
+    console.log(novaReceita);
+    
 
     this.receitaService.adicionarNovaReceita(novaReceita).subscribe(sucesso => {
       this.foiEnviado = false

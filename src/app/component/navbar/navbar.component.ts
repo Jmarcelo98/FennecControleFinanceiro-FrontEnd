@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   activeIni = ""
   activeRec = ""
   activeDes = ""
+  activeCat = ""
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -33,9 +34,9 @@ export class NavbarComponent implements OnInit {
 
     if (this.router.url == "/") {
       this.activeIni = "active"
-    } else if (this.router.url == "/nova-receita") {
+    } else if (this.router.url == "/receitas") {
       this.activeRec = "active"
-    } else if (this.router.url == "/nova-despesa"){
+    } else if (this.router.url == "/despesas"){
       this.activeDes = "active"
     }
 

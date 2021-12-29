@@ -5,7 +5,7 @@ export interface Receita {
     nomeReceita: string;
     valorReceita: number;
     dataReceita: Date;
-    tipoReceita: TipoReceita;
+    tipoReceitaDTO: TipoReceita;
 }
 
 export const ReceitaSchema = {

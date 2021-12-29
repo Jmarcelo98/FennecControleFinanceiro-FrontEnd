@@ -60,8 +60,7 @@
                 <div class="row">
 
                   <div class="col-5">
-                    <button class="btn  button-editar" title="Editar"
-                      (click)="buscarTipoReceita()"
+                    <button class="btn  button-editar" title="Editar" (click)="buscarTipoReceita()"
                       (click)="element.isEdit = !element.isEdit">
                       <mat-icon>edit</mat-icon>
                     </button>
@@ -126,8 +125,13 @@
                 </div>
               </mat-form-field>
 
+              <!-- <mat-select [value]="tipoReceitasCadastradas[1]" name="Categoria">
+                <mat-option *ngFor="let tipoCategoria of tipoReceitasCadastradas" [value]="tipoCategoria">
+                  {{tipoCategoria.descricao}} </mat-option>
+              </mat-select> -->
+
               <mat-form-field *ngSwitchCase="'submit'">
-                <mat-label>Categoria</mat-label>
+                <mat-label>{{element.tipoReceitaDTO.descricao}}</mat-label>
                 <!-- [(ngModel)]="element.tipoReceitaDTO.descricao" TAVA NO MAT-SELECT -->
                 <mat-select disableOptionCentering [(value)]="element.tipoReceitaDTO">
                   <mat-option *ngFor="let tipoCategoria of tipoReceitasCadastradas" [value]="tipoCategoria">
