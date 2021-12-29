@@ -41,9 +41,7 @@ const INVALIDOS_INPUT_EDITAR = {
 
 export class ListarReceitasComponent implements OnInit {
 
-  teste: string[] = ['a', 'b', 'c', 'd']
-
-  tipoReceitasCadastradas: TipoReceita[];
+  tipoReceitasCadastradas: TipoReceita[] = [];
 
   // utilizado para reconhecer colunas no html
   displayedColumns: string[] = ['nomeReceita', 'tipoReceitaDTO.descricao', 'valorReceita', 'dataReceita',  'isEdit'];
@@ -66,8 +64,6 @@ export class ListarReceitasComponent implements OnInit {
     currentPage: this.paginaSalvaReceita.getPagina(),
     totalItems: 0
   }
-
-  // receitas: Array<Receita>
 
   // utilizado para armazenar lista de receitas 
   receitas: ReceitasEQuantidadeMensal
@@ -179,7 +175,13 @@ export class ListarReceitasComponent implements OnInit {
       return false;
     }
 
-    this.receitaComponentPai.processandoRequisicao = true
+    console.log(receitaAtt);
+
+    
+    // this.receitaComponentPai.processandoRequisicao = true
+
+    // return true;
+
 
     this.receitaService.atualizarReceita(receitaAtt).subscribe(res => {
       this.receitaComponentPai.processandoRequisicao = false
@@ -228,9 +230,9 @@ export class ListarReceitasComponent implements OnInit {
 
   }
 
-  buscarTipoReceita(){
+  async buscarTipoReceita(){
 
-    this.tipoReceitaService.buscarTiposDeReceitas().subscribe( res => {
+    await this.tipoReceitaService.buscarTiposDeReceitas().subscribe( res => {
       console.log(res);
       this.tipoReceitasCadastradas = res;
     }, err => {

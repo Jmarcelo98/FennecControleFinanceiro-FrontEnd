@@ -1,22 +1,7 @@
 <div class="espacamento">
 
-  <h4>Basic mat-select</h4>
-  <mat-form-field appearance="fill">
-    <mat-label>Favorite food</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let food of teste" [value]="food">
-        {{food}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
   <div class="row">
 
-    <!-- <p style="width: 10%;">
-      <select formControlName="anoSelecionado" class="form-select" [value]="anos[0]">
-        <option *ngFor="let ano of anos" [ngValue]="ano">{{ano}}</option>
-      </select>
-    </p> -->
     <div class=" col-8 col-md-9">
 
       <mat-form-field appearance="outline" id="escolhaUmMes" appDateFormatCostom>
@@ -72,18 +57,31 @@
             <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
               <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
 
-                <button class="btn button-editar" (click)="buscarTipoReceita()" (click)="element.isEdit = !element.isEdit">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button class="btn button-remove" (click)="remover(element.id)">
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <div class="row">
+
+                  <div class="col-5">
+                    <button class="btn  button-editar" title="Editar"
+                      (click)="buscarTipoReceita()"
+                      (click)="element.isEdit = !element.isEdit">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+
+                  <div class="col-5">
+                    <button class="btn button-remove" title="Deletar" (click)="remover(element.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+
+                </div>
+
 
               </div>
               <span *ngSwitchCase="'date'">
                 {{element[col] | date: 'dd/MM/yyyy'}}
               </span>
               <span *ngSwitchCase="'submit'">
+                <!-- <mat-icon>label</mat-icon> -->
                 {{element.tipoReceitaDTO.descricao}}
               </span>
               <span *ngSwitchCase="'number'">
@@ -95,16 +93,27 @@
             </div>
             <div [ngSwitch]="dataSchema[col]" *ngIf="element.isEdit">
               <div class="btn-edit" *ngSwitchCase="'isEdit'">
+
                 <div class="row">
-                  <div class="col-6">
+
+                  <div class="col-5">
                     <!-- (click)="element.isEdit = !element.isEdit" -->
                     <button (click)="editar(element) == true && element.isEdit = !element.isEdit"
-                      class="btn btn-outline-primary">Salvar</button>
+                      class="btn button-confirm-edit" title="Confirmar">
+                      <mat-icon>done</mat-icon>
+                    </button>
+
                   </div>
-                  <div class="col-6">
-                    <button (click)="element.isEdit = !element.isEdit" class="btn btn-outline-danger">Cancelar</button>
+
+                  <div class="col-5">
+
+                    <button title="Cancelar" (click)="element.isEdit = !element.isEdit" class="btn button-remove">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
                   </div>
+
                 </div>
+
               </div>
               <mat-form-field *ngSwitchCase="'date'">
                 <mat-label>Data</mat-label>
@@ -119,9 +128,10 @@
 
               <mat-form-field *ngSwitchCase="'submit'">
                 <mat-label>Categoria</mat-label>
-                <mat-select [(ngModel)]="element.tipoReceitaDTO.descricao" name="food">
-                  <mat-option *ngFor="let a of teste" [value]="a">
-                    {{element.tipoReceitaDTO.descricao}}
+                <!-- [(ngModel)]="element.tipoReceitaDTO.descricao" TAVA NO MAT-SELECT -->
+                <mat-select disableOptionCentering [(value)]="element.tipoReceitaDTO">
+                  <mat-option *ngFor="let tipoCategoria of tipoReceitasCadastradas" [value]="tipoCategoria">
+                    {{tipoCategoria.descricao}}
                   </mat-option>
                 </mat-select>
                 <!-- <input matInput [type]="'submit'"

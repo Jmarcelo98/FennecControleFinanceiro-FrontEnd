@@ -1,12 +1,11 @@
+button>mat-icon {
+    margin-top: 0.2em;
+}
+
 label {
     display: block;
     font: 1rem 'Fira Sans', sans-serif;
 }
-
-/* input, label {
-    margin: .4rem 0;
-} */
-
 
 th {
     font-size: 1.8em;
@@ -112,17 +111,42 @@ table {
     margin-bottom: 10px;
 }
 
-.button-editar {
-    color: green;
-}
+
 
 .button-add-row {
     background: #1b9e1b;
     color: #ffffff;
 }
 
+.button-editar {
+    color: green;
+    border: solid #f3f3f3 0.05px;
+}
+
+.button-editar:hover {
+    background-color: rgba(106, 248, 113, 0.3);
+    border: solid #f3f3f3 0.05px;
+}
+
+
 .button-remove {
     color: red;
+    border: solid #f3f3f3 0.05px;
+}
+
+.button-remove:hover {
+    background-color: rgba(248, 106, 106, 0.3);
+    border: solid #f3f3f3 0.05px;
+}
+
+.button-confirm-edit {
+    color: blue;
+    border: solid #f3f3f3 0.05px;
+}
+
+.button-confirm-edit:hover {
+    background-color: rgba(106, 108, 248, 0.3);
+    border: solid #f3f3f3 0.05px;
 }
 
 .errorInput {
