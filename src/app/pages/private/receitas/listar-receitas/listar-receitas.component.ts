@@ -12,6 +12,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as moment from 'moment';
 import { ReceitasEQuantidadeMensal } from 'src/app/models/receitasEQuantidadeMensal';
 import { ControlesDeDatas } from 'src/app/models/limiteDeDatas';
+import { TipoReceitaService } from 'src/app/services/tipo-receita.service';
+import { TipoReceita } from 'src/app/models/tipoReceita';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -39,6 +41,10 @@ const INVALIDOS_INPUT_EDITAR = {
 
 export class ListarReceitasComponent implements OnInit {
 
+  teste: string[] = ['a', 'b', 'c', 'd']
+
+  tipoReceitasCadastradas: TipoReceita[];
+
   // utilizado para reconhecer colunas no html
   displayedColumns: string[] = ['nomeReceita', 'tipoReceitaDTO.descricao', 'valorReceita', 'dataReceita',  'isEdit'];
 
@@ -52,7 +58,7 @@ export class ListarReceitasComponent implements OnInit {
   dataLimiteInput = new Date()
 
   // limitar inputs datas
-  limiteDatas: ControlesDeDatas
+  limiteDatas: ControlesDeDatas = new ControlesDeDatas()
 
   // utilizado para a configuração da paginação
   config = {
@@ -91,7 +97,8 @@ export class ListarReceitasComponent implements OnInit {
     private toastrServiceClasse: ToastrServiceClasse,
     private paginaSalvaReceita: TransferirPaginaSalvaReceita,
     private dialog: MatDialog,
-    private receitaComponentPai: ReceitaComponent) { }
+    private receitaComponentPai: ReceitaComponent,
+    private tipoReceitaService: TipoReceitaService) { }
 
   async ngOnInit() {
 
@@ -206,7 +213,6 @@ export class ListarReceitasComponent implements OnInit {
 
     this.receitaService.buscarTodasReceitasOuDeAcordoComOMesAno(String(this.date.value), this.config.currentPage)?.subscribe(res => {
       this.receitas = res
-      console.log(this.receitas);
       this.config.totalItems = this.receitas.qtd.quantidadeMensal!
       this.receitaExiste = true
     }, err => {
@@ -219,6 +225,17 @@ export class ListarReceitasComponent implements OnInit {
     // }, err => {
     //   this.resultaReceitaMesPesquisado = 0
     // })
+
+  }
+
+  buscarTipoReceita(){
+
+    this.tipoReceitaService.buscarTiposDeReceitas().subscribe( res => {
+      console.log(res);
+      this.tipoReceitasCadastradas = res;
+    }, err => {
+
+    })
 
   }
 

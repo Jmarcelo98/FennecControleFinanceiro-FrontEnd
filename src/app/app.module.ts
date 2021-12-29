@@ -45,6 +45,7 @@ import { ConfirmacaoDialogComponent } from './component/confirmacao-dialog/confi
 import { DateFormatCostomDirective } from './directive/date-format-costom.directive';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
+import { MatSelectModule } from '@angular/material/select';
 
 registerLocaleData(ptBr);
 
@@ -101,6 +102,7 @@ export function tokenGetter() {
     MatFormFieldModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatSelectModule,
     MatInputModule,
     MatDialogModule,
     MatIconModule,

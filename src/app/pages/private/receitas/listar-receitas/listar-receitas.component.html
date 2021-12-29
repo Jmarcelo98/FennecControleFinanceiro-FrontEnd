@@ -1,15 +1,14 @@
 <div class="espacamento">
 
-  <form action="/action_page.php">
-    <label for="cars">Choose a car:</label>
-    <select id="cars" name="cars">
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="fiat">Fiat</option>
-      <option value="audi">Audi</option>
-    </select>
-    <input type="submit">
-  </form>
+  <h4>Basic mat-select</h4>
+  <mat-form-field appearance="fill">
+    <mat-label>Favorite food</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let food of teste" [value]="food">
+        {{food}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <div class="row">
 
@@ -73,7 +72,7 @@
             <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
               <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
 
-                <button class="btn button-editar" (click)="element.isEdit = !element.isEdit">
+                <button class="btn button-editar" (click)="buscarTipoReceita()" (click)="element.isEdit = !element.isEdit">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button class="btn button-remove" (click)="remover(element.id)">
@@ -117,6 +116,18 @@
                   Selecione uma data
                 </div>
               </mat-form-field>
+
+              <mat-form-field *ngSwitchCase="'submit'">
+                <mat-label>Categoria</mat-label>
+                <mat-select [(ngModel)]="element.tipoReceitaDTO.descricao" name="food">
+                  <mat-option *ngFor="let a of teste" [value]="a">
+                    {{element.tipoReceitaDTO.descricao}}
+                  </mat-option>
+                </mat-select>
+                <!-- <input matInput [type]="'submit'"
+                 [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.data}" [(ngModel)]="element[col]"> -->
+              </mat-form-field>
+
               <mat-form-field *ngSwitchCase="'number'">
                 <mat-label>Valor</mat-label>
                 <input [type]="'text'" matInput currencyMask

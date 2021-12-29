@@ -40,7 +40,7 @@ export class ListarDespesasComponent implements OnInit {
   dataDespesaMaisRecente: Date
 
   // serve para limitar datas no input
-  limiteDeDatas: ControlesDeDatas
+  limiteDeDatas: ControlesDeDatas = new ControlesDeDatas()
 
   // usado para input de escolher um mes
   date = new FormControl(moment());
