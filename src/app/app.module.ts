@@ -47,6 +47,7 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { MatSelectModule } from '@angular/material/select';
 import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { CategoriasComponent } from './pages/private/categorias/categorias.component';
 
 registerLocaleData(ptBr);
 
@@ -90,6 +91,7 @@ export function tokenGetter() {
     ConfirmacaoDialogComponent,
     DateFormatCostomDirective,
     PaginaNaoEncontradaComponent,
+    CategoriasComponent,
   ],
   imports: [
     AppRoutingModule,

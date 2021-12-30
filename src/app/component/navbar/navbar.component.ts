@@ -38,6 +38,8 @@ export class NavbarComponent implements OnInit {
       this.activeRec = "active"
     } else if (this.router.url == "/despesas"){
       this.activeDes = "active"
+    } else if (this.router.url == "/categorias") {
+      this.activeCat = "active"
     }
 
     if (window.screen.width >= 565) {

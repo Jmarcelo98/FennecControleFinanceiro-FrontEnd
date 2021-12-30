@@ -16,6 +16,7 @@ import { LoginComponent } from './pages/public/login/login.component';
 import { ReceitaComponent } from './pages/private/receitas/receita.component';
 import { DespesaComponent } from './pages/private/despesas/despesa.component';
 import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { CategoriasComponent } from './pages/private/categorias/categorias.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,11 @@ const routes: Routes = [
     path: "despesas",
     canActivate: [AuthGuardService],
     component: DespesaComponent
+  },
+  {
+    path: "categorias",
+    canActivate: [AuthGuardService],
+    component: CategoriasComponent
   },
   {
     path: "digitar-email",
