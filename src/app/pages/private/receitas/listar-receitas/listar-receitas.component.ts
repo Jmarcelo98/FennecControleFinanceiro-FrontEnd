@@ -13,7 +13,7 @@ import * as moment from 'moment';
 import { ReceitasEQuantidadeMensal } from 'src/app/models/receitasEQuantidadeMensal';
 import { ControlesDeDatas } from 'src/app/models/limiteDeDatas';
 import { TipoReceitaService } from 'src/app/services/tipo-receita.service';
-import { TipoReceita } from 'src/app/models/tipoReceita';
+import { Categorias } from 'src/app/models/categorias';
 
 const USER_SCHEMA = {
   "nomeReceita": "text",
@@ -41,7 +41,8 @@ const INVALIDOS_INPUT_EDITAR = {
 
 export class ListarReceitasComponent implements OnInit {
 
-  tipoReceitasCadastradas: TipoReceita[] = [];
+  // tipo de receitas cadastradas
+  tipoReceitasCadastradas: Categorias[] = [];
 
   // utilizado para reconhecer colunas no html
   displayedColumns: string[] = ['nomeReceita', 'tipoReceitaDTO.descricao', 'valorReceita', 'dataReceita',  'isEdit'];
@@ -54,9 +55,6 @@ export class ListarReceitasComponent implements OnInit {
 
   // utilizado pra limitar o input date
   dataLimiteInput = new Date()
-
-  // 
-  tipoReceitaAA: TipoReceita
 
   // limitar inputs datas
   limiteDatas: ControlesDeDatas = new ControlesDeDatas()
@@ -239,7 +237,8 @@ export class ListarReceitasComponent implements OnInit {
       console.log(res);
       this.tipoReceitasCadastradas = res;
     }, err => {
-
+      console.log(err);
+      
     })
 
   }

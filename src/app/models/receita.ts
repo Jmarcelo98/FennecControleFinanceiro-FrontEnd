@@ -1,11 +1,11 @@
-import { TipoReceita } from "./tipoReceita";
+import { Categorias } from "./categorias";
 
 export interface Receita {
     id: number;
     nomeReceita: string;
     valorReceita: number;
     dataReceita: Date;
-    tipoReceitaDTO: TipoReceita;
+    tipoReceitaDTO: Categorias;
 }
 
 export const ReceitaSchema = {

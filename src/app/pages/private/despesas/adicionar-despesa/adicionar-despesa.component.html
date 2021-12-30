@@ -60,6 +60,27 @@
                         </div>
                     </div>
 
+                    <div class="row">
+
+                        <div class="col-5">
+
+                            <div class="form-control inputSelect categoria" 
+                            [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.tipoDespesa}">
+                                <mat-select  [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.tipoDespesa}"
+                                    disableOptionCentering formControlName="tipoDespesaDTO">
+                                    <mat-option *ngFor="let tipoCategoria of tipoDespesa" [value]="tipoCategoria">
+                                        {{tipoCategoria.descricao}}
+                                    </mat-option>
+                                </mat-select>
+                                <div class="errorInput invalid-feedback categoria"
+                                    *ngIf="foiEnviado && camposInvalidos.tipoDespesa">
+                                    Selecione uma categoria
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="modal-footer mt-4">
 
                         <div class="row justify-content-between">

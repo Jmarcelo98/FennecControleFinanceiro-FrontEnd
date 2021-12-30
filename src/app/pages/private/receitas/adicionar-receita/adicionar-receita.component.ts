@@ -1,9 +1,8 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { Categorias } from 'src/app/models/categorias';
 import { Receita } from 'src/app/models/receita';
-import { TipoReceita } from 'src/app/models/tipoReceita';
 import { ReceitaService } from 'src/app/services/receita.service';
 import { TipoReceitaService } from 'src/app/services/tipo-receita.service';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
@@ -31,7 +30,7 @@ export class AdicionarReceitaComponent implements OnInit {
   //verificando se a data do input é igual a null
   dataInvalida = false
 
-  // utilizado para determinar campos invalidos ne editar
+  // utilizado para determinar campos invalidos em editar
   camposInvalidos = INVALIDOS_INPUT_ADICIONAR;
 
   // clicado em salvar receita
@@ -41,7 +40,7 @@ export class AdicionarReceitaComponent implements OnInit {
   receita: Receita
 
   // tipo receita
-  tipoReceita: TipoReceita[]
+  tipoReceita: Categorias[]
 
   // fechar modal
   @ViewChild('closebutton') closebutton;
@@ -75,10 +74,10 @@ export class AdicionarReceitaComponent implements OnInit {
     return this.formNovaReceita.controls;
   }
 
-  getFormatedDate(date: Date) {
-    const datePipe = new DatePipe('en-US');
-    return datePipe.transform(date);
-  }
+  // getFormatedDate(date: Date) {
+  //   const datePipe = new DatePipe('en-US');
+  //   return datePipe.transform(date);
+  // }
 
   salvarReceita() {
 

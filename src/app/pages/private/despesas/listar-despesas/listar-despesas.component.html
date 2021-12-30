@@ -36,6 +36,11 @@
             <span *ngIf="col == 'nomeDespesa'">
               Descrição
             </span>
+
+            <span *ngIf="col == 'tipoDespesaDTO.descricao'">
+              Categoria
+            </span>
+
             <span *ngIf="col == 'valorDespesa'">
               Valor
             </span>
@@ -52,7 +57,8 @@
             <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
               <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
 
-                <button class="btn button-editar" (click)="element.isEdit = !element.isEdit">
+                <button class="btn button-editar" (click)="buscarTipoDespesa()"
+                  (click)="element.isEdit = !element.isEdit">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button class="btn button-remove" (click)="remover(element.id)">
@@ -60,9 +66,16 @@
                 </button>
 
               </div>
+
               <span *ngSwitchCase="'date'">
                 {{element[col] | date: 'dd/MM/yyyy'}}
               </span>
+
+              <span *ngSwitchCase="'submit'">
+                <!-- <mat-icon>label</mat-icon> -->
+                {{element.tipoDespesaDTO.descricao}}
+              </span>
+
               <span *ngSwitchCase="'number'">
                 {{ element[col] | currency:'BRL' }}
               </span>
@@ -72,16 +85,37 @@
             </div>
             <div [ngSwitch]="dataSchema[col]" *ngIf="element.isEdit">
               <div class="btn-edit" *ngSwitchCase="'isEdit'">
+
                 <div class="row">
-                  <div class="col-6">
+
+                  <div class="col-5">
                     <!-- (click)="element.isEdit = !element.isEdit" -->
+                    <button (click)="editar(element) == true && element.isEdit = !element.isEdit"
+                      class="btn button-confirm-edit" title="Confirmar">
+                      <mat-icon>done</mat-icon>
+                    </button>
+
+                  </div>
+
+                  <div class="col-5">
+
+                    <button title="Cancelar" (click)="element.isEdit = !element.isEdit" class="btn button-remove">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </div>
+
+                </div>
+
+                <!-- <div class="row">
+                  <div class="col-6">
                     <button (click)="editar(element) == true && element.isEdit = !element.isEdit"
                       class="btn btn-outline-primary">Salvar</button>
                   </div>
                   <div class="col-6">
                     <button (click)="element.isEdit = !element.isEdit" class="btn btn-outline-danger">Cancelar</button>
                   </div>
-                </div>
+                </div> -->
+
               </div>
               <mat-form-field *ngSwitchCase="'date'">
                 <mat-label>Data</mat-label>
@@ -93,6 +127,18 @@
                   Selecione uma data
                 </div>
               </mat-form-field>
+
+              <mat-form-field *ngSwitchCase="'submit'">
+                <mat-label>{{element.tipoDespesaDTO.descricao}}</mat-label>
+                <mat-select disableOptionCentering [(value)]="element.tipoDespesaDTO">
+                  <mat-option *ngFor="let tipoCategoria of tipoDespesasCadastradas" [value]="tipoCategoria">
+                    {{tipoCategoria.descricao}}
+                  </mat-option>
+                </mat-select>
+                <!-- <input matInput [type]="'submit'"
+                 [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.data}" [(ngModel)]="element[col]"> -->
+              </mat-form-field>
+
               <mat-form-field *ngSwitchCase="'number'">
                 <mat-label>Valor</mat-label>
                 <input [type]="'text'" matInput currencyMask

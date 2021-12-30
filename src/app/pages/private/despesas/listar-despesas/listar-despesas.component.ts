@@ -5,16 +5,19 @@ import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { ConfirmacaoDialogComponent } from 'src/app/component/confirmacao-dialog/confirmacao-dialog.component';
+import { Categorias } from 'src/app/models/categorias';
 import { Despesa } from 'src/app/models/despesa';
 import { DespesasEQuantidadeMensal } from 'src/app/models/despesasEQuantidadeMensal';
 import { ControlesDeDatas } from 'src/app/models/limiteDeDatas';
 import { DespesasService } from 'src/app/services/despesas.service';
+import { TipoDespesaService } from 'src/app/services/tipo-despesa.service';
 import { TransferirPaginaSalvaDespesa } from 'src/app/services/util/resgatarPaginaSalvaDespesa';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
 import { DespesaComponent } from '../despesa.component';
 
 const USER_SCHEMA = {
   "nomeDespesa": "text",
+  "tipoDespesaDTO.descricao" : "submit",
   "valorDespesa": "number",
   "dataDespesa": "date",
   "isEdit": "isEdit"
@@ -36,6 +39,9 @@ const INVALIDOS_INPUT_EDITAR = {
 })
 export class ListarDespesasComponent implements OnInit {
 
+  // tipo de despesas cadastradas
+  tipoDespesasCadastradas: Categorias[] = [];
+
   // serve para pegar data de despesa mais recente
   dataDespesaMaisRecente: Date
 
@@ -52,7 +58,7 @@ export class ListarDespesasComponent implements OnInit {
   existeAoMenosUmaDespesaCadastrada: boolean
 
   // utilizado para reconhecer colunas no html
-  displayedColumns: string[] = ['nomeDespesa', 'valorDespesa', 'dataDespesa', 'isEdit'];
+  displayedColumns: string[] = ['nomeDespesa', 'tipoDespesaDTO.descricao' ,'valorDespesa', 'dataDespesa', 'isEdit'];
 
   // utilizado para editar valores na tabela
   dataSchema: any = USER_SCHEMA;
@@ -84,7 +90,8 @@ export class ListarDespesasComponent implements OnInit {
 
   constructor(private despesaService: DespesasService,
     private toastrServiceClasse: ToastrServiceClasse, private dialog: MatDialog,
-    private despesaComponentPai: DespesaComponent, private paginaSalvaDespesa: TransferirPaginaSalvaDespesa) { }
+    private despesaComponentPai: DespesaComponent, private paginaSalvaDespesa: TransferirPaginaSalvaDespesa,
+    private tipoDespesaService: TipoDespesaService) { }
 
   async ngOnInit() {
 
@@ -212,6 +219,18 @@ export class ListarDespesasComponent implements OnInit {
       this.toastrServiceClasse.errorToastr("Erro ao atualizar a despesa");
     })
     return true
+  }
+
+  async buscarTipoDespesa(){
+
+    await this.tipoDespesaService.buscarTiposDeDespesas().subscribe( res => {
+      console.log(res);
+      this.tipoDespesasCadastradas = res;
+    }, err => {
+      console.log(err);
+      
+    })
+
   }
 
   pageChanged(event: any) {

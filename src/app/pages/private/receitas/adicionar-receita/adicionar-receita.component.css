@@ -72,7 +72,7 @@ input:hover {
 }
 
 .was-validated .form-control:invalid, .form-control.is-invalid.categoria {
-    background-position: right calc(0.375em + 16rem) center;
+    background-position: right calc(0.375em + 3rem) center;
 }
 
 ::ng-deep .cdk-overlay-container{
