@@ -48,6 +48,8 @@ import ptBr from '@angular/common/locales/pt';
 import { MatSelectModule } from '@angular/material/select';
 import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { CategoriasComponent } from './pages/private/categorias/categorias.component';
+import { CategoriaReceitaComponent } from './pages/private/categorias/categoria-receita/categoria-receita.component';
+import { CategoriaDespesaComponent } from './pages/private/categorias/categoria-despesa/categoria-despesa.component';
 
 registerLocaleData(ptBr);
 
@@ -92,6 +94,8 @@ export function tokenGetter() {
     DateFormatCostomDirective,
     PaginaNaoEncontradaComponent,
     CategoriasComponent,
+    CategoriaReceitaComponent,
+    CategoriaDespesaComponent,
   ],
   imports: [
     AppRoutingModule,

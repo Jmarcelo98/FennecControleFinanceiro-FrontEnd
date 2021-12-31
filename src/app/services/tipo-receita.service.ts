@@ -18,4 +18,12 @@ export class TipoReceitaService {
       { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
+  tipoReceitasPaginacao(paginacao: number) {
+    return this.httpClient.get<Categorias[]>(`${this.CAMINHO_API}/paginacao`,
+    {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
+      params: { pagina: paginacao - 1, linhasPorPagina: 5 }
+    });
+  }
+
 }

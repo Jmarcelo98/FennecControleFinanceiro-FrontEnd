@@ -57,13 +57,24 @@
             <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
               <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
 
-                <button class="btn button-editar" (click)="buscarTipoDespesa()"
-                  (click)="element.isEdit = !element.isEdit">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button class="btn button-remove" (click)="remover(element.id)">
-                  <mat-icon>delete</mat-icon>
-                </button>
+
+                <div class="row">
+
+                  <div class="col-5">
+                    <button class="btn button-editar" (click)="buscarTipoDespesa()"
+                      (click)="element.isEdit = !element.isEdit">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+
+                  <div class="col-5">
+
+                    <button class="btn button-remove" (click)="remover(element.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+
+                </div>
 
               </div>
 
@@ -99,7 +110,8 @@
 
                   <div class="col-5">
 
-                    <button title="Cancelar" (click)="element.isEdit = !element.isEdit" class="btn button-remove">
+                    <button title="Cancelar" (click)="atualizar()" (click)="element.isEdit = !element.isEdit"
+                      class="btn button-remove">
                       <mat-icon>cancel</mat-icon>
                     </button>
                   </div>

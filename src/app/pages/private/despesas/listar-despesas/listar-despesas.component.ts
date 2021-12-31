@@ -233,6 +233,10 @@ export class ListarDespesasComponent implements OnInit {
 
   }
 
+  atualizar() {
+    this.buscarPelaData()
+  }
+
   pageChanged(event: any) {
     this.config.currentPage = event;
     this.buscarPelaData()
