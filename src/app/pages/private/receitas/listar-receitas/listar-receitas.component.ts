@@ -176,7 +176,6 @@ export class ListarReceitasComponent implements OnInit {
       return false;
     }
 
-    console.log(receitaAtt);
 
     
     // this.receitaComponentPai.processandoRequisicao = true

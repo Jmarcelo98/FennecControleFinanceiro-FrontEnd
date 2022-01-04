@@ -9,6 +9,8 @@ export class CategoriasComponent implements OnInit {
 
   constructor() { }
 
+  processandoRequisicao: boolean
+
   ngOnInit(): void {
   }
 

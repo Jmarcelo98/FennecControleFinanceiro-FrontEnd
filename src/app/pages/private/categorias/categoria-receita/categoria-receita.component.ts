@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Categorias } from 'src/app/models/categorias';
+import { ListCategorias } from 'src/app/models/tipoReceita';
 import { TipoReceitaService } from 'src/app/services/tipo-receita.service';
 import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPaginaSalva';
+import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
+import { textChangeRangeIsUnchanged } from 'typescript';
+import { CategoriasComponent } from '../categorias.component';
 
 const CATEGORIAS_SCHEMA = {
   "descricao": "text",
@@ -19,11 +23,13 @@ const INVALIDOS_INPUT_EDITAR = {
 })
 export class CategoriaReceitaComponent implements OnInit {
 
-  constructor(private tipoReceitaService: TipoReceitaService,  private paginaSalvaReceita: TransferirPaginaSalvaReceita,
-    ) { }
+  constructor(private tipoReceitaService: TipoReceitaService,
+    private paginaSalvaReceita: TransferirPaginaSalvaReceita,
+    private toastrServiceClasse: ToastrServiceClasse,
+    private categoriaComponentPai: CategoriasComponent) { }
 
   // carregando tipo de receitas
-  categorias: Categorias[]
+  categorias: ListCategorias = new ListCategorias()
 
   // utilizado para reconhecer colunas no html
   displayedColumns: string[] = ['descricao', 'isEdit'];
@@ -44,24 +50,34 @@ export class CategoriaReceitaComponent implements OnInit {
     totalItems: 0
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
 
-    this.carregarTiposReceita()
+    await this.carregarTiposReceita()
 
   }
 
   carregarTiposReceita() {
+    this.categoriaComponentPai.processandoRequisicao = true
     this.tipoReceitaService.tipoReceitasPaginacao(this.config.currentPage).subscribe(res => {
       this.categorias = res
-      // RECEBER NA CONSULTA QUANTIDADE DE ITENS 
-      // this.config.totalItems = this.receitas.qtd.quantidadeMensal!
+      this.config.totalItems = this.categorias.quantidadeItensCategoria.qtdItens
     }, err => {
       console.log(err);
     })
+    this.categoriaComponentPai.processandoRequisicao = false
   }
 
   remover(id: number) {
-    alert(id + " aqui")
+    this.categoriaComponentPai.processandoRequisicao = true
+
+    this.tipoReceitaService.deletarTipoReceita(id).subscribe(res => {
+      console.log(res);
+      this.toastrServiceClasse.sucessoToastr("Categoria removida com sucesso!")
+      this.carregarTiposReceita()
+    }, err => {
+      this.toastrServiceClasse.errorToastr(err.error.msg)
+    })
+    this.categoriaComponentPai.processandoRequisicao = false
   }
 
   editar(cat: Categorias): boolean {
@@ -72,6 +88,5 @@ export class CategoriaReceitaComponent implements OnInit {
     this.config.currentPage = event;
     this.carregarTiposReceita()
   }
-
 
 }

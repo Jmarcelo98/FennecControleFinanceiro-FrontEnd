@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 
 import { AutenticacaoService } from './autenticacao.service';
 import { Categorias } from '../models/categorias';
+import { ListCategorias } from '../models/tipoReceita';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,16 @@ export class TipoReceitaService {
   }
 
   tipoReceitasPaginacao(paginacao: number) {
-    return this.httpClient.get<Categorias[]>(`${this.CAMINHO_API}/paginacao`,
-    {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
-      params: { pagina: paginacao - 1, linhasPorPagina: 5 }
-    });
+    return this.httpClient.get<ListCategorias>(`${this.CAMINHO_API}/paginacao`,
+      {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }),
+        params: { pagina: paginacao - 1, linhasPorPagina: 5 }
+      });
+  }
+
+  deletarTipoReceita(id: number) {
+    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`, 
+    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
 }

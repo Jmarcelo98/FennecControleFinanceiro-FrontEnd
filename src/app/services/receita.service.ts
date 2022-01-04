@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ControlesDeDatas } from '../models/limiteDeDatas';
 import { Receita } from '../models/receita';
@@ -34,7 +35,7 @@ export class ReceitaService {
 
   deletarReceita(id: number) {
     return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,
-      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) } )
   }
 
   atualizarReceita(receita: Receita) {
