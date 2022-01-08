@@ -4,7 +4,6 @@ import { ListCategorias } from 'src/app/models/tipoReceita';
 import { TipoReceitaService } from 'src/app/services/tipo-receita.service';
 import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPaginaSalva';
 import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
-import { textChangeRangeIsUnchanged } from 'typescript';
 import { CategoriasComponent } from '../categorias.component';
 
 const CATEGORIAS_SCHEMA = {
@@ -13,7 +12,8 @@ const CATEGORIAS_SCHEMA = {
 }
 
 const INVALIDOS_INPUT_EDITAR = {
-  nome: false
+  nome: false,
+  categoriaExiste: false,
 }
 
 @Component({
@@ -50,6 +50,9 @@ export class CategoriaReceitaComponent implements OnInit {
     totalItems: 0
   }
 
+  // 
+  naoExiste: boolean
+
   async ngOnInit() {
 
     await this.carregarTiposReceita()
@@ -57,21 +60,18 @@ export class CategoriaReceitaComponent implements OnInit {
   }
 
   carregarTiposReceita() {
-    this.categoriaComponentPai.processandoRequisicao = true
     this.tipoReceitaService.tipoReceitasPaginacao(this.config.currentPage).subscribe(res => {
       this.categorias = res
       this.config.totalItems = this.categorias.quantidadeItensCategoria.qtdItens
     }, err => {
       console.log(err);
     })
-    this.categoriaComponentPai.processandoRequisicao = false
   }
 
   remover(id: number) {
     this.categoriaComponentPai.processandoRequisicao = true
 
     this.tipoReceitaService.deletarTipoReceita(id).subscribe(res => {
-      console.log(res);
       this.toastrServiceClasse.sucessoToastr("Categoria removida com sucesso!")
       this.carregarTiposReceita()
     }, err => {
@@ -81,7 +81,28 @@ export class CategoriaReceitaComponent implements OnInit {
   }
 
   editar(cat: Categorias): boolean {
-    return true
+
+    this.foiEnviado = true
+
+    if (cat.descricao.trim().length == 0) {
+      this.camposInvalidos.nome = true
+      return false;
+    } else {
+      this.camposInvalidos.nome = false
+    }
+
+    this.categoriaComponentPai.processandoRequisicao = true
+
+    this.tipoReceitaService.atualizarTipoReceita(cat).subscribe(res => {
+      this.toastrServiceClasse.sucessoToastr("Categoria de receita atualizada com sucesso!")
+    }, err => {
+      if (err.status == 400) {
+        this.toastrServiceClasse.errorToastr(err.error);
+      }
+    })
+
+    this.categoriaComponentPai.processandoRequisicao = false
+    return true;
   }
 
   pageChanged(event: any) {

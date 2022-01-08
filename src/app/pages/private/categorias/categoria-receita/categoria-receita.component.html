@@ -1,87 +1,93 @@
 <article class="table-header">
-    <table mat-table [dataSource]="categorias.tipoReceitaDTO">
-      <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
-        <th mat-header-cell *matHeaderCellDef>
+  <table mat-table [dataSource]="categorias.tipoReceitaDTO">
+    <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
+      <th mat-header-cell *matHeaderCellDef>
 
-          <span *ngIf="col == 'descricao'">
-            Descrição
-          </span>
+        <span *ngIf="col == 'descricao'">
+          Descrição
+        </span>
 
-          <span *ngIf="col == 'isEdit'">
-            Ações
-          </span>
+        <span *ngIf="col == 'isEdit'">
+          Ações
+        </span>
 
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
-            <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div [ngSwitch]="dataSchema[col]" *ngIf="!element.isEdit">
+          <div class="btn-edit" *ngSwitchCase="'isEdit'; spanHeader">
 
-              <div class="row">
+            <div class="row">
 
-                <div class="col-5">
-                  <button class="btn button-editar" title="Editar"
-                    (click)="element.isEdit = !element.isEdit">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                </div>
-
-                <div class="col-5">
-                  <button class="btn button-remove" title="Deletar" (click)="remover(element.id)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-
+              <div class="col-5">
+                <button class="btn button-editar" title="Editar" (click)="element.isEdit = !element.isEdit">
+                  <mat-icon>edit</mat-icon>
+                </button>
               </div>
-            </div>
 
-            <span *ngSwitchDefault>
-              {{element[col]}}
-            </span>
-          </div>
-
-          <div [ngSwitch]="dataSchema[col]" *ngIf="element.isEdit">
-            <div class="btn-edit" *ngSwitchCase="'isEdit'">
-
-              <div class="row">
-
-                <div class="col-5">
-                  <!-- (click)="element.isEdit = !element.isEdit" -->
-                  <button (click)="editar(element) == true && element.isEdit = !element.isEdit"
-                    class="btn button-confirm-edit" title="Confirmar">
-                    <mat-icon>done</mat-icon>
-                  </button>
-
-                </div>
-
-                <div class="col-5">
-
-                  <button title="Cancelar" (click)="element.isEdit = !element.isEdit" class="btn button-remove">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </div>
-
+              <div class="col-5">
+                <button class="btn button-remove" title="Deletar" (click)="remover(element.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
 
             </div>
-
-            <mat-form-field *ngSwitchDefault>
-              <mat-label>Descrição</mat-label>
-              <input [type]="dataSchema[col]" matInput [(ngModel)]="element[col]"
-                [ngClass]="{'is-invalid': foiEnviado && camposInvalidos.nome}">
-              <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.nome">
-                Campo em branco inválido
-              </div>
-            </mat-form-field>
           </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </article>
 
-  <div class="paginacao mt-3">
-    <ngb-pagination [collectionSize]="config.totalItems" [pageSize]="config.itemsPerPage"
-      [(page)]="config.currentPage" (pageChange)="pageChanged($event)" aria-label="Default pagination">
-    </ngb-pagination>
-  </div>
+          <span *ngSwitchDefault>
+            {{element[col]}}
+          </span>
+        </div>
+
+        <div [ngSwitch]="dataSchema[col]" *ngIf="element.isEdit">
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+
+            <div class="row">
+
+              <div class="col-5">
+                <!-- (click)="element.isEdit = !element.isEdit" -->
+                <button
+                  (click)="editar(element) == true && element.isEdit = !element.isEdit"
+                  class="btn button-confirm-edit" title="Confirmar">
+                  <mat-icon>done</mat-icon>
+                </button>
+
+              </div>
+
+              <div class="col-5">
+
+                <button title="Cancelar" (click)="carregarTiposReceita()" (click)="element.isEdit = !element.isEdit"
+                  class="btn button-remove">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <mat-form-field *ngSwitchDefault>
+            <mat-label>Descrição</mat-label>
+            <input [type]="dataSchema[col]" matInput [(ngModel)]="element[col]"
+              [ngClass]="{'is-invalid': (foiEnviado && camposInvalidos.nome) || (foiEnviado && naoExiste == false)}">
+            <div class="errorInput invalid-feedback" *ngIf="foiEnviado && camposInvalidos.nome">
+              Campo em branco inválido
+            </div>
+            <div class="errorInput invalid-feedback" *ngIf="foiEnviado && naoExiste == false">
+              Nome já existe
+            </div>
+          </mat-form-field>
+
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</article>
+
+<div class="paginacao mt-3">
+  <ngb-pagination [collectionSize]="config.totalItems" [pageSize]="config.itemsPerPage" [(page)]="config.currentPage"
+    (pageChange)="pageChanged($event)" aria-label="Default pagination">
+  </ngb-pagination>
+</div>

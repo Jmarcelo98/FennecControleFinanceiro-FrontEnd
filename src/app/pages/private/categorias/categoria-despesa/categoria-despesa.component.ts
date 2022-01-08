@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Categorias } from 'src/app/models/categorias';
+import { ListCategoriasDespesas } from 'src/app/models/tipoDespesa';
+import { ListCategorias } from 'src/app/models/tipoReceita';
 import { TipoDespesaService } from 'src/app/services/tipo-despesa.service';
 import { TransferirPaginaSalvaReceita } from 'src/app/services/util/resgatarPaginaSalva';
+import { ToastrServiceClasse } from 'src/app/services/util/toastr.service';
+import { CategoriasComponent } from '../categorias.component';
 
 const CATEGORIAS_SCHEMA = {
   "descricao": "text",
@@ -19,11 +23,12 @@ const INVALIDOS_INPUT_EDITAR = {
 })
 export class CategoriaDespesaComponent implements OnInit {
 
-  constructor(private tipoDespesaService: TipoDespesaService,  private paginaSalvaReceita: TransferirPaginaSalvaReceita
+  constructor(private tipoDespesaService: TipoDespesaService,  private paginaSalvaReceita: TransferirPaginaSalvaReceita,
+    private categoriaComponentPai: CategoriasComponent, private toastrServiceClasse: ToastrServiceClasse
     ) { }
 
    // carregando tipo de despesas
-   categorias: Categorias[]
+  categorias: ListCategoriasDespesas = new ListCategoriasDespesas()
 
    // utilizado para reconhecer colunas no html
    displayedColumns: string[] = ['descricao', 'isEdit'];
@@ -44,24 +49,54 @@ export class CategoriaDespesaComponent implements OnInit {
     totalItems: 0
   }
 
-  ngOnInit(): void {
-    this.carregarTiposDespesas()
+  async ngOnInit() {
+    await this.carregarTiposDespesas()
   }
 
   carregarTiposDespesas() {
-    this.tipoDespesaService.buscarTiposDeDespesas().subscribe(res => {
+    this.tipoDespesaService.tipoDespesasPaginacao(this.config.currentPage).subscribe(res => {
       this.categorias = res
+      this.config.totalItems = this.categorias.quantidadeItensCategoria.qtdItens
     }, err => {
       console.log(err);
     })
   }
 
   remover(id: number) {
-    alert(id + " aqui")
+    this.categoriaComponentPai.processandoRequisicao = true
+
+    this.tipoDespesaService.deletarTipoDespesa(id).subscribe(res => {
+      this.toastrServiceClasse.sucessoToastr("Categoria removida com sucesso!")
+      this.carregarTiposDespesas()
+    }, err => {
+      this.toastrServiceClasse.errorToastr(err.error.msg)
+    })
+    this.categoriaComponentPai.processandoRequisicao = false
   }
 
+
   editar(cat: Categorias): boolean {
-    return true
+    this.foiEnviado = true
+
+    if (cat.descricao.trim().length == 0) {
+      this.camposInvalidos.nome = true
+      return false;
+    } else {
+      this.camposInvalidos.nome = false
+    }
+
+    this.categoriaComponentPai.processandoRequisicao = true
+
+    this.tipoDespesaService.atualizarTipoDespesa(cat).subscribe(res => {
+      this.toastrServiceClasse.sucessoToastr("Categoria de despesa atualizada com sucesso!")
+    }, err => {
+      if (err.status == 400) {
+        this.toastrServiceClasse.errorToastr(err.error);
+      }
+    })
+
+    this.categoriaComponentPai.processandoRequisicao = false
+    return true;
   }
 
   pageChanged(event: any) {

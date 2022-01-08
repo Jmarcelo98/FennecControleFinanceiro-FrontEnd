@@ -28,8 +28,13 @@ export class TipoReceitaService {
   }
 
   deletarTipoReceita(id: number) {
-    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`, 
-    { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+    return this.httpClient.delete<string>(`${this.CAMINHO_API}/${id}`,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
+  }
+
+  atualizarTipoReceita(tipoReceita: Categorias) {
+    return this.httpClient.put(`${this.CAMINHO_API}`, tipoReceita,
+      { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.getToken() }) })
   }
 
 }
