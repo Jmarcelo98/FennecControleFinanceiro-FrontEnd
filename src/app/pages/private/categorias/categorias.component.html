@@ -6,6 +6,50 @@
 
 <div class="container">
 
+    <div class="scale-in-center">
+
+        <div class="card">
+
+            <div class="card-header">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link hvr-float-shadow {{activeRec}}" aria-selected="true">
+                                <button class="btn " (click)="tipoCategoria(0)">
+                                    Categoria Receita
+                                </button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hvr-float-shadow {{activeDes}}" aria-current="page">
+                                <button class="btn "  (click)="tipoCategoria(1)">
+                                    Categoria Despesa
+                                </button>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="card-body">
+                <!-- <h5 class="card-title">Special title treatment</h5> -->
+                <div *ngIf="paginaACarregar == 0 then receita else despesa"></div>
+
+                <ng-template #receita>
+                    <app-categoria-receita></app-categoria-receita>
+                </ng-template>
+
+                <ng-template #despesa>
+                    <app-categoria-despesa></app-categoria-despesa>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="espacamento"></div>
+    <div class="espacamento"></div>
+
     <div class="row ">
 
         <div class="col-6 centralizar">
@@ -16,6 +60,6 @@
             <app-categoria-despesa></app-categoria-despesa>
         </div>
 
-    </div>
+    </div> -->
 
 </div>

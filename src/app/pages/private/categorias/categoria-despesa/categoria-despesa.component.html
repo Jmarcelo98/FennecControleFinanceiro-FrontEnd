@@ -1,4 +1,6 @@
-<article class="table-header">
+<div class="scale-in-center">
+
+  <article class="table-header">
     <table mat-table [dataSource]="categorias.tipoDespesaDTO">
       <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
         <th mat-header-cell *matHeaderCellDef>
@@ -19,8 +21,7 @@
               <div class="row">
 
                 <div class="col-5">
-                  <button class="btn button-editar" title="Editar"
-                    (click)="element.isEdit = !element.isEdit">
+                  <button class="btn button-editar" title="Editar" (click)="element.isEdit = !element.isEdit">
                     <mat-icon>edit</mat-icon>
                   </button>
                 </div>
@@ -63,7 +64,7 @@
               </div>
 
             </div>
-            
+
             <mat-form-field *ngSwitchDefault>
               <mat-label>Descrição</mat-label>
               <input [type]="dataSchema[col]" matInput [(ngModel)]="element[col]"
@@ -81,7 +82,9 @@
   </article>
 
   <div class="paginacao mt-3">
-    <ngb-pagination [collectionSize]="config.totalItems" [pageSize]="config.itemsPerPage"
-      [(page)]="config.currentPage" (pageChange)="pageChanged($event)" aria-label="Default pagination">
+    <ngb-pagination [collectionSize]="config.totalItems" [pageSize]="config.itemsPerPage" [(page)]="config.currentPage"
+      (pageChange)="pageChanged($event)" aria-label="Default pagination">
     </ngb-pagination>
   </div>
+  
+</div>
